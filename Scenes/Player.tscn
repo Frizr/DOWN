@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://d16s7a2b3tt77"]
+
+[ext_resource type="Script" uid="uid://wnkhdiqj03by" path="res://Scripts/Core/PlayerController.cs" id="1_player"]
+[ext_resource type="Script" uid="uid://dhxj07ejejq3f" path="res://Scripts/Core/Health.cs" id="2_health"]
+[ext_resource type="Script" uid="uid://dhi35ssd4sxr7" path="res://Scripts/Core/AttackSystem.cs" id="3_attack"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(40, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(18, 24)
+
+[node name="Player" type="CharacterBody2D" unique_id=1796213078]
+collision_mask = 2
+script = ExtResource("1_player")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=1073644031]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=639276374]
+position = Vector2(0, -16)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2056891499]
+
+[node name="Health" type="Node" parent="." unique_id=31510963]
+script = ExtResource("2_health")
+RegenEnabled = true
+
+[node name="AttackSystem" type="Node" parent="." unique_id=1807888250]
+script = ExtResource("3_attack")
+
+[node name="HitBox" type="Area2D" parent="." unique_id=97635374]
+collision_layer = 4
+collision_mask = 8
+monitoring = false
+monitorable = false
+
+[node name="HitBoxShape" type="CollisionShape2D" parent="HitBox" unique_id=329117451]
+position = Vector2(28, 0)
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=641697884]
+position = Vector2(73, 52)
+collision_layer = 16
+collision_mask = 32
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox" unique_id=536286191]
+position = Vector2(-18, 45)
+shape = SubResource("RectangleShape2D_hurtbox")

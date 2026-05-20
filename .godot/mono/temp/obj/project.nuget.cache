@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "R7dLChA8IMQ=",
+  "success": true,
+  "projectFilePath": "D:\\gamedev\\down\\DOWN.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\afrizal\\.nuget\\packages\\godot.sourcegenerators\\4.6.2\\godot.sourcegenerators.4.6.2.nupkg.sha512",
+    "C:\\Users\\afrizal\\.nuget\\packages\\godotsharp\\4.6.2\\godotsharp.4.6.2.nupkg.sha512",
+    "C:\\Users\\afrizal\\.nuget\\packages\\godotsharpeditor\\4.6.2\\godotsharpeditor.4.6.2.nupkg.sha512",
+    "C:\\Users\\afrizal\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.27\\microsoft.netcore.app.ref.8.0.27.nupkg.sha512",
+    "C:\\Users\\afrizal\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.27\\microsoft.windowsdesktop.app.ref.8.0.27.nupkg.sha512",
+    "C:\\Users\\afrizal\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.27\\microsoft.aspnetcore.app.ref.8.0.27.nupkg.sha512"
+  ],
+  "logs": []
+}

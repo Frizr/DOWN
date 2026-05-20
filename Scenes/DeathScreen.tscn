@@ -1,0 +1,3 @@
+[gd_scene format=3 uid="uid://down_death"]
+
+[node name="DeathScreen" type="CanvasLayer"]

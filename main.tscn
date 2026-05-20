@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://p4xunh4m2k0e"]
+
+[ext_resource type="Script" uid="uid://c4i5e0xqxso7p" path="res://Scripts/Core/PlaceholderSetup.cs" id="1_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://d16s7a2b3tt77" path="res://Scenes/Player.tscn" id="1_h2yge"]
+[ext_resource type="Script" uid="uid://e3poq685d010" path="res://Scripts/Core/IsometricCamera.cs" id="1_ig7tw"]
+[ext_resource type="PackedScene" uid="uid://du3ai24edqb2d" path="res://Scenes/Enemy.tscn" id="2_1bvp3"]
+
+[node name="Main" type="Node2D" unique_id=283844036 groups=["spawn_point"]]
+position = Vector2(-106, -59)
+script = ExtResource("1_1bvp3")
+
+[node name="TileMap" type="TileMapLayer" parent="." unique_id=1952603003]
+
+[node name="YSort" type="Node2D" parent="." unique_id=1895149480]
+y_sort_enabled = true
+position = Vector2(113, 59)
+
+[node name="Player" parent="YSort" unique_id=1796213078 groups=["player", "spawn_point"] instance=ExtResource("1_h2yge")]
+position = Vector2(596, 338)
+
+[node name="Camera" type="Camera2D" parent="YSort" unique_id=426865956]
+position = Vector2(633, 358)
+script = ExtResource("1_ig7tw")
+
+[node name="Enemy" parent="YSort" unique_id=1743319368 instance=ExtResource("2_1bvp3")]
+position = Vector2(892, 322)
+
+[node name="UI" type="CanvasLayer" parent="." unique_id=336411952]
+
+[node name="SpawnPoints" type="Node2D" parent="." unique_id=998986565]
+position = Vector2(507, 403)
+
+[node name="SpawnPoint1" type="Node2D" parent="SpawnPoints" unique_id=1452150724 groups=["spawn_point"]]
+position = Vector2(369, 245)

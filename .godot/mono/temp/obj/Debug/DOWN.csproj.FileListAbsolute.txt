@@ -1,0 +1,17 @@
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.csproj.AssemblyReference.cache
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.GeneratedMSBuildEditorConfig.editorconfig
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.AssemblyInfoInputs.cache
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.AssemblyInfo.cs
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.csproj.CoreCompileInputs.cache
+D:\gamedev\down\.godot\mono\temp\bin\Debug\DOWN.deps.json
+D:\gamedev\down\.godot\mono\temp\bin\Debug\DOWN.runtimeconfig.json
+D:\gamedev\down\.godot\mono\temp\bin\Debug\DOWN.dll
+D:\gamedev\down\.godot\mono\temp\bin\Debug\DOWN.pdb
+D:\gamedev\down\.godot\mono\temp\bin\Debug\GodotSharp.dll
+D:\gamedev\down\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.csproj.Up2Date
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.dll
+D:\gamedev\down\.godot\mono\temp\obj\Debug\refint\DOWN.dll
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.pdb
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.genruntimeconfig.cache
+D:\gamedev\down\.godot\mono\temp\obj\Debug\ref\DOWN.dll
