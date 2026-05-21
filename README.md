@@ -1,4 +1,4 @@
-# 🎮 DOWN — Isometric Action & Combat Game
+# `D O W N` — 🩸 Isometric Combat Purgatory 🩸
 
 ![DOWN Banner](Assets/DOWN.png)
 
@@ -6,16 +6,30 @@
 [![Project Status](https://img.shields.io/badge/Status-Under%20Development-orange?style=for-the-badge&logo=gitkraken)](https://github.com)
 [![Language](https://img.shields.io/badge/Language-C%23-green?style=for-the-badge&logo=c-sharp)](https://dotnet.microsoft.com)
 
-> [!NOTE]
+> [!CAUTION]
 > **DEVELOPMENT STATUS: ACTIVE WORK IN PROGRESS**
 >
-> This game is under active and intensive development. The core isometric physics engine, player movement mechanics, basic enemy AI, real-time combat system, and game state architecture have been fully implemented. However, visual assets, level design, and overall polish are currently being expanded.
+> This game is under active, intensive development. The core isometric physics engine, player movement mechanics, basic enemy AI, real-time combat system, and game state architecture have been fully implemented. However, visual assets, level design, and overall polish are currently being expanded.
 
 ---
 
-## 📖 Overview
+## 📖 Overview: Descend Into the Void
 
-**DOWN** is a fast-paced 2D isometric action-combat game developed with the **Godot Engine 4.x (C# / .NET)**. Navigating a beautifully projected isometric arena, players must engage in quick tactical combat, execute timely dodge rolls with invincibility frames (i-frames), and stack up high scores by chaining together combos in an intense arena survival experience.
+**DOWN** is a dark, punishing 2D isometric action-combat game developed with the **Godot Engine 4.x (C# / .NET)**. Navigating a bleak, mathematically projected isometric purgatory, players must engage in quick tactical combat, execute frame-perfect dodge rolls with invincibility frames (i-frames), and stack up high scores by chaining together combos in an intense arena survival experience. 
+
+It is a project designed to showcase high-performance C# scripting in Godot, decoupling patterns, and responsive game-feel implementation.
+
+---
+
+## 💼 Portfolio & Technical Highlights (For Recruiters)
+
+This project was built with a strong focus on clean architecture, performance, and satisfying gameplay mechanics. Below are the key engineering highlights:
+
+*   **Custom Isometric Vector Math**: Implemented a standalone 2D-to-isometric coordinate projection system (`IsometricUtils.cs`), avoiding external dependencies and showcasing custom vector manipulation.
+*   **State Machine Architecture (FSM)**: Designed a modular and decoupled Finite State Machine for enemy AI (`EnemyAI.cs` & `EnemyBase.cs`), separating patrol, chase, and telegraphed combat states cleanly.
+*   **Event-Driven Systems**: Leveraged C# Action delegates (`System.Action`) to handle player damage, enemy deaths, and score multiplier triggers. This keeps the HUD and `GameManager` loosely coupled from the physics/combat entities.
+*   **Invincibility-Frame (i-Frame) Engine**: Developed a frame-perfect invincibility system (`Health.cs`) linked with the player's dodge roll to allow precision evasion.
+*   **Screen Shake & Feedback Loops**: Programmed procedural, decay-based camera shake (`IsometricCamera.cs`) that scales dynamically based on the damage dealt or received.
 
 ---
 
