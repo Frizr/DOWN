@@ -1,121 +1,128 @@
 # 🎮 DOWN — Isometric Action & Combat Game
 
+![DOWN Banner](Assets/DOWN.png)
+
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x%20%28.NET%2F%23C%29-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![Project Status](https://img.shields.io/badge/Status-Under%20Development-orange?style=for-the-badge&logo=gitkraken)](https://github.com)
 [![Language](https://img.shields.io/badge/Language-C%23-green?style=for-the-badge&logo=c-sharp)](https://dotnet.microsoft.com)
 
-> **⚠️ STATUS: WORK IN PROGRESS (AKTIF DALAM PENGEMBANGAN)**
+> [!NOTE]
+> **DEVELOPMENT STATUS: ACTIVE WORK IN PROGRESS**
 >
-> Game ini sedang berada dalam tahap pengembangan intensif. Fitur utama engine isometrik, kontrol karakter, AI musuh, sistem combat, dan manajemen game state dasar telah diimplementasikan, tetapi pengembangan aset visual, level, dan polishing masih terus berjalan!
+> This game is under active and intensive development. The core isometric physics engine, player movement mechanics, basic enemy AI, real-time combat system, and game state architecture have been fully implemented. However, visual assets, level design, and overall polish are currently being expanded.
 
 ---
 
-## 📖 Deskripsi Singkat
-**DOWN** adalah game bergenre action-combat isometrik 2D yang dibangun menggunakan **Godot Engine 4.x (C#)**. Game ini berfokus pada pertempuran taktis bertempo cepat, di mana pemain harus menavigasi arena isometrik, menghindari serangan musuh dengan *dodge roll*, dan membangun skor tertinggi lewat rantai serangan (*combo streak*).
+## 📖 Overview
+
+**DOWN** is a fast-paced 2D isometric action-combat game developed with the **Godot Engine 4.x (C# / .NET)**. Navigating a beautifully projected isometric arena, players must engage in quick tactical combat, execute timely dodge rolls with invincibility frames (i-frames), and stack up high scores by chaining together combos in an intense arena survival experience.
 
 ---
 
-## 🛠️ Fitur Utama (Implemented Core)
+## ⚡ Core Features
 
-1. **Isometric Engine & Camera**: 
-   - Konversi gerakan 8-arah (WASD) langsung diproyeksikan ke sistem koordinat isometrik secara akurat.
-   - Kamera dinamis yang mengikuti pemain dengan fitur *Camera Shake* responsif terhadap serangan maupun manuver.
-2. **Player Movement & Dodge Roll**:
-   - Kontrol responsif dengan perlambatan berbasis gesekan (*friction deceleration*).
-   - Fitur *Sprint* untuk penjelajahan cepat.
-   - *Dodge Roll* dengan *Invincibility Frames (i-frames)* untuk menghindari *damage*.
-3. **Responsive Combat & Combo System**:
-   - Sistem *Hitbox* & *Hurtbox* real-time.
-   - *Combo Multiplier Tier*: Semakin lama rantai hit/kill tanpa terkena hit/waktu habis, semakin besar poin skor yang diperoleh (×1.5, ×2.0, hingga ×3.0).
-4. **Enemy AI & Grunt System**:
-   - Musuh yang berpatroli, mengejar pemain (*chase*), dan melakukan *telegraphed attacks*.
-5. **Tactical Game Manager & Pause**:
-   - Global singleton (Autoload) untuk kontrol transisi status game (`MainMenu`, `Playing`, `Paused`, `GameOver`).
+1. **Isometric Engine & Custom Projection**
+   - **8-Directional Movement**: Flat WASD/arrow key inputs are seamlessly projected onto a custom 2.5D isometric screen-space coordinate system.
+   - **Dynamic Camera**: Smoothly tracks player movement and responds dynamically with camera shake effects upon hitting or receiving damage.
+
+2. **Fluid Movement & Dodge Mechanics**
+   - **Friction-Based Deceleration**: Controls feel heavy yet responsive, utilizing friction-based sliding for realistic weight.
+   - **Sprint**: Hold Shift to accelerate across the battlefield.
+   - **Dodge Roll**: Active invincibility frames (i-frames) allow players to phase through enemy attacks safely.
+
+3. **Dynamic Combat & Combo System**
+   - **Precise Hitbox/Hurtbox**: Real-time overlapping checking for accurate weapon swings and damage detection.
+   - **Combo Multipliers**: Fast and aggressive play is rewarded. Keep your hit streak alive without getting damaged or timing out to trigger multiplier tiers (×1.5, ×2.0, and up to ×3.0 score rewards).
+
+4. **Enemy AI (Grunt System)**
+   - **Finite State Machine (FSM)**: Enemies patrol, detect, chase, and choreograph visual telegraph warnings before attacking the player.
+
+5. **Tactical Game Manager**
+   - **Autoload Singleton**: Features global game states (`MainMenu`, `Playing`, `Paused`, `GameOver`) allowing smooth transition phases, scoring records, and pausing mechanics.
 
 ---
 
-## 📂 Struktur Folder Project
-
-Berikut adalah peta struktur direktori di project **DOWN**:
+## 📂 Project Structure
 
 ```bash
 DOWN/
-├── .godot/                  # Cache & metadata internal Godot
-├── Assets/                  # Seluruh resource visual dan audio
-│   ├── Audio/               # Aset suara (.wav, .mp3, dll.)
-│   ├── Sprites/             # Aset gambar/2D Sprite
-│   └── Tiles/               # Ubin/Tile untuk rancangan Map Isometrik
-├── Levels/                  # Scene khusus untuk rancangan Level Map
-├── Scenes/                  # Kumpulan Scene Utama (.tscn)
-│   ├── Main.tscn            # Scene utama game (Arena pertarungan)
-│   ├── Player.tscn          # Scene entitas Player
-│   ├── Enemy.tscn           # Scene entitas Musuh
-│   ├── HUD.tscn             # UI heads-up display (Health, Combo, Score)
-│   └── DeathScreen.tscn     # Layar game over
-├── Scripts/                 # Kode sumber (C#)
-│   ├── Audio/               # (Placeholder) Skrip audio manager masa depan
-│   ├── Player/              # (Placeholder) Skrip khusus behavior pemain
-│   ├── Enemy/               # (Placeholder) Skrip AI musuh tambahan
-│   ├── UI/                  # (Placeholder) Skrip UI & Menu
-│   └── Core/                # PUSAT LOGIKA CORE ENGINE & SISTEM GAME
-│       ├── GameManager.cs       # Singleton state game, skor, combo, & pause
-│       ├── PlayerController.cs  # Pergerakan isometrik pemain, input, & dodge roll
-│       ├── EnemyBase.cs         # Base class/template dasar semua tipe musuh
-│       ├── EnemyAI.cs           # State machine AI musuh (Patrol, Chase, Attack)
-│       ├── EnemyGrunt.cs        # Implementasi tipe musuh dasar (Grunt)
-│       ├── Health.cs            # Komponen penanganan nyawa, damage, & i-frames
-│       ├── AttackSystem.cs      # Mekanisme serangan pemain & trigger hitbox
-│       ├── CombatTrigger.cs     # Area deteksi serangan
-│       ├── IsometricCamera.cs   # Kamera follow + camera shake effect
-│       ├── IsometricUtils.cs    # Helper konversi ruang 2D flat ke isometrik
-│       ├── LevelManager.cs      # Penanganan spawning, progress, dan ganti level
-│       ├── TilemapSetup.cs      # Inisialisasi peta tilemap isometrik
-│       ├── PlaceholderSetup.cs  # Programmatic drawing untuk sprite visual sementara
-│       ├── HUD.cs               # Handler UI di layar aktif (HP bar, combo text)
-│       └── DeathScreen.cs       # Handler UI ketika pemain kalah
-├── DOWN.csproj              # Konfigurasi project C#/.NET
-├── DOWN.sln                 # Solution file untuk IDE (VS Code / Visual Studio)
-└── project.godot            # File konfigurasi utama engine Godot
+├── .godot/                  # Godot internal cache and metadata
+├── Assets/                  # Visual and audio assets
+│   ├── Audio/               # Sound effects (.wav) and music (.mp3)
+│   ├── Sprites/             # Player, Enemy, and visual sprites
+│   └── Tiles/               # Map tiles for the isometric grid layout
+├── Levels/                  # Game levels and arenas
+├── Scenes/                  # Packed scene files (.tscn)
+│   ├── Main.tscn            # The main game arena and loop
+│   ├── Player.tscn          # Player node and scripts
+│   ├── Enemy.tscn           # Enemy Base node
+│   ├── HUD.tscn             # Head-Up Display (Health Bar, Combo, Score UI)
+│   └── DeathScreen.tscn     # GameOver overlay screen
+├── Scripts/                 # C# source code files
+│   ├── Audio/               # Future Audio Manager expansion folder
+│   ├── Player/              # Future Player-specific scripting folder
+│   ├── Enemy/               # Future Enemy sub-type scripting folder
+│   ├── UI/                  # Future UI/Menu scripting folder
+│   └── Core/                # CORE ENGINE LOGIC & SYSTEMS
+│       ├── GameManager.cs       # Singleton managing game states, combo, & scores
+│       ├── PlayerController.cs  # Player input, isometric movement, & dodge roll
+│       ├── EnemyBase.cs         # Blueprint template for enemy nodes
+│       ├── EnemyAI.cs           # State machine controlling patrol, chase, & attack behavior
+│       ├── EnemyGrunt.cs        # Grunt enemy logic overrides
+│       ├── Health.cs            # HP, damage mechanics, and invincibility triggers
+│       ├── AttackSystem.cs      # Attack routing, timing, and hitbox checks
+│       ├── CombatTrigger.cs     # Area2D-based attack intersection logic
+│       ├── IsometricCamera.cs   # Camera tracking and procedural shaking
+│       ├── IsometricUtils.cs    # Coordinate transform calculations (2D <-> Iso)
+│       ├── LevelManager.cs      # Spawning waves, difficulty progression, & level changes
+│       ├── TilemapSetup.cs      # Renders and initializes the isometric grid map
+│       ├── PlaceholderSetup.cs  # Direct 2D node draw commands for temporary graphics
+│       ├── HUD.cs               # Live status UI updater
+│       └── DeathScreen.cs       # Post-game screen behavior and reset options
+├── DOWN.csproj              # C# / Mono project configuration
+├── DOWN.sln                 # IDE Solution file (VS Code / Visual Studio)
+└── project.godot            # Main Godot project configuration
 ```
 
 > [!NOTE]
-> Folder kosong seperti `Scripts/Player`, `Scripts/Enemy`, `Scripts/UI`, dan `Scripts/Audio` dipersiapkan sebagai wadah modularisasi kode di masa mendatang ketika fitur game semakin meluas, memisahkannya dari folder `Core`.
+> Directory structures under `Scripts/Player`, `Scripts/Enemy`, `Scripts/UI`, and `Scripts/Audio` are placeholders reserved for refactoring and code organization as features scale out of the main `Core/` loop.
 
 ---
 
-## 🎮 Cara Menjalankan Project
+## 🚀 Getting Started
 
-### Prasyarat (Requirements):
-1. **Godot Engine 4.x (.NET / Mono Edition)**. Pastikan Anda mengunduh versi Godot yang mendukung C#.
-2. **.NET SDK 6.0 / 8.0** terinstal di sistem Anda.
-3. IDE pendukung seperti **VS Code** (dengan ekstensi C# Dev Kit) atau **Visual Studio 2022**.
+### Prerequisites
+1. **Godot Engine 4.x (.NET / Mono Edition)**: Standard Godot version will not compile the C# code. Make sure you use the .NET edition.
+2. **.NET SDK (6.0 or 8.0)** installed on your machine.
+3. A C#-supported editor (e.g., **VS Code** with *C# Dev Kit* or **Visual Studio 2022**).
 
-### Langkah Instalasi:
-1. Clone atau download folder project ini.
-2. Buka **Godot Engine (C# Edition)**.
-3. Pilih **Import**, lalu arahkan ke lokasi folder project ini dan pilih file `project.godot`.
-4. Build solution C# terlebih dahulu dengan menekan tombol **Build** di pojok kanan atas editor Godot sebelum menjalankan game untuk pertama kalinya.
-5. Tekan tombol **Play (F5)** untuk menjalankan scene utama (`Main.tscn`).
+### Installation & Run Steps
+1. Clone or download this repository.
+2. Open **Godot Engine (.NET Edition)**.
+3. Import the project by navigating to the cloned directory and selecting `project.godot`.
+4. **Build the C# Solution**: Click the **Build** button in the top-right corner of the Godot editor.
+5. Open `Scenes/Main.tscn` and press **F5** (or click the Play button) to start playing!
 
 ---
 
-## 🕹️ Skema Kontrol (Controls)
+## 🕹️ Controls Layout
 
-| Aksi | Tombol Keyboard / Mouse | Deskripsi |
+| Action | Keyboard / Mouse Inputs | Description |
 | :--- | :--- | :--- |
-| **Bergerak** | `W` `A` `S` `D` / `Tombol Arah` | Berjalan ke 8 arah isometrik |
-| **Sprint** | `Shift` (Tahan) | Berlari lebih cepat |
-| **Serang** | `Space` / `Klik Kiri` | Menyerang ke arah hadapan karakter |
-| **Dodge Roll** | `Space` / `Tombol Dodge` | Roll cepat disertai kekebalan sementara (*i-frames*) |
-| **Pause** | `Esc` / `Tab` | Menghentikan permainan sementara (Tactical Pause) |
+| **Move** | `W` `A` `S` `D` / `Arrow Keys` | Move character in 8 isometric directions |
+| **Sprint** | Hold `Left Shift` | Boost movement speed |
+| **Attack** | `Left Click` / `Space` | Attack in the character's facing direction |
+| **Dodge Roll** | `Space` / Dodge Button | Roll forward with temporary invincibility (*i-frames*) |
+| **Tactical Pause** | `Esc` / `Tab` | Toggle pause menu overlay |
 
 ---
 
-## 📈 Roadmap Pengembangan (Next Steps)
-- [x] Kerangka Utama Engine Isometrik (Gerakan & Proyeksi 2.5D)
-- [x] AI Musuh Tingkat Dasar (Patrol & Chase State Machine)
-- [x] Combat System (Hitbox, Damage, Invincibility, dan Combo multiplier)
-- [ ] Integrasi Aset Gambar Asli (Mengganti *Placeholder Setup*)
-- [ ] Pembuatan Tilemap Isometrik yang Lebih Bervariasi
-- [ ] Sistem Audio (Musik latar & Sound Effect serangan/hurt/dodge)
-- [ ] Desain Berbagai Jenis Musuh Baru (Ranged, Heavy, Boss)
+## 📈 Development Roadmap
+
+- [x] Core Isometric Projection Engine (2.5D coordinate mapping)
+- [x] Enemy AI Finite State Machine (Patrol & Chase behavior)
+- [x] Action Combat System (Hitbox setup, combo calculations, and i-frames)
+- [ ] Visual Assets Integration (Replace code-drawn placeholders with sprite art)
+- [ ] Isometric Tilemap Design & Level Hazards
+- [ ] Audio Systems (Interactive background music & combat SFX)
+- [ ] Diversified Enemy Roster (Ranged archers, Heavy brutes, Boss encounters)

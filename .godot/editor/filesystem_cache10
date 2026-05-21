@@ -1,9 +1,10 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1779201197
+::res://::1779288366
 export_presets.cfg::TextFile::-1::1779103267::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::4463896471293308240::1779101445::1779101459::1::::<><><>0<>0<>29e508e13f38b5824b4ccf11ce64e820<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
-main.tscn::PackedScene::1114132511101865590::1779163743::0::1::::<><><>0<>0<><>::uid://c4i5e0xqxso7p::::res://Scripts/Core/PlaceholderSetup.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn
+main.tscn::PackedScene::1114132511101865590::1779201537::0::1::::<><><>0<>0<><>::uid://c4i5e0xqxso7p::::res://Scripts/Core/PlaceholderSetup.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn
 node_2d.tscn::PackedScene::9008596204051764317::1779103609::0::1::::<><><>0<>0<><>::
+README.md::TextFile::-1::1779287650::0::1::::<><><>0<>0<><>::
 ::res://Assets/::1779120556
 icon.png::CompressedTexture2D::7441162122297246026::1779120930::1779120556::0::::<><><>0<>0<>a680587987851c8fe11192c11269e37a<>::
 ::res://Assets/Audio/::1779101776

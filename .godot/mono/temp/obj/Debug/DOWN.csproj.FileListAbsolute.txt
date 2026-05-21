@@ -15,3 +15,4 @@ D:\gamedev\down\.godot\mono\temp\obj\Debug\refint\DOWN.dll
 D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.pdb
 D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.genruntimeconfig.cache
 D:\gamedev\down\.godot\mono\temp\obj\Debug\ref\DOWN.dll
+D:\gamedev\down\.godot\mono\temp\obj\Debug\DOWN.sourcelink.json
