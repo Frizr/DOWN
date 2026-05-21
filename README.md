@@ -1,4 +1,4 @@
-# `D O W N` — 🩸 Isometric Combat Purgatory 🩸
+# `D O W N` — ☠️Isometric Combat Purgatory☠️
 
 ![DOWN Banner](Assets/DOWN.png)
 
