@@ -12,14 +12,32 @@ public partial class TilemapSetup : Node
 	private const string BackgroundTexturePath = "res://Assets/Tiles/Undead/Demo/Undead_land_background.png";
 
 	private static readonly Vector2 PlayerSpawn = new(640f, 420f);
-	private static readonly Vector2 EnemySpawn = new(760f, 420f);
 	private static readonly Vector2 BaseGroundPosition = new(640f, 360f);
 	private static readonly Vector2 BaseGroundScale = new(1.8f, 1.8f);
 	private static readonly Vector2 CameraZoom = new(2.4f, 2.4f);
-	private static readonly Rect2 ArenaRect = new(new Vector2(420f, 300f), new Vector2(520f, 300f));
+	private const int ArenaTileSize = 32;
+	private static readonly Vector2I ArenaOriginTile = new(12, 8);
+	private static readonly Vector2I ArenaSizeTiles = new(20, 12);
+	private static readonly Rect2 ArenaRect = new(
+		new Vector2(ArenaOriginTile.X * ArenaTileSize, ArenaOriginTile.Y * ArenaTileSize),
+		new Vector2(ArenaSizeTiles.X * ArenaTileSize, ArenaSizeTiles.Y * ArenaTileSize)
+	);
 	private static readonly Color ArenaOverlayColor = new(0f, 0f, 0f, 0.14f);
-	private const float ArenaWallThickness = 48f;
+	private const int ArenaWallThickness = ArenaTileSize;
 	private const uint ArenaCollisionLayer = 2;
+	private const float MinimumEnemySpawnDistance = 230f;
+	private static readonly bool ShowSpawnDebugMarker = false;
+	private static readonly bool LogSpawnSelection = false;
+
+	private static readonly Vector2[] EnemySpawnPoints =
+	{
+		new(416f, 320f),
+		new(864f, 320f),
+		new(880f, 416f),
+		new(864f, 544f),
+		new(416f, 544f),
+		new(480f, 608f)
+	};
 
 	public override void _Ready()
 	{
@@ -136,13 +154,61 @@ public partial class TilemapSetup : Node
 		var enemy = FindChild("Enemy", true, false) as Node2D;
 		if (enemy != null)
 		{
-			enemy.Position = EnemySpawn;
+			Vector2 enemySpawn = PickEnemySpawnPoint();
+			enemy.Position = enemySpawn;
 			enemy.AddToGroup("enemy");
+			MaybeShowSpawnDebugMarker(enemySpawn);
+
+			if (LogSpawnSelection)
+				GD.Print($"[TilemapSetup] Enemy spawn: {enemySpawn}");
 		}
 		else
 		{
 			GD.PushWarning("[TilemapSetup] Could not find Enemy node.");
 		}
+	}
+
+	private Vector2 PickEnemySpawnPoint()
+	{
+		var rng = new RandomNumberGenerator();
+		rng.Randomize();
+
+		int startIndex = (int)rng.RandiRange(0, EnemySpawnPoints.Length - 1);
+		for (int offset = 0; offset < EnemySpawnPoints.Length; offset++)
+		{
+			Vector2 candidate = EnemySpawnPoints[(startIndex + offset) % EnemySpawnPoints.Length];
+			if (IsSafeEnemySpawn(candidate))
+				return candidate;
+		}
+
+		return new Vector2(864f, 544f);
+	}
+
+	private static bool IsSafeEnemySpawn(Vector2 position)
+	{
+		return ArenaRect.HasPoint(position)
+			&& position.DistanceTo(PlayerSpawn) >= MinimumEnemySpawnDistance;
+	}
+
+	private void MaybeShowSpawnDebugMarker(Vector2 position)
+	{
+		if (!ShowSpawnDebugMarker)
+			return;
+
+		Node2D world = GetNodeOrNull<Node2D>(WorldPath);
+		if (world == null)
+			return;
+
+		var marker = new Sprite2D
+		{
+			Name = "EnemySpawnDebugMarker",
+			Texture = CreateSolidTexture(new Color(1f, 0.2f, 0.1f, 0.8f)),
+			Centered = true,
+			Position = position,
+			Scale = new Vector2(8f, 8f),
+			ZIndex = 200
+		};
+		world.AddChild(marker);
 	}
 
 	private void SetupCameraFocus()

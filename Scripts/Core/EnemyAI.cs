@@ -4,7 +4,7 @@ using Godot.Collections;
 /// <summary>
 /// EnemyAI — Agent 3: Enemy AI
 /// Full state machine: Idle → Patrol → Aggro → Attack → Dead.
-/// Uses NavigationAgent2D for pathfinding through the tilemap navmesh.
+/// Uses lightweight direct movement after the player has been detected.
 /// Attach as a child Node of EnemyBase.
 ///
 /// Node type: Node
@@ -27,9 +27,9 @@ public partial class EnemyAI : Node
     // ─── Inspector ────────────────────────────────────────────────────────────
 
     [ExportGroup("Detection")]
-    [Export] public float DetectRadius  = 180f;   // Pixels — outer awareness ring
-    [Export] public float LoseRadius    = 280f;   // Pixels — player escapes beyond this
-    [Export] public float AttackRadius  = 40f;    // Pixels — enter attack state
+    [Export] public float DetectionRange = 220f;   // Pixels — outer awareness ring
+    [Export] public float LoseAggroRange = 320f;   // Pixels — player escapes beyond this
+    [Export] public float AttackRange    = 55f;    // Pixels — enter attack state
 
     [ExportGroup("Patrol")]
     [Export] public Array<NodePath> WaypointPaths = new();  // Assign Node2D waypoints in editor
@@ -177,21 +177,21 @@ public partial class EnemyAI : Node
     {
         if (_player == null || !IsInstanceValid(_player))
         {
-            TransitionTo(AIState.Patrol);
+            ReturnToIdleOrPatrol();
             return;
         }
 
         float dist = _enemy.GlobalPosition.DistanceTo(_player.GlobalPosition);
 
         // Player escaped the lose radius
-        if (dist > LoseRadius)
+        if (dist > LoseAggroRange)
         {
-            TransitionTo(AIState.Patrol);
+            ReturnToIdleOrPatrol();
             return;
         }
 
         // Close enough to attack
-        if (dist <= AttackRadius)
+        if (dist <= AttackRange)
         {
             TransitionTo(AIState.Attack);
             return;
@@ -212,14 +212,20 @@ public partial class EnemyAI : Node
     {
         if (_player == null || !IsInstanceValid(_player))
         {
-            TransitionTo(AIState.Patrol);
+            ReturnToIdleOrPatrol();
             return;
         }
 
         float dist = _enemy.GlobalPosition.DistanceTo(_player.GlobalPosition);
 
+        if (dist > LoseAggroRange)
+        {
+            ReturnToIdleOrPatrol();
+            return;
+        }
+
         // Player moved out of attack range — resume chase
-        if (dist > AttackRadius * 1.3f)
+        if (dist > AttackRange * 1.3f)
         {
             TransitionTo(AIState.Aggro);
             return;
@@ -260,7 +266,7 @@ public partial class EnemyAI : Node
             case AIState.Patrol:
                 if (_waypoints.Count > 0)
                     SetNavTarget(_waypoints[_waypointIndex].GlobalPosition);
-                _enemy.PlayAnim("walk");
+                _enemy.PlayAnim(_waypoints.Count > 0 ? "walk" : "idle");
                 break;
 
             case AIState.Aggro:
@@ -282,18 +288,23 @@ public partial class EnemyAI : Node
 
     // ─── Helpers ─────────────────────────────────────────────────────────────
 
-    /// <summary>Is the player within DetectRadius and line-of-sight?</summary>
+    /// <summary>Is the player within DetectionRange and line-of-sight?</summary>
     private bool CanDetectPlayer()
     {
         if (_player == null || !IsInstanceValid(_player))
             return false;
 
         float dist = _enemy.GlobalPosition.DistanceTo(_player.GlobalPosition);
-        if (dist > DetectRadius)
+        if (dist > DetectionRange)
             return false;
 
         // Optional: add a raycast here for LOS check
         return true;
+    }
+
+    private void ReturnToIdleOrPatrol()
+    {
+        TransitionTo(_waypoints.Count > 0 ? AIState.Patrol : AIState.Idle);
     }
 
     private void SetNavTarget(Vector2 globalPos)
