@@ -15,21 +15,21 @@
 
 ## 📖 Overview: Descend Into the Void
 
-**DOWN** is a dark, punishing 2D isometric action-combat game developed with the **Godot Engine 4.x (C# / .NET)**. Navigating a bleak, mathematically projected isometric purgatory, players must engage in quick tactical combat, execute frame-perfect dodge rolls with invincibility frames (i-frames), and stack up high scores by chaining together combos in an intense arena survival experience. 
+**DOWN** is a dark, punishing TOP DOWN 2D isometric action-combat game developed with the **Godot Engine 4.x (C# / .NET)**. Navigating a bleak, mathematically projected isometric purgatory, players must engage in quick tactical combat, execute frame-perfect dodge rolls with invincibility frames (i-frames), and stack up high scores by chaining together combos in an intense arena survival experience.
 
 It is a project designed to showcase high-performance C# scripting in Godot, decoupling patterns, and responsive game-feel implementation.
 
 ---
 
-## Technical Highlights 
+## Technical Highlights
 
 This project was built with a strong focus on clean architecture, performance, and satisfying gameplay mechanics. Below are the key engineering highlights:
 
-*   **Custom Isometric Vector Math**: Implemented a standalone 2D-to-isometric coordinate projection system (`IsometricUtils.cs`), avoiding external dependencies and showcasing custom vector manipulation.
-*   **State Machine Architecture (FSM)**: Designed a modular and decoupled Finite State Machine for enemy AI (`EnemyAI.cs` & `EnemyBase.cs`), separating patrol, chase, and telegraphed combat states cleanly.
-*   **Event-Driven Systems**: Leveraged C# Action delegates (`System.Action`) to handle player damage, enemy deaths, and score multiplier triggers. This keeps the HUD and `GameManager` loosely coupled from the physics/combat entities.
-*   **Invincibility-Frame (i-Frame) Engine**: Developed a frame-perfect invincibility system (`Health.cs`) linked with the player's dodge roll to allow precision evasion.
-*   **Screen Shake & Feedback Loops**: Programmed procedural, decay-based camera shake (`IsometricCamera.cs`) that scales dynamically based on the damage dealt or received.
+- **Custom Isometric Vector Math**: Implemented a standalone 2D-to-isometric coordinate projection system (`IsometricUtils.cs`), avoiding external dependencies and showcasing custom vector manipulation.
+- **State Machine Architecture (FSM)**: Designed a modular and decoupled Finite State Machine for enemy AI (`EnemyAI.cs` & `EnemyBase.cs`), separating patrol, chase, and telegraphed combat states cleanly.
+- **Event-Driven Systems**: Leveraged C# Action delegates (`System.Action`) to handle player damage, enemy deaths, and score multiplier triggers. This keeps the HUD and `GameManager` loosely coupled from the physics/combat entities.
+- **Invincibility-Frame (i-Frame) Engine**: Developed a frame-perfect invincibility system (`Health.cs`) linked with the player's dodge roll to allow precision evasion.
+- **Screen Shake & Feedback Loops**: Programmed procedural, decay-based camera shake (`IsometricCamera.cs`) that scales dynamically based on the damage dealt or received.
 
 ---
 
@@ -106,11 +106,13 @@ DOWN/
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 1. **Godot Engine 4.x (.NET / Mono Edition)**: Standard Godot version will not compile the C# code. Make sure you use the .NET edition.
 2. **.NET SDK (6.0 or 8.0)** installed on your machine.
-3. A C#-supported editor (e.g., **VS Code** with *C# Dev Kit* or **Visual Studio 2022**).
+3. A C#-supported editor (e.g., **VS Code** with _C# Dev Kit_ or **Visual Studio 2022**).
 
 ### Installation & Run Steps
+
 1. Clone or download this repository.
 2. Open **Godot Engine (.NET Edition)**.
 3. Import the project by navigating to the cloned directory and selecting `project.godot`.
@@ -121,13 +123,13 @@ DOWN/
 
 ## 🕹️ Controls Layout
 
-| Action | Keyboard / Mouse Inputs | Description |
-| :--- | :--- | :--- |
-| **Move** | `W` `A` `S` `D` / `Arrow Keys` | Move character in 8 isometric directions |
-| **Sprint** | Hold `Left Shift` | Boost movement speed |
-| **Attack** | `Left Click` / `Space` | Attack in the character's facing direction |
-| **Dodge Roll** | `Space` / Dodge Button | Roll forward with temporary invincibility (*i-frames*) |
-| **Tactical Pause** | `Esc` / `Tab` | Toggle pause menu overlay |
+| Action             | Keyboard / Mouse Inputs        | Description                                            |
+| :----------------- | :----------------------------- | :----------------------------------------------------- |
+| **Move**           | `W` `A` `S` `D` / `Arrow Keys` | Move character in 8 isometric directions               |
+| **Sprint**         | Hold `Left Shift`              | Boost movement speed                                   |
+| **Attack**         | `Left Click` / `Space`         | Attack in the character's facing direction             |
+| **Dodge Roll**     | `Space` / Dodge Button         | Roll forward with temporary invincibility (_i-frames_) |
+| **Tactical Pause** | `Esc` / `Tab`                  | Toggle pause menu overlay                              |
 
 ---
 
