@@ -13,3 +13,4 @@ res://Scripts/Core/PlaceholderSetup.cs
 res://Scripts/Core/GameManager.cs
 res://Scripts/Core/NPCController.cs
 res://Scripts/Core/DeathScreen.cs
+res://Scenes/Enemy.tscn

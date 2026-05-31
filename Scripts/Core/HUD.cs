@@ -103,9 +103,6 @@ public partial class HUD : CanvasLayer
 	{
 		float percent = max > 0 ? (float)current / max : 0f;
 		RefreshHealth(percent, current, max);
-
-		if (current <= 0)
-			ShowBanner("GAME OVER");
 	}
 
 	private void OnScoreChanged(int newScore)

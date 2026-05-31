@@ -13,7 +13,7 @@ height = 18.0
 radius = 220.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
-radius = 55.0
+radius = 60.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
 size = Vector2(36, 18)

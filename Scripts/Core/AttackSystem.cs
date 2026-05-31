@@ -46,6 +46,7 @@ public partial class AttackSystem : Node
     private readonly HashSet<ulong> _hitTargets = new();
     private Node _owner;
     private Vector2 _facing = Vector2.Right;
+    private bool _disabled = false;
 
     // ─── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -74,6 +75,9 @@ public partial class AttackSystem : Node
 
     public override void _Process(double delta)
     {
+        if (_disabled)
+            return;
+
         float dt = (float)delta;
 
         if (_cooldownTimer > 0f)
@@ -107,7 +111,7 @@ public partial class AttackSystem : Node
     /// </summary>
     public bool TryAttack()
     {
-        if (_cooldownTimer > 0f)
+        if (_disabled || IsOwnerDead() || _cooldownTimer > 0f)
             return false;
 
         bool isHeavy = (_comboStep == 2);   // Third hit is the finisher
@@ -142,14 +146,33 @@ public partial class AttackSystem : Node
     {
         IsAttacking = false;
         _attackTimer = 0f;
-        if (_hitBox != null)
-            _hitBox.Monitoring = false;
+        DisableHitBox();
+    }
+
+    public void DisableAttack()
+    {
+        _disabled = true;
+        IsAttacking = false;
+        _comboStep = 0;
+        _cooldownTimer = 0f;
+        _comboTimer = 0f;
+        _attackTimer = 0f;
+        _activeDamage = 0;
+        _hitTargets.Clear();
+        DisableHitBox();
+        SetProcess(false);
     }
 
     // ─── Private Helpers ──────────────────────────────────────────────────────
 
     private async void ActivateHitBox(int damage)
     {
+        if (_disabled || IsOwnerDead())
+        {
+            DisableHitBox();
+            return;
+        }
+
         if (_hitBox == null)
         {
             GD.PushWarning("[AttackSystem] Cannot activate attack hitbox because HitBox is missing.");
@@ -163,6 +186,12 @@ public partial class AttackSystem : Node
 
         await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
 
+        if (_disabled || IsOwnerDead())
+        {
+            DisableHitBox();
+            return;
+        }
+
         foreach (Area2D area in _hitBox.GetOverlappingAreas())
             TryDamage(area);
         foreach (Node2D body in _hitBox.GetOverlappingBodies())
@@ -173,7 +202,7 @@ public partial class AttackSystem : Node
             SceneTreeTimer.SignalName.Timeout
         );
 
-        _hitBox.Monitoring = false;
+        DisableHitBox();
     }
 
     private void OnAreaEntered(Area2D area)
@@ -188,7 +217,7 @@ public partial class AttackSystem : Node
 
     private void TryDamage(Node node)
     {
-        if (_hitBox == null || !_hitBox.Monitoring)
+        if (_disabled || IsOwnerDead() || _hitBox == null || !_hitBox.Monitoring)
             return;
 
         if (!TryResolveDamageTarget(node, out Node target, out Health hp))
@@ -230,6 +259,21 @@ public partial class AttackSystem : Node
         }
 
         return false;
+    }
+
+    private void DisableHitBox()
+    {
+        if (_hitBox != null)
+            _hitBox.Monitoring = false;
+    }
+
+    private bool IsOwnerDead()
+    {
+        if (_owner is PlayerController player)
+            return player.IsDead;
+
+        var ownerHealth = _owner?.GetNodeOrNull<Health>("Health");
+        return ownerHealth?.IsDead == true;
     }
 
     private void UpdateHitBoxDirection()

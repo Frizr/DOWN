@@ -43,6 +43,7 @@ public partial class PlayerController : CharacterBody2D
 	private bool  _isDodging      = false;
 	private float _dodgeTimer     = 0f;
 	private float _dodgeCoolTimer = 0f;
+	private bool  _isDead         = false;
 
 	// Facing direction from the last non-zero input, used for directional animations.
 	private Vector2 _facing = Vector2.Down;
@@ -74,6 +75,13 @@ public partial class PlayerController : CharacterBody2D
 
 	public override void _PhysicsProcess(double delta)
 	{
+		if (_isDead)
+		{
+			Velocity = Vector2.Zero;
+			MoveAndSlide();
+			return;
+		}
+
 		float dt = (float)delta;
 
 		ReadMovement();
@@ -118,6 +126,9 @@ public partial class PlayerController : CharacterBody2D
 
 	private void ReadAttack()
 	{
+		if (_isDead)
+			return;
+
 		if (Input.IsActionJustPressed("attack"))
 		{
 			_attack.SetFacing(_facing);
@@ -127,6 +138,8 @@ public partial class PlayerController : CharacterBody2D
 
 	private void ReadDodge()
 	{
+		if (_isDead)
+			return;
 		if (!Input.IsActionJustPressed("dodge"))
 			return;
 		if (_dodgeCoolTimer > 0f)
@@ -197,6 +210,9 @@ public partial class PlayerController : CharacterBody2D
 
 	private void OnDamageTaken(int amount, int currentHp)
 	{
+		if (_isDead || currentHp <= 0)
+			return;
+
 		_camera?.Shake(ShakeOnHit);
 		GameManager.Instance?.ResetCombo();
 
@@ -206,24 +222,43 @@ public partial class PlayerController : CharacterBody2D
 
 	private void OnDied()
 	{
-		PlayAnim("death");
-		GameManager.Instance?.SetState(GameManager.GameState.GameOver);
+		if (_isDead)
+			return;
+
+		_isDead = true;
+		_isDodging = false;
+		_moveDir = Vector2.Zero;
+		_dodgeDir = Vector2.Zero;
+		Velocity = Vector2.Zero;
+		_attack?.DisableAttack();
+
+		bool deathAnimationStarted = PlayAnim("death");
+		ShowGameOverAfterDeathDelay(deathAnimationStarted ? GetCurrentAnimationDuration(0.8f) : 0.5f);
 		GD.Print("[Combat] Player died.");
 	}
 
 	private void OnAttackStarted(int comboStep)
 	{
+		if (_isDead)
+			return;
+
 		PlayAnim("attack");
 	}
 
 	private void OnHitConnected(Node target, int damage)
 	{
+		if (_isDead)
+			return;
+
 		GameManager.Instance?.IncrementCombo();
 		GameManager.Instance?.AddScore(damage * 10);
 	}
 
 	private void OnSpriteAnimationFinished()
 	{
+		if (_isDead)
+			return;
+
 		if (_attack != null && (_attack.IsAttacking || _currentAnim.StartsWith("attack")))
 			_attack.OnAnimationFinished();
 
@@ -236,19 +271,20 @@ public partial class PlayerController : CharacterBody2D
 	private string _currentAnim = "";
 
 	/// <summary>Play animation only if it isn't already playing (prevents restart spam).</summary>
-	private void PlayAnim(string animName)
+	private bool PlayAnim(string animName)
 	{
 		if (_sprite == null || _sprite.SpriteFrames == null)
-			return;
+			return false;
 
 		string resolvedAnim = ResolveDirectionalAnim(animName);
 		if (_currentAnim == resolvedAnim)
-			return;
+			return true;
 		if (!_sprite.SpriteFrames.HasAnimation(resolvedAnim))
-			return;
+			return false;
 
 		_currentAnim = resolvedAnim;
 		_sprite.Play(resolvedAnim);
+		return true;
 	}
 
 	private string ResolveDirectionalAnim(string baseAnim)
@@ -279,6 +315,27 @@ public partial class PlayerController : CharacterBody2D
 		return animName.StartsWith("walk") || animName.StartsWith("run");
 	}
 
+	private async void ShowGameOverAfterDeathDelay(float delay)
+	{
+		await ToSignal(GetTree().CreateTimer(delay, false), SceneTreeTimer.SignalName.Timeout);
+		GameManager.Instance?.SetState(GameManager.GameState.GameOver);
+	}
+
+	private float GetCurrentAnimationDuration(float fallback)
+	{
+		if (_sprite?.SpriteFrames == null || string.IsNullOrEmpty(_currentAnim))
+			return fallback;
+		if (!_sprite.SpriteFrames.HasAnimation(_currentAnim))
+			return fallback;
+
+		int frameCount = _sprite.SpriteFrames.GetFrameCount(_currentAnim);
+		double speed = _sprite.SpriteFrames.GetAnimationSpeed(_currentAnim);
+		if (frameCount <= 0 || speed <= 0)
+			return fallback;
+
+		return Mathf.Max((float)(frameCount / speed), fallback);
+	}
+
 	// ─── Public Accessors ─────────────────────────────────────────────────────
 
 	/// <summary>Current HP as a 0→1 percentage (for HUD health bar).</summary>
@@ -286,4 +343,7 @@ public partial class PlayerController : CharacterBody2D
 
 	/// <summary>Whether the player is currently in a dodge roll.</summary>
 	public bool IsDodging => _isDodging;
+
+	/// <summary>Whether the player is dead and locked out of movement/combat.</summary>
+	public bool IsDead => _isDead;
 }

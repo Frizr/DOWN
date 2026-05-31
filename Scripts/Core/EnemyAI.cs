@@ -29,7 +29,7 @@ public partial class EnemyAI : Node
     [ExportGroup("Detection")]
     [Export] public float DetectionRange = 220f;   // Pixels — outer awareness ring
     [Export] public float LoseAggroRange = 320f;   // Pixels — player escapes beyond this
-    [Export] public float AttackRange    = 55f;    // Pixels — enter attack state
+    [Export] public float AttackRange    = 60f;    // Pixels — enter attack state
 
     [ExportGroup("Patrol")]
     [Export] public Array<NodePath> WaypointPaths = new();  // Assign Node2D waypoints in editor
@@ -43,6 +43,7 @@ public partial class EnemyAI : Node
     [ExportGroup("Attack")]
     [Export] public float AttackCooldown = 1.2f;   // Seconds between attacks
     [Export] public int   AttackDamage   = 12;
+    [Export] public float DesiredStopDistance = 56f;
 
     // ─── Signals ──────────────────────────────────────────────────────────────
 
@@ -53,6 +54,7 @@ public partial class EnemyAI : Node
     private EnemyBase        _enemy;
     private NavigationAgent2D _nav;
     private Node2D           _player;
+    private Health           _playerHealth;
     private Vector2          _moveTarget = Vector2.Zero;
 
     // ─── Internal State ───────────────────────────────────────────────────────
@@ -84,7 +86,10 @@ public partial class EnemyAI : Node
         // Locate player — they are in the "player" group
         var players = GetTree().GetNodesInGroup("player");
         if (players.Count > 0)
+        {
             _player = players[0] as Node2D;
+            _playerHealth = _player?.GetNodeOrNull<Health>("Health");
+        }
 
         // Nav agent configuration
         if (_nav != null)
@@ -105,6 +110,12 @@ public partial class EnemyAI : Node
         }
 
         float dt = (float)delta;
+        if (IsPlayerDead())
+        {
+            StopForDeadPlayer();
+            return;
+        }
+
         _attackCoolTimer -= dt;
         _pathUpdateTimer -= dt;
 
@@ -175,13 +186,14 @@ public partial class EnemyAI : Node
 
     private void TickAggro(float dt)
     {
-        if (_player == null || !IsInstanceValid(_player))
+        if (_player == null || !IsInstanceValid(_player) || IsPlayerDead())
         {
             ReturnToIdleOrPatrol();
             return;
         }
 
         float dist = _enemy.GlobalPosition.DistanceTo(_player.GlobalPosition);
+        _enemy.FaceDirection(_player.GlobalPosition - _enemy.GlobalPosition);
 
         // Player escaped the lose radius
         if (dist > LoseAggroRange)
@@ -191,8 +203,9 @@ public partial class EnemyAI : Node
         }
 
         // Close enough to attack
-        if (dist <= AttackRange)
+        if (dist <= AttackRange || dist <= DesiredStopDistance)
         {
+            _enemy.Velocity = Vector2.Zero;
             TransitionTo(AIState.Attack);
             return;
         }
@@ -204,19 +217,20 @@ public partial class EnemyAI : Node
             _pathUpdateTimer = PathUpdateRate;
         }
 
-        MoveAlongPath(_enemy.MoveSpeed * AggroSpeed);
+        MoveAlongPath(_enemy.MoveSpeed * AggroSpeed, DesiredStopDistance);
         _enemy.PlayAnim("walk");
     }
 
     private void TickAttack(float dt)
     {
-        if (_player == null || !IsInstanceValid(_player))
+        if (_player == null || !IsInstanceValid(_player) || IsPlayerDead())
         {
-            ReturnToIdleOrPatrol();
+            StopForDeadPlayer();
             return;
         }
 
         float dist = _enemy.GlobalPosition.DistanceTo(_player.GlobalPosition);
+        _enemy.FaceDirection(_player.GlobalPosition - _enemy.GlobalPosition);
 
         if (dist > LoseAggroRange)
         {
@@ -225,7 +239,7 @@ public partial class EnemyAI : Node
         }
 
         // Player moved out of attack range — resume chase
-        if (dist > AttackRange * 1.3f)
+        if (dist > AttackRange * 1.15f)
         {
             TransitionTo(AIState.Aggro);
             return;
@@ -274,7 +288,8 @@ public partial class EnemyAI : Node
                 break;
 
             case AIState.Attack:
-                _enemy.PlayAnim("attack");
+                _enemy.Velocity = Vector2.Zero;
+                _enemy.PlayAnim("attack", true);
                 break;
 
             case AIState.Dead:
@@ -291,7 +306,7 @@ public partial class EnemyAI : Node
     /// <summary>Is the player within DetectionRange and line-of-sight?</summary>
     private bool CanDetectPlayer()
     {
-        if (_player == null || !IsInstanceValid(_player))
+        if (_player == null || !IsInstanceValid(_player) || IsPlayerDead())
             return false;
 
         float dist = _enemy.GlobalPosition.DistanceTo(_player.GlobalPosition);
@@ -307,6 +322,15 @@ public partial class EnemyAI : Node
         TransitionTo(_waypoints.Count > 0 ? AIState.Patrol : AIState.Idle);
     }
 
+    private void StopForDeadPlayer()
+    {
+        _enemy.Velocity = Vector2.Zero;
+        _attackCoolTimer = 0f;
+        _pathUpdateTimer = 0f;
+        TransitionTo(AIState.Idle);
+        _enemy.PlayAnim("idle", true);
+    }
+
     private void SetNavTarget(Vector2 globalPos)
     {
         _moveTarget = globalPos;
@@ -315,10 +339,11 @@ public partial class EnemyAI : Node
     }
 
     /// <summary>Move the enemy body along the current nav path.</summary>
-    private void MoveAlongPath(float speed)
+    private void MoveAlongPath(float speed, float stopDistance = 4f)
     {
         Vector2 toTarget = _moveTarget - _enemy.GlobalPosition;
-        if (toTarget.Length() <= 4f)
+        _enemy.FaceDirection(toTarget);
+        if (toTarget.Length() <= stopDistance)
         {
             _enemy.Velocity = Vector2.Zero;
             return;
@@ -330,14 +355,25 @@ public partial class EnemyAI : Node
     /// <summary>Deliver melee damage to the player.</summary>
     private void ExecuteAttack()
     {
-        _enemy.PlayAnim("attack");
-
         // Reach the player's Health component
         var hp = _player?.GetNodeOrNull<Health>("Health");
-        if (hp != null && !hp.IsDead)
-        {
-            hp.TakeDamage(AttackDamage);
-        }
+        if (hp == null || hp.IsDead || IsPlayerDead())
+            return;
+
+        _enemy.PlayAnim("attack", true);
+        hp.TakeDamage(AttackDamage);
+    }
+
+    private bool IsPlayerDead()
+    {
+        if (_player == null || !IsInstanceValid(_player))
+            return false;
+
+        if (_player is PlayerController playerController && playerController.IsDead)
+            return true;
+
+        _playerHealth ??= _player.GetNodeOrNull<Health>("Health");
+        return _playerHealth?.IsDead == true;
     }
 
     // ─── Public API ──────────────────────────────────────────────────────────
@@ -348,8 +384,16 @@ public partial class EnemyAI : Node
         if (_player == null)
         {
             var players = GetTree().GetNodesInGroup("player");
-            if (players.Count > 0) _player = players[0] as Node2D;
+            if (players.Count > 0)
+            {
+                _player = players[0] as Node2D;
+                _playerHealth = _player?.GetNodeOrNull<Health>("Health");
+            }
         }
+
+        if (IsPlayerDead())
+            return;
+
         TransitionTo(AIState.Aggro);
     }
 }
