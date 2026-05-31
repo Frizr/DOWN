@@ -1,31 +1,144 @@
-# DOWN
+# `D O W N` â€” â˜ ï¸Isometric Combat Purgatoryâ˜ ï¸
 
-<p align="center">
-  <img src="assets/showcase/banner.png" alt="DOWN Banner" width="100%">
-</p>
+![DOWN Banner](Assets/DOWN.png)
 
-<p align="center">
-  Dark Fantasy Action RPG Prototype built with Godot 4.6 and C#
-</p>
+[![Godot Engine](https://img.shields.io/badge/Godot-4.x%20%28.NET%2F%23C%29-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
+[![Project Status](https://img.shields.io/badge/Status-Under%20Development-orange?style=for-the-badge&logo=gitkraken)](https://github.com)
+[![Language](https://img.shields.io/badge/Language-C%23-green?style=for-the-badge&logo=c-sharp)](https://dotnet.microsoft.com)
+
+> [!CAUTION]
+> **DEVELOPMENT STATUS: ACTIVE WORK IN PROGRESS**
+>
+> This game is under active, intensive development. The core isometric physics engine, player movement mechanics, basic enemy AI, real-time combat system, and game state architecture have been fully implemented. However, visual assets, level design, and overall polish are currently being expanded.
 
 ---
 
-## Showcase
+## ðŸ“– Overview: Descend Into the Void
 
-### In-Game Preview
+**DOWN** is a dark, punishing TOP DOWN 2D isometric action-combat game developed with the **Godot Engine 4.x (C# / .NET)**. Navigating a bleak, mathematically projected isometric purgatory, players must engage in quick tactical combat, execute frame-perfect dodge rolls with invincibility frames (i-frames), and stack up high scores by chaining together combos in an intense arena survival experience.
 
-<p align="center">
-  <img src="assets/showcase/gameplay_1.png" alt="Gameplay 1" width="45%">
-  <img src="assets/showcase/gameplay_2.png" alt="Gameplay 2" width="45%">
-</p>
+It is a project designed to showcase high-performance C# scripting in Godot, decoupling patterns, and responsive game-feel implementation.
 
-### Features
-- Top-down / arena combat prototype
-- Player attack and enemy chase system
-- Dark fantasy undead-themed arena
-- Godot 4.6 + C# implementation
+---
 
-### Tech Stack
-- Godot 4.6
-- C#
-- GitHub
+## Technical Highlights
+
+This project was built with a strong focus on clean architecture, performance, and satisfying gameplay mechanics. Below are the key engineering highlights:
+
+- **Custom Isometric Vector Math**: Implemented a standalone 2D-to-isometric coordinate projection system (`IsometricUtils.cs`), avoiding external dependencies and showcasing custom vector manipulation.
+- **State Machine Architecture (FSM)**: Designed a modular and decoupled Finite State Machine for enemy AI (`EnemyAI.cs` & `EnemyBase.cs`), separating patrol, chase, and telegraphed combat states cleanly.
+- **Event-Driven Systems**: Leveraged C# Action delegates (`System.Action`) to handle player damage, enemy deaths, and score multiplier triggers. This keeps the HUD and `GameManager` loosely coupled from the physics/combat entities.
+- **Invincibility-Frame (i-Frame) Engine**: Developed a frame-perfect invincibility system (`Health.cs`) linked with the player's dodge roll to allow precision evasion.
+- **Screen Shake & Feedback Loops**: Programmed procedural, decay-based camera shake (`IsometricCamera.cs`) that scales dynamically based on the damage dealt or received.
+
+---
+
+## âš¡ Core Features
+
+1. **Isometric Engine & Custom Projection**
+   - **8-Directional Movement**: Flat WASD/arrow key inputs are seamlessly projected onto a custom 2.5D isometric screen-space coordinate system.
+   - **Dynamic Camera**: Smoothly tracks player movement and responds dynamically with camera shake effects upon hitting or receiving damage.
+
+2. **Fluid Movement & Dodge Mechanics**
+   - **Friction-Based Deceleration**: Controls feel heavy yet responsive, utilizing friction-based sliding for realistic weight.
+   - **Sprint**: Hold Shift to accelerate across the battlefield.
+   - **Dodge Roll**: Active invincibility frames (i-frames) allow players to phase through enemy attacks safely.
+
+3. **Dynamic Combat & Combo System**
+   - **Precise Hitbox/Hurtbox**: Real-time overlapping checking for accurate weapon swings and damage detection.
+   - **Combo Multipliers**: Fast and aggressive play is rewarded. Keep your hit streak alive without getting damaged or timing out to trigger multiplier tiers (Ã—1.5, Ã—2.0, and up to Ã—3.0 score rewards).
+
+4. **Enemy AI (Grunt System)**
+   - **Finite State Machine (FSM)**: Enemies patrol, detect, chase, and choreograph visual telegraph warnings before attacking the player.
+
+5. **Tactical Game Manager**
+   - **Autoload Singleton**: Features global game states (`MainMenu`, `Playing`, `Paused`, `GameOver`) allowing smooth transition phases, scoring records, and pausing mechanics.
+
+---
+
+## ðŸ“‚ Project Structure
+
+```bash
+DOWN/
+â”œâ”€â”€ .godot/                  # Godot internal cache and metadata
+â”œâ”€â”€ Assets/                  # Visual and audio assets
+â”‚   â”œâ”€â”€ Audio/               # Sound effects (.wav) and music (.mp3)
+â”‚   â”œâ”€â”€ Sprites/             # Player, Enemy, and visual sprites
+â”‚   â””â”€â”€ Tiles/               # Map tiles for the isometric grid layout
+â”œâ”€â”€ Levels/                  # Game levels and arenas
+â”œâ”€â”€ Scenes/                  # Packed scene files (.tscn)
+â”‚   â”œâ”€â”€ Main.tscn            # The main game arena and loop
+â”‚   â”œâ”€â”€ Player.tscn          # Player node and scripts
+â”‚   â”œâ”€â”€ Enemy.tscn           # Enemy Base node
+â”‚   â”œâ”€â”€ HUD.tscn             # Head-Up Display (Health Bar, Combo, Score UI)
+â”‚   â””â”€â”€ DeathScreen.tscn     # GameOver overlay screen
+â”œâ”€â”€ Scripts/                 # C# source code files
+â”‚   â”œâ”€â”€ Audio/               # Future Audio Manager expansion folder
+â”‚   â”œâ”€â”€ Player/              # Future Player-specific scripting folder
+â”‚   â”œâ”€â”€ Enemy/               # Future Enemy sub-type scripting folder
+â”‚   â”œâ”€â”€ UI/                  # Future UI/Menu scripting folder
+â”‚   â””â”€â”€ Core/                # CORE ENGINE LOGIC & SYSTEMS
+â”‚       â”œâ”€â”€ GameManager.cs       # Singleton managing game states, combo, & scores
+â”‚       â”œâ”€â”€ PlayerController.cs  # Player input, isometric movement, & dodge roll
+â”‚       â”œâ”€â”€ EnemyBase.cs         # Blueprint template for enemy nodes
+â”‚       â”œâ”€â”€ EnemyAI.cs           # State machine controlling patrol, chase, & attack behavior
+â”‚       â”œâ”€â”€ EnemyGrunt.cs        # Grunt enemy logic overrides
+â”‚       â”œâ”€â”€ Health.cs            # HP, damage mechanics, and invincibility triggers
+â”‚       â”œâ”€â”€ AttackSystem.cs      # Attack routing, timing, and hitbox checks
+â”‚       â”œâ”€â”€ CombatTrigger.cs     # Area2D-based attack intersection logic
+â”‚       â”œâ”€â”€ IsometricCamera.cs   # Camera tracking and procedural shaking
+â”‚       â”œâ”€â”€ IsometricUtils.cs    # Coordinate transform calculations (2D <-> Iso)
+â”‚       â”œâ”€â”€ LevelManager.cs      # Spawning waves, difficulty progression, & level changes
+â”‚       â”œâ”€â”€ TilemapSetup.cs      # Renders and initializes the isometric grid map
+â”‚       â”œâ”€â”€ PlaceholderSetup.cs  # Direct 2D node draw commands for temporary graphics
+â”‚       â”œâ”€â”€ HUD.cs               # Live status UI updater
+â”‚       â””â”€â”€ DeathScreen.cs       # Post-game screen behavior and reset options
+â”œâ”€â”€ DOWN.csproj              # C# / Mono project configuration
+â”œâ”€â”€ DOWN.sln                 # IDE Solution file (VS Code / Visual Studio)
+â””â”€â”€ project.godot            # Main Godot project configuration
+```
+
+> [!NOTE]
+> Directory structures under `Scripts/Player`, `Scripts/Enemy`, `Scripts/UI`, and `Scripts/Audio` are placeholders reserved for refactoring and code organization as features scale out of the main `Core/` loop.
+
+---
+
+## ðŸš€ Getting Started
+
+### Prerequisites
+
+1. **Godot Engine 4.x (.NET / Mono Edition)**: Standard Godot version will not compile the C# code. Make sure you use the .NET edition.
+2. **.NET SDK (6.0 or 8.0)** installed on your machine.
+3. A C#-supported editor (e.g., **VS Code** with _C# Dev Kit_ or **Visual Studio 2022**).
+
+### Installation & Run Steps
+
+1. Clone or download this repository.
+2. Open **Godot Engine (.NET Edition)**.
+3. Import the project by navigating to the cloned directory and selecting `project.godot`.
+4. **Build the C# Solution**: Click the **Build** button in the top-right corner of the Godot editor.
+5. Open `Scenes/Main.tscn` and press **F5** (or click the Play button) to start playing!
+
+---
+
+## ðŸ•¹ï¸ Controls Layout
+
+| Action             | Keyboard / Mouse Inputs        | Description                                            |
+| :----------------- | :----------------------------- | :----------------------------------------------------- |
+| **Move**           | `W` `A` `S` `D` / `Arrow Keys` | Move character in 8 isometric directions               |
+| **Sprint**         | Hold `Left Shift`              | Boost movement speed                                   |
+| **Attack**         | `Left Click` / `Space`         | Attack in the character's facing direction             |
+| **Dodge Roll**     | `Space` / Dodge Button         | Roll forward with temporary invincibility (_i-frames_) |
+| **Tactical Pause** | `Esc` / `Tab`                  | Toggle pause menu overlay                              |
+
+---
+
+## ðŸ“ˆ Development Roadmap
+
+- [x] Core Isometric Projection Engine (2.5D coordinate mapping)
+- [x] Enemy AI Finite State Machine (Patrol & Chase behavior)
+- [x] Action Combat System (Hitbox setup, combo calculations, and i-frames)
+- [ ] Visual Assets Integration (Replace code-drawn placeholders with sprite art)
+- [ ] Isometric Tilemap Design & Level Hazards
+- [ ] Audio Systems (Interactive background music & combat SFX)
+- [ ] Diversified Enemy Roster (Ranged archers, Heavy brutes, Boss encounters)
