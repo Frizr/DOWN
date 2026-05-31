@@ -22,7 +22,6 @@ public partial class CombatTrigger : Node2D
 			if (enemy.GlobalPosition.DistanceTo(mouseWorldPosition) >= TriggerRange)
 				continue;
 
-			GD.Print("[Combat] TRIGGERED! Target: " + enemy.Name);
 			if (GameManager.Instance != null)
 				GameManager.Instance.SetState(GameManager.GameState.Playing);
 			return;

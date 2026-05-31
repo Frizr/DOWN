@@ -103,7 +103,7 @@ public partial class EnemyBase : CharacterBody2D
 	{
 		FlashWhite();
 		PlayAnim("hurt");
-		GD.Print($"[{Name}] Hit {amount} | HP {currentHp}/{HP.MaxHealth}");
+		GD.Print($"[Combat] Enemy took {amount} damage. HP: {currentHp}/{HP.MaxHealth}");
 	}
 
 	/// <summary>Override for custom death behaviour (e.g. explosion, loot drop).</summary>
@@ -119,7 +119,7 @@ public partial class EnemyBase : CharacterBody2D
 		// Remove from scene after death anim (~1 s)
 		GetTree().CreateTimer(1.2f).Timeout += () => QueueFree();
 
-		GD.Print($"[{Name}] Died. +{KillScore} pts.");
+		GD.Print($"[Combat] Enemy died. +{KillScore} pts.");
 	}
 
 	// ─── Animation Helpers ────────────────────────────────────────────────────

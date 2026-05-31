@@ -63,13 +63,13 @@ public partial class PlayerController : CharacterBody2D
 		_health.Died        += OnDied;
 
 		// Wire attack signals → GameManager combo
+		_attack.AttackStarted += OnAttackStarted;
 		_attack.HitConnected += OnHitConnected;
 
 		if (_sprite != null)
 			_sprite.AnimationFinished += OnSpriteAnimationFinished;
 
 		PlayAnim("idle");
-		GD.Print("[PlayerController] Ready.");
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -119,7 +119,10 @@ public partial class PlayerController : CharacterBody2D
 	private void ReadAttack()
 	{
 		if (Input.IsActionJustPressed("attack"))
+		{
+			_attack.SetFacing(_facing);
 			_attack.TryAttack();
+		}
 	}
 
 	private void ReadDodge()
@@ -140,7 +143,6 @@ public partial class PlayerController : CharacterBody2D
 
 		_camera?.Shake(ShakeOnDodge);
 		PlayAnim("dodge");
-		GD.Print("[Player] Dodge roll.");
 	}
 
 	// ─── Movement Application ────────────────────────────────────────────────
@@ -199,21 +201,25 @@ public partial class PlayerController : CharacterBody2D
 		GameManager.Instance?.ResetCombo();
 
 		PlayAnim("hurt");
-		GD.Print($"[Player] Hit for {amount} | HP: {currentHp}/{_health.MaxHealth}");
+		GD.Print($"[Combat] Player took {amount} damage. HP: {currentHp}/{_health.MaxHealth}");
 	}
 
 	private void OnDied()
 	{
 		PlayAnim("death");
 		GameManager.Instance?.SetState(GameManager.GameState.GameOver);
-		GD.Print("[Player] Died.");
+		GD.Print("[Combat] Player died.");
+	}
+
+	private void OnAttackStarted(int comboStep)
+	{
+		PlayAnim("attack");
 	}
 
 	private void OnHitConnected(Node target, int damage)
 	{
 		GameManager.Instance?.IncrementCombo();
 		GameManager.Instance?.AddScore(damage * 10);
-		GD.Print($"[Player] Hit {target.Name} for {damage}.");
 	}
 
 	private void OnSpriteAnimationFinished()

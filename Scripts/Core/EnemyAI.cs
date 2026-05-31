@@ -53,6 +53,7 @@ public partial class EnemyAI : Node
     private EnemyBase        _enemy;
     private NavigationAgent2D _nav;
     private Node2D           _player;
+    private Vector2          _moveTarget = Vector2.Zero;
 
     // ─── Internal State ───────────────────────────────────────────────────────
 
@@ -71,7 +72,7 @@ public partial class EnemyAI : Node
     public override void _Ready()
     {
         _enemy = GetParent<EnemyBase>();
-        _nav   = _enemy.GetNode<NavigationAgent2D>("NavigationAgent2D");
+        _nav   = _enemy.GetNodeOrNull<NavigationAgent2D>("NavigationAgent2D");
 
         // Resolve waypoint node paths
         foreach (var path in WaypointPaths)
@@ -86,8 +87,11 @@ public partial class EnemyAI : Node
             _player = players[0] as Node2D;
 
         // Nav agent configuration
-        _nav.PathDesiredDistance    = 6f;
-        _nav.TargetDesiredDistance  = 16f;
+        if (_nav != null)
+        {
+            _nav.PathDesiredDistance    = 6f;
+            _nav.TargetDesiredDistance  = 16f;
+        }
 
         TransitionTo(AIState.Idle);
     }
@@ -131,6 +135,12 @@ public partial class EnemyAI : Node
 
     private void TickPatrol(float dt)
     {
+        if (_waypoints.Count == 0)
+        {
+            TransitionTo(AIState.Idle);
+            return;
+        }
+
         // If player enters range, switch immediately
         if (CanDetectPlayer())
         {
@@ -288,21 +298,22 @@ public partial class EnemyAI : Node
 
     private void SetNavTarget(Vector2 globalPos)
     {
-        _nav.TargetPosition = globalPos;
+        _moveTarget = globalPos;
+        if (_nav != null)
+            _nav.TargetPosition = globalPos;
     }
 
     /// <summary>Move the enemy body along the current nav path.</summary>
     private void MoveAlongPath(float speed)
     {
-        if (_nav.IsNavigationFinished())
+        Vector2 toTarget = _moveTarget - _enemy.GlobalPosition;
+        if (toTarget.Length() <= 4f)
         {
             _enemy.Velocity = Vector2.Zero;
             return;
         }
 
-        Vector2 nextPoint = _nav.GetNextPathPosition();
-        Vector2 dir       = (_enemy.GlobalPosition.DirectionTo(nextPoint));
-        _enemy.Velocity   = dir * speed;
+        _enemy.Velocity = toTarget.Normalized() * speed;
     }
 
     /// <summary>Deliver melee damage to the player.</summary>

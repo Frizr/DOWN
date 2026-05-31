@@ -76,9 +76,6 @@ public partial class GameManager : Node
         // but explicit call makes the intent clear in case of manual instantiation).
         ProcessMode = ProcessModeEnum.Always;
         CurrentState = GameState.Playing;
-        GD.Print("[GameManager] State: " + CurrentState);
-
-        GD.Print("[GameManager] Initialized.");
     }
 
     public override void _Process(double delta)
@@ -129,7 +126,6 @@ public partial class GameManager : Node
                 break;
         }
 
-        GD.Print($"[GameManager] State: {previous} → {newState}");
         EmitSignal(SignalName.StateChanged, (int)newState);
     }
 
@@ -159,7 +155,6 @@ public partial class GameManager : Node
         int awarded = Mathf.RoundToInt(basePoints * GetComboMultiplier());
         Score += awarded;
         EmitSignal(SignalName.ScoreChanged, Score);
-        GD.Print($"[GameManager] +{awarded} pts (×{GetComboMultiplier():F1}) | Total: {Score}");
     }
 
     /// <summary>Reset score to zero (called on new run / main menu).</summary>
@@ -180,7 +175,6 @@ public partial class GameManager : Node
         ComboCount++;
         _comboResetTimer = ComboTimer;  // Refresh window
         EmitSignal(SignalName.ComboChanged, ComboCount, GetComboMultiplier());
-        GD.Print($"[GameManager] Combo ×{ComboCount} | Multiplier: {GetComboMultiplier():F1}");
     }
 
     /// <summary>
@@ -194,7 +188,6 @@ public partial class GameManager : Node
         ComboCount = 0;
         _comboResetTimer = 0f;
         EmitSignal(SignalName.ComboChanged, 0, 1.0f);
-        GD.Print("[GameManager] Combo broken.");
     }
 
     /// <summary>

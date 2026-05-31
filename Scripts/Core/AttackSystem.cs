@@ -1,4 +1,5 @@
 using Godot;
+using System.Collections.Generic;
 
 /// <summary>
 /// AttackSystem — Agent 2: Player Controller
@@ -39,13 +40,21 @@ public partial class AttackSystem : Node
     private float _cooldownTimer = 0f;
     private float _comboTimer    = 0f;
     private float _attackTimer   = 0f;
+    private int   _activeDamage  = 0;
     private Area2D _hitBox;
+    private CollisionShape2D _hitBoxShape;
+    private readonly HashSet<ulong> _hitTargets = new();
+    private Node _owner;
+    private Vector2 _facing = Vector2.Right;
 
     // ─── Lifecycle ────────────────────────────────────────────────────────────
 
     public override void _Ready()
     {
-        var hitBox = GetNodeOrNull<Area2D>("HitBox")
+        _owner = GetParent();
+
+        var hitBox = GetNodeOrNull<Area2D>(HitBoxPath)
+            ?? GetNodeOrNull<Area2D>("HitBox")
             ?? GetParent()?.GetNodeOrNull<Area2D>("HitBox");
         if (hitBox == null)
         {
@@ -55,9 +64,12 @@ public partial class AttackSystem : Node
 
         _hitBox = hitBox;
         _hitBox.Monitoring = false;   // starts inactive
+        _hitBoxShape = _hitBox.GetNodeOrNull<CollisionShape2D>("HitBoxShape")
+            ?? _hitBox.FindChild("HitBoxShape", true, false) as CollisionShape2D;
 
         // Wire up hit detection
         _hitBox.BodyEntered += OnBodyEntered;
+        _hitBox.AreaEntered += OnAreaEntered;
     }
 
     public override void _Process(double delta)
@@ -116,11 +128,22 @@ public partial class AttackSystem : Node
         return true;
     }
 
+    public void SetFacing(Vector2 facing)
+    {
+        if (facing == Vector2.Zero)
+            return;
+
+        _facing = facing.Normalized();
+        UpdateHitBoxDirection();
+    }
+
     /// <summary>Called externally when the attack animation finishes.</summary>
     public void OnAnimationFinished()
     {
         IsAttacking = false;
         _attackTimer = 0f;
+        if (_hitBox != null)
+            _hitBox.Monitoring = false;
     }
 
     // ─── Private Helpers ──────────────────────────────────────────────────────
@@ -133,8 +156,17 @@ public partial class AttackSystem : Node
             return;
         }
 
-        _hitBox.SetMeta("damage", damage);   // Store damage value for the hit callback
+        _activeDamage = damage;
+        _hitTargets.Clear();
+        UpdateHitBoxDirection();
         _hitBox.Monitoring = true;
+
+        await ToSignal(GetTree(), SceneTree.SignalName.PhysicsFrame);
+
+        foreach (Area2D area in _hitBox.GetOverlappingAreas())
+            TryDamage(area);
+        foreach (Node2D body in _hitBox.GetOverlappingBodies())
+            TryDamage(body);
 
         await ToSignal(
             GetTree().CreateTimer(HitBoxDuration, false),
@@ -144,20 +176,81 @@ public partial class AttackSystem : Node
         _hitBox.Monitoring = false;
     }
 
+    private void OnAreaEntered(Area2D area)
+    {
+        TryDamage(area);
+    }
+
     private void OnBodyEntered(Node2D body)
     {
-        if (!_hitBox.Monitoring)
+        TryDamage(body);
+    }
+
+    private void TryDamage(Node node)
+    {
+        if (_hitBox == null || !_hitBox.Monitoring)
             return;
 
-        int damage = (int)_hitBox.GetMeta("damage", LightDamage);
+        if (!TryResolveDamageTarget(node, out Node target, out Health hp))
+            return;
 
-        // Resolve Health component on target
-        var hp = body.GetNodeOrNull<Health>("Health");
-        if (hp != null && !hp.IsDead)
+        if (hp.IsDead || !_hitTargets.Add(target.GetInstanceId()))
+            return;
+
+        int dealt = hp.TakeDamage(_activeDamage);
+        if (dealt <= 0)
+            return;
+
+        if (target is EnemyBase enemy && enemy.IsAlive && _owner is Node2D attacker)
         {
-            int dealt = hp.TakeDamage(damage);
-            EmitSignal(SignalName.HitConnected, body, dealt);
-            DoHitStop();
+            enemy.ApplyKnockback(attacker.GlobalPosition);
+            enemy.AI?.ForceAggro();
+        }
+
+        EmitSignal(SignalName.HitConnected, target, dealt);
+        DoHitStop();
+    }
+
+    private bool TryResolveDamageTarget(Node node, out Node target, out Health hp)
+    {
+        target = null;
+        hp = null;
+
+        for (Node current = node; current != null; current = current.GetParent())
+        {
+            if (current == _owner || (_owner != null && _owner.IsAncestorOf(current)))
+                return false;
+
+            hp = current.GetNodeOrNull<Health>("Health");
+            if (hp != null)
+            {
+                target = current;
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private void UpdateHitBoxDirection()
+    {
+        if (_hitBoxShape == null)
+            return;
+
+        bool horizontal = Mathf.Abs(_facing.X) >= Mathf.Abs(_facing.Y);
+        if (horizontal)
+        {
+            float x = _facing.X >= 0f ? 28f : -28f;
+            _hitBoxShape.Position = new Vector2(x, 0f);
+            if (_hitBoxShape.Shape is RectangleShape2D rect)
+                rect.Size = new Vector2(40f, 20f);
+        }
+        else
+        {
+            float y = _facing.Y >= 0f ? 28f : -28f;
+            _hitBoxShape.Position = new Vector2(0f, y);
+            if (_hitBoxShape.Shape is RectangleShape2D rect)
+                rect.Size = new Vector2(20f, 40f);
         }
     }
 
