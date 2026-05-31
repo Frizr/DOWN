@@ -1,0 +1,118 @@
+[1/58] player - idle - frame 1/4
+  Saved: frame_01.png
+[2/58] player - idle - frame 2/4
+  Saved: frame_02.png
+[3/58] player - idle - frame 3/4
+  Saved: frame_03.png
+[4/58] player - idle - frame 4/4
+  Saved: frame_04.png
+[5/58] player - walk - frame 1/6
+  Saved: frame_01.png
+[6/58] player - walk - frame 2/6
+  Saved: frame_02.png
+[7/58] player - walk - frame 3/6
+  Saved: frame_03.png
+[8/58] player - walk - frame 4/6
+  Saved: frame_04.png
+[9/58] player - walk - frame 5/6
+  Saved: frame_05.png
+[10/58] player - walk - frame 6/6
+  Saved: frame_06.png
+[11/58] player - run - frame 1/6
+  Saved: frame_01.png
+[12/58] player - run - frame 2/6
+  Saved: frame_02.png
+[13/58] player - run - frame 3/6
+  Saved: frame_03.png
+[14/58] player - run - frame 4/6
+  Saved: frame_04.png
+[15/58] player - run - frame 5/6
+  Saved: frame_05.png
+[16/58] player - run - frame 6/6
+  Saved: frame_06.png
+[17/58] player - attack - frame 1/5
+  Saved: frame_01.png
+[18/58] player - attack - frame 2/5
+  Saved: frame_02.png
+[19/58] player - attack - frame 3/5
+  Saved: frame_03.png
+[20/58] player - attack - frame 4/5
+  Saved: frame_04.png
+[21/58] player - attack - frame 5/5
+  Saved: frame_05.png
+[22/58] player - hurt - frame 1/3
+  Saved: frame_01.png
+[23/58] player - hurt - frame 2/3
+  Saved: frame_02.png
+[24/58] player - hurt - frame 3/3
+  Saved: frame_03.png
+[25/58] player - death - frame 1/5
+  Saved: frame_01.png
+[26/58] player - death - frame 2/5
+  Saved: frame_02.png
+[27/58] player - death - frame 3/5
+  Saved: frame_03.png
+[28/58] player - death - frame 4/5
+  Saved: frame_04.png
+[29/58] player - death - frame 5/5
+  Saved: frame_05.png
+[30/58] enemy - idle - frame 1/4
+  Saved: frame_01.png
+[31/58] enemy - idle - frame 2/4
+  Saved: frame_02.png
+[32/58] enemy - idle - frame 3/4
+  Saved: frame_03.png
+[33/58] enemy - idle - frame 4/4
+  Saved: frame_04.png
+[34/58] enemy - walk - frame 1/6
+  Saved: frame_01.png
+[35/58] enemy - walk - frame 2/6
+  Saved: frame_02.png
+[36/58] enemy - walk - frame 3/6
+  Saved: frame_03.png
+[37/58] enemy - walk - frame 4/6
+  Saved: frame_04.png
+[38/58] enemy - walk - frame 5/6
+  Saved: frame_05.png
+[39/58] enemy - walk - frame 6/6
+  Saved: frame_06.png
+[40/58] enemy - chase - frame 1/6
+  Saved: frame_01.png
+[41/58] enemy - chase - frame 2/6
+  Saved: frame_02.png
+[42/58] enemy - chase - frame 3/6
+  Saved: frame_03.png
+[43/58] enemy - chase - frame 4/6
+  Saved: frame_04.png
+[44/58] enemy - chase - frame 5/6
+  Saved: frame_05.png
+[45/58] enemy - chase - frame 6/6
+  Saved: frame_06.png
+[46/58] enemy - attack - frame 1/5
+  Saved: frame_01.png
+[47/58] enemy - attack - frame 2/5
+  Saved: frame_02.png
+[48/58] enemy - attack - frame 3/5
+  Saved: frame_03.png
+[49/58] enemy - attack - frame 4/5
+  Saved: frame_04.png
+[50/58] enemy - attack - frame 5/5
+  Saved: frame_05.png
+[51/58] enemy - hurt - frame 1/3
+  Saved: frame_01.png
+[52/58] enemy - hurt - frame 2/3
+  Saved: frame_02.png
+[53/58] enemy - hurt - frame 3/3
+  Saved: frame_03.png
+[54/58] enemy - death - frame 1/5
+  Saved: frame_01.png
+[55/58] enemy - death - frame 2/5
+  Saved: frame_02.png
+[56/58] enemy - death - frame 3/5
+  Saved: frame_03.png
+[57/58] enemy - death - frame 4/5
+  Saved: frame_04.png
+[58/58] enemy - death - frame 5/5
+  Saved: frame_05.png
+
+Done! Saved to D:\gamedev\down\Assets\Sprites\Generated
