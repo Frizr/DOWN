@@ -65,7 +65,7 @@ collision_mask = 32
 position = Vector2(-18, 45)
 shape = SubResource("RectangleShape2D_hurtbox")
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1842603485 groups=["player"]]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1842603485]
 scale = Vector2(2.5, 2.5)
 sprite_frames = ExtResource("4_dewec")
-animation = &"idle_down"
+animation = &"attack_left"
