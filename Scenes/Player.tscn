@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://wnkhdiqj03by" path="res://Scripts/Core/PlayerController.cs" id="1_player"]
 [ext_resource type="Script" uid="uid://dhxj07ejejq3f" path="res://Scripts/Core/Health.cs" id="2_health"]
 [ext_resource type="Script" uid="uid://dhi35ssd4sxr7" path="res://Scripts/Core/AttackSystem.cs" id="3_attack"]
+[ext_resource type="SpriteFrames" uid="uid://et4cci46dlfy" path="res://Assets/SpriteFrames/player_frames.tres" id="4_dewec"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 9.0
@@ -31,6 +32,7 @@ position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_body")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=639276374]
+visible = false
 position = Vector2(0, -16)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2056891499]
@@ -42,6 +44,7 @@ RegenEnabled = true
 
 [node name="AttackSystem" type="Node" parent="." unique_id=1807888250]
 script = ExtResource("3_attack")
+HitBoxPath = NodePath("../HitBox")
 
 [node name="HitBox" type="Area2D" parent="." unique_id=97635374]
 collision_layer = 4
@@ -61,3 +64,7 @@ collision_mask = 32
 [node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox" unique_id=536286191]
 position = Vector2(-18, 45)
 shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1842603485 groups=["player"]]
+sprite_frames = ExtResource("4_dewec")
+animation = &"idle_down"
