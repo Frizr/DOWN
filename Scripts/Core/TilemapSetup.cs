@@ -7,7 +7,6 @@ public partial class TilemapSetup : Node
 	private const string TileMapPath = "World/TileMap";
 	private const string DecorationsPath = "World/Decorations";
 	private const string ArenaBoundsPath = "World/ArenaBounds";
-	private const string ArenaOverlayPath = "World/ArenaOverlay";
 	private const string CameraPath = "Camera";
 	private const string BackgroundTexturePath = "res://Assets/Tiles/Undead/Demo/Undead_land_background.png";
 
@@ -16,27 +15,29 @@ public partial class TilemapSetup : Node
 	private static readonly Vector2 BaseGroundScale = new(1.8f, 1.8f);
 	private static readonly Vector2 CameraZoom = new(2.4f, 2.4f);
 	private const int ArenaTileSize = 32;
-	private static readonly Vector2I ArenaOriginTile = new(12, 8);
-	private static readonly Vector2I ArenaSizeTiles = new(20, 12);
-	private static readonly Rect2 ArenaRect = new(
-		new Vector2(ArenaOriginTile.X * ArenaTileSize, ArenaOriginTile.Y * ArenaTileSize),
-		new Vector2(ArenaSizeTiles.X * ArenaTileSize, ArenaSizeTiles.Y * ArenaTileSize)
-	);
-	private static readonly Color ArenaOverlayColor = new(0f, 0f, 0f, 0.14f);
+	private const int ArenaMargin = 64;
+	private static readonly Rect2 FallbackArenaRect = new(new Vector2(32f, -32f), new Vector2(1216f, 768f));
+	private static readonly Color ArenaDebugColor = new(1f, 0.82f, 0.25f, 0.75f);
 	private const int ArenaWallThickness = ArenaTileSize;
 	private const uint ArenaCollisionLayer = 2;
 	private const float MinimumEnemySpawnDistance = 230f;
+	private static readonly bool ShowArenaDebug = false;
 	private static readonly bool ShowSpawnDebugMarker = false;
 	private static readonly bool LogSpawnSelection = false;
+	private Rect2 _arenaRect = FallbackArenaRect;
 
 	private static readonly Vector2[] EnemySpawnPoints =
 	{
-		new(416f, 320f),
-		new(864f, 320f),
-		new(880f, 416f),
-		new(864f, 544f),
-		new(416f, 544f),
-		new(480f, 608f)
+		new(420f, 320f),
+		new(800f, 192f),
+		new(1080f, 380f),
+		new(520f, 620f),
+		new(960f, 640f),
+		new(1216f, 520f),
+		new(320f, 520f),
+		new(1120f, 224f),
+		new(224f, 224f),
+		new(1152f, 672f)
 	};
 
 	public override void _Ready()
@@ -82,6 +83,8 @@ public partial class TilemapSetup : Node
 			return;
 		}
 
+		_arenaRect = CalculateArenaRect(backgroundTexture);
+
 		baseGround.Texture = backgroundTexture;
 		baseGround.Centered = true;
 		baseGround.Position = BaseGroundPosition;
@@ -95,18 +98,24 @@ public partial class TilemapSetup : Node
 		if (world == null)
 			return;
 
-		var overlay = world.GetNodeOrNull<Sprite2D>("ArenaOverlay");
-		if (overlay == null)
-		{
-			overlay = new Sprite2D { Name = "ArenaOverlay" };
-			world.AddChild(overlay);
-		}
+		world.GetNodeOrNull<Node>("ArenaOverlay")?.QueueFree();
+		if (!ShowArenaDebug)
+			return;
 
-		overlay.Texture = CreateSolidTexture(ArenaOverlayColor);
-		overlay.Centered = true;
-		overlay.Position = ArenaRect.GetCenter();
-		overlay.Scale = ArenaRect.Size;
-		overlay.ZIndex = -90;
+		var debugRect = new Line2D
+		{
+			Name = "ArenaOverlay",
+			Closed = true,
+			DefaultColor = ArenaDebugColor,
+			Width = 2f,
+			ZIndex = 250
+		};
+
+		debugRect.AddPoint(_arenaRect.Position);
+		debugRect.AddPoint(new Vector2(_arenaRect.End.X, _arenaRect.Position.Y));
+		debugRect.AddPoint(_arenaRect.End);
+		debugRect.AddPoint(new Vector2(_arenaRect.Position.X, _arenaRect.End.Y));
+		world.AddChild(debugRect);
 	}
 
 	private void SetupArenaBounds()
@@ -125,17 +134,17 @@ public partial class TilemapSetup : Node
 		foreach (Node child in boundsRoot.GetChildren())
 			child.QueueFree();
 
-		float left = ArenaRect.Position.X;
-		float top = ArenaRect.Position.Y;
-		float right = ArenaRect.End.X;
-		float bottom = ArenaRect.End.Y;
-		float centerX = ArenaRect.GetCenter().X;
-		float centerY = ArenaRect.GetCenter().Y;
+		float left = _arenaRect.Position.X;
+		float top = _arenaRect.Position.Y;
+		float right = _arenaRect.End.X;
+		float bottom = _arenaRect.End.Y;
+		float centerX = _arenaRect.GetCenter().X;
+		float centerY = _arenaRect.GetCenter().Y;
 
-		AddArenaWall(boundsRoot, "TopWall", new Vector2(centerX, top - ArenaWallThickness * 0.5f), new Vector2(ArenaRect.Size.X + ArenaWallThickness * 2f, ArenaWallThickness));
-		AddArenaWall(boundsRoot, "BottomWall", new Vector2(centerX, bottom + ArenaWallThickness * 0.5f), new Vector2(ArenaRect.Size.X + ArenaWallThickness * 2f, ArenaWallThickness));
-		AddArenaWall(boundsRoot, "LeftWall", new Vector2(left - ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, ArenaRect.Size.Y));
-		AddArenaWall(boundsRoot, "RightWall", new Vector2(right + ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, ArenaRect.Size.Y));
+		AddArenaWall(boundsRoot, "TopWall", new Vector2(centerX, top - ArenaWallThickness * 0.5f), new Vector2(_arenaRect.Size.X + ArenaWallThickness * 2f, ArenaWallThickness));
+		AddArenaWall(boundsRoot, "BottomWall", new Vector2(centerX, bottom + ArenaWallThickness * 0.5f), new Vector2(_arenaRect.Size.X + ArenaWallThickness * 2f, ArenaWallThickness));
+		AddArenaWall(boundsRoot, "LeftWall", new Vector2(left - ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, _arenaRect.Size.Y));
+		AddArenaWall(boundsRoot, "RightWall", new Vector2(right + ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, _arenaRect.Size.Y));
 	}
 
 	private void SetupPlayerEnemyPositions()
@@ -184,9 +193,9 @@ public partial class TilemapSetup : Node
 		return new Vector2(864f, 544f);
 	}
 
-	private static bool IsSafeEnemySpawn(Vector2 position)
+	private bool IsSafeEnemySpawn(Vector2 position)
 	{
-		return ArenaRect.HasPoint(position)
+		return _arenaRect.HasPoint(position)
 			&& position.DistanceTo(PlayerSpawn) >= MinimumEnemySpawnDistance;
 	}
 
@@ -238,6 +247,33 @@ public partial class TilemapSetup : Node
 		root = new Node2D { Name = "Decorations", YSortEnabled = true };
 		world?.AddChild(root);
 		return root;
+	}
+
+	private static Rect2 CalculateArenaRect(Texture2D texture)
+	{
+		Vector2 scaledSize = texture.GetSize() * BaseGroundScale;
+		Vector2 backgroundTopLeft = BaseGroundPosition - scaledSize * 0.5f;
+		Vector2 playableTopLeft = backgroundTopLeft + new Vector2(ArenaMargin, ArenaMargin);
+		Vector2 playableEnd = backgroundTopLeft + scaledSize - new Vector2(ArenaMargin, ArenaMargin);
+
+		Vector2 snappedTopLeft = new(SnapUpToTile(playableTopLeft.X), SnapUpToTile(playableTopLeft.Y));
+		Vector2 snappedEnd = new(SnapDownToTile(playableEnd.X), SnapDownToTile(playableEnd.Y));
+		Vector2 snappedSize = snappedEnd - snappedTopLeft;
+
+		if (snappedSize.X < ArenaTileSize || snappedSize.Y < ArenaTileSize)
+			return FallbackArenaRect;
+
+		return new Rect2(snappedTopLeft, snappedSize);
+	}
+
+	private static float SnapUpToTile(float value)
+	{
+		return Mathf.Ceil(value / ArenaTileSize) * ArenaTileSize;
+	}
+
+	private static float SnapDownToTile(float value)
+	{
+		return Mathf.Floor(value / ArenaTileSize) * ArenaTileSize;
 	}
 
 	private static void AddArenaWall(Node2D parent, string name, Vector2 position, Vector2 size)
