@@ -2,7 +2,7 @@ using Godot;
 
 /// <summary>
 /// PlayerController — Agent 2: Player Controller
-/// Isometric 8-directional CharacterBody2D movement, dodge roll with
+/// Top-down 8-directional CharacterBody2D movement, dodge roll with
 /// i-frames, attack input routing, and camera/GameManager integration.
 ///
 /// Node type : CharacterBody2D
@@ -46,12 +46,6 @@ public partial class PlayerController : CharacterBody2D
 
 	// Facing direction from the last non-zero input, used for directional animations.
 	private Vector2 _facing = Vector2.Down;
-
-	// ─── Isometric Conversion Constants (mirrors IsometricUtils) ─────────────
-	//  We inline the projection here so PlayerController has no static dependency.
-	// Isometric basis vectors: D/A key → northeast/southwest, S/W key → southeast/northwest
-	private static readonly Vector2 IsoRight = new Vector2( 1f,  0.5f).Normalized(); // D key
-	private static readonly Vector2 IsoDown  = new Vector2(-1f,  0.5f).Normalized(); // S key
 
 	// ─── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -102,10 +96,9 @@ public partial class PlayerController : CharacterBody2D
 
 	// ─── Input Reading ────────────────────────────────────────────────────────
 
-	/// <summary>Read WASD/arrow keys and project into isometric screen-space.</summary>
+	/// <summary>Read WASD/arrow keys as direct screen-space movement.</summary>
 	private void ReadMovement()
 	{
-		// Flat input axis
 		float inputX = Input.GetAxis("move_left",  "move_right");
 		float inputY = Input.GetAxis("move_up",    "move_down");
 
@@ -115,13 +108,9 @@ public partial class PlayerController : CharacterBody2D
 			return;
 		}
 
-		// Project flat input onto the isometric axes
-		// Right-key  → move northeast in iso space
-		// Down-key   → move southeast in iso space
-		Vector2 inputFacing = new Vector2(inputX, inputY).Normalized();
-		Vector2 dir = (IsoRight * inputX + IsoDown * inputY).Normalized();
+		Vector2 dir = new Vector2(inputX, inputY).Normalized();
 		_moveDir = dir;
-		_facing  = inputFacing;
+		_facing  = dir;
 	}
 
 	private void ReadAttack()

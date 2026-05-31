@@ -55,25 +55,18 @@ func _create_player_frames():
 	print("[Player] Saved player_frames.tres")
 
 func _create_goblin_frames():
-	var dir = DirAccess.open(ENEMY_DIR)
-	if dir == null: print("[ERROR] No goblin dir"); return
 	var units = {}
-	dir.list_dir_begin()
-	var fname = dir.get_next()
-	while fname != "":
-		if fname.ends_with(".png"):
-			var parts = fname.get_basename().rsplit("-", false, 1)
-			if parts.size() == 2:
-				if parts[0] not in units: units[parts[0]] = {}
-				units[parts[0]][parts[1]] = fname
-		fname = dir.get_next()
+	_collect_goblin_pngs(ENEMY_DIR, units)
+	if units.is_empty():
+		print("[ERROR] No goblin sprites found")
+		return
 	for unit in units:
 		var sf = SpriteFrames.new(); sf.remove_animation("default")
 		for suffix in GOBLIN_ANIMS:
 			if suffix not in units[unit]: continue
 			var data = GOBLIN_ANIMS[suffix]
 			var anim = data[0]; var fcols = data[1]; var fps = data[2]
-			var tex = load(ENEMY_DIR + units[unit][suffix]) as Texture2D
+			var tex = load(units[unit][suffix]) as Texture2D
 			for r in range(4):
 				var dname = anim + "_" + DIRS[r]
 				sf.add_animation(dname); sf.set_animation_speed(dname, fps)
@@ -84,6 +77,39 @@ func _create_goblin_frames():
 					sf.add_frame(dname, a)
 		ResourceSaver.save(sf, OUT_DIR + unit.replace("-","_") + "_frames.tres")
 		print("[Goblin] Saved " + unit)
+
+func _collect_goblin_pngs(dir_path, units):
+	var dir = DirAccess.open(dir_path)
+	if dir == null:
+		return
+	dir.list_dir_begin()
+	var fname = dir.get_next()
+	while fname != "":
+		var path = dir_path.path_join(fname)
+		if dir.current_is_dir():
+			_collect_goblin_pngs(path, units)
+		elif fname.ends_with(".png"):
+			_register_goblin_sprite(path, fname, units)
+		fname = dir.get_next()
+	dir.list_dir_end()
+
+func _register_goblin_sprite(path, fname, units):
+	var basename = fname.get_basename()
+	for suffix in GOBLIN_ANIMS:
+		var marker = "-" + suffix
+		if basename.ends_with(marker):
+			var unit = basename.substr(0, basename.length() - marker.length())
+			var color = _goblin_color_from_path(path)
+			var key = (color + "_" + unit).replace(" ", "_").replace("-", "_")
+			if key not in units: units[key] = {}
+			units[key][suffix] = path
+
+func _goblin_color_from_path(path):
+	if path.contains("green goblin version"):
+		return "green"
+	if path.contains("red goblin version"):
+		return "red"
+	return "goblin"
 
 func _create_npc_frames():
 	var dir = DirAccess.open(NPC_DIR)

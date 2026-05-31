@@ -131,27 +131,45 @@ public partial class EnemyBase : CharacterBody2D
 		if (Sprite == null || Sprite.SpriteFrames == null)
 			return;
 
-		string resolvedName = Sprite.SpriteFrames.HasAnimation(name) ? name : $"{name}_down";
-		if (_currentAnim == resolvedName)
+		string resolvedName = ResolveAnimName(name);
+		if (string.IsNullOrEmpty(resolvedName))
 			return;
-		if (!Sprite.SpriteFrames.HasAnimation(resolvedName))
+		if (_currentAnim == resolvedName)
 			return;
 
 		_currentAnim = resolvedName;
 		Sprite.Play(resolvedName);
 	}
 
+	private string ResolveAnimName(string name)
+	{
+		if (Sprite.SpriteFrames.HasAnimation(name))
+			return name;
+
+		string directionalName = name.Contains('_') ? name : $"{name}_down";
+		if (Sprite.SpriteFrames.HasAnimation(directionalName))
+			return directionalName;
+
+		if (name.StartsWith("idle") && Sprite.SpriteFrames.HasAnimation("walk_down"))
+			return "walk_down";
+
+		return "";
+	}
+
 	/// <summary>Briefly modulate sprite to white on hit (classic damage flash).</summary>
 	private async void FlashWhite()
 	{
-		var sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
+		CanvasItem sprite = Sprite;
+		if (sprite == null)
+			sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
 		if (sprite == null) return;
 
+		Color original = sprite.Modulate;
 		sprite.Modulate = Colors.White * 4f;  // Over-bright = white flash
 		await ToSignal(
 			GetTree().CreateTimer(FlashDuration, false),
 			SceneTreeTimer.SignalName.Timeout
 		);
-		sprite.Modulate = Colors.White;
+		sprite.Modulate = original;
 	}
 }

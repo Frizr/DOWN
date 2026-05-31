@@ -68,4 +68,4 @@ shape = SubResource("RectangleShape2D_hurtbox")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1842603485]
 scale = Vector2(2.5, 2.5)
 sprite_frames = ExtResource("4_dewec")
-animation = &"attack_left"
+animation = &"idle_down"

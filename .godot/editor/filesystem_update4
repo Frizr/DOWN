@@ -21,3 +21,4 @@ res://Assets/SpriteFrames/char_001_frames.tres
 res://Assets/SpriteFrames/char_002_frames.tres
 res://Assets/SpriteFrames/char_004_frames.tres
 res://Assets/SpriteFrames/char_005_frames.tres
+res://Scripts/Core/SpriteImporter.gd
