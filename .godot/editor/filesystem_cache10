@@ -1,17 +1,26 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1780192785
+::res://::1780193349
 asset_import_report.txt::TextFile::-1::1780162246::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1779103267::0::1::::<><><>0<>0<><>::
 generate_sprites.run.err.log::TextFile::-1::1779366407::0::1::::<><><>0<>0<><>::
 generate_sprites.run.out.log::TextFile::-1::1779367762::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::4463896471293308240::1779101445::1779101459::1::::<><><>0<>0<>29e508e13f38b5824b4ccf11ce64e820<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
-main.tscn::PackedScene::1114132511101865590::1779201537::0::1::::<><><>0<>0<><>::uid://c4i5e0xqxso7p::::res://Scripts/Core/PlaceholderSetup.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn
+main.tscn::PackedScene::1114132511101865590::1780193349::0::1::::<><><>0<>0<><>::uid://c4i5e0xqxso7p::::res://Scripts/Core/PlaceholderSetup.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn<>uid://et4cci46dlfy::::res://Assets/SpriteFrames/player_frames.tres
 node_2d.tscn::PackedScene::9008596204051764317::1779103609::0::1::::<><><>0<>0<><>::
 README.md::TextFile::-1::1780191597::0::1::::<><><>0<>0<><>::
-::res://Assets/::1779415754
+::res://Assets/::1780192940
 DOWN.png::CompressedTexture2D::5848989178879371319::1779362726::1779415754::1::::<><><>0<>0<>7179fbb202bd93ec7072e79f9f2f8d2d<>res://.godot/imported/DOWN.png-5b21b95fb11f040e1f5a185cd0b74b27.ctex::
 icon.png::CompressedTexture2D::7441162122297246026::1779120930::1779120556::0::::<><><>0<>0<>a680587987851c8fe11192c11269e37a<>::
 ::res://Assets/Audio/::1779101776
+::res://Assets/SpriteFrames/::1780198948
+char_001_frames.tres::SpriteFrames::7541766059267196098::1780193681::0::1::::<><><>0<>0<><>::uid://b0up5cdlvt3yj::::res://Assets/Sprites/NPC/Soldiers/Char_001.png
+char_002_frames.tres::SpriteFrames::1036583289597823527::1780193682::0::1::::<><><>0<>0<><>::uid://c08jd4opkldmg::::res://Assets/Sprites/NPC/Soldiers/Char_002.png
+char_003_frames.tres::SpriteFrames::2363743538386032739::1780192940::0::1::::<><><>0<>0<><>::uid://cf4cd2mptnlau::::res://Assets/Sprites/NPC/Soldiers/Char_003.png
+char_004_frames.tres::SpriteFrames::3756653898785499459::1780193682::0::1::::<><><>0<>0<><>::uid://waff5futbd4g::::res://Assets/Sprites/NPC/Soldiers/Char_004.png
+char_005_frames.tres::SpriteFrames::6899514218875921540::1780193682::0::1::::<><><>0<>0<><>::uid://bfxgjcd3yhdkf::::res://Assets/Sprites/NPC/Soldiers/Char_005.png
+char_006_frames.tres::SpriteFrames::6268554678892967250::1780192940::0::1::::<><><>0<>0<><>::uid://dgv14w6hhcrud::::res://Assets/Sprites/NPC/Soldiers/Char_006.png
+green_goblin_tribesman_frames.tres::SpriteFrames::7146982053130392742::1780198947::0::1::::<><><>0<>0<><>::uid://5dxagore70jn::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-attack.png<>uid://73ifmyuye0tl::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-death.png<>uid://bts1fknhtelsk::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-hurt.png<>uid://2k4xskjgkple::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-walk.png
+player_frames.tres::SpriteFrames::321743035021622678::1780193347::0::1::::<><><>0<>0<><>::uid://cmhgbohyogr07::::res://Assets/Sprites/Player/Sword_attack_full.png<>uid://ctsxxjo6j5v85::::res://Assets/Sprites/Player/Sword_Death_full.png<>uid://cok8f37k11r4d::::res://Assets/Sprites/Player/Sword_Hurt_full.png<>uid://bqj3sbncf1aoh::::res://Assets/Sprites/Player/Sword_Idle_full.png<>uid://cyny28tr88wcx::::res://Assets/Sprites/Player/Sword_Run_full.png<>uid://kmvms4ovprw8::::res://Assets/Sprites/Player/Sword_Walk_full.png
 ::res://Assets/Sprites/::1780191000
 crosshair.png::CompressedTexture2D::1386226078928388758::1779161360::1779161495::1::::<><><>0<>0<>85e1599423099f5d2a1ea45f7c2a175b<>res://.godot/imported/crosshair.png-f9e1ed6841917a17a79f96f1872903eb.ctex::
 stay_enemy.jpg::CompressedTexture2D::1712174833475057440::1779201375::1779415754::1::::<><><>0<>0<>6053361a92eb5378ce073a4689629fbd<>res://.godot/imported/stay_enemy.jpg-c3294ae056e11e79201ca5e835898e8d.ctex::
@@ -20,116 +29,116 @@ stay_player.jpg::CompressedTexture2D::5923831118488339039::1779201302::177941575
 ::res://Assets/Sprites/Enemy/Goblins/::1780191153
 ::res://Assets/Sprites/Enemy/Goblins/green goblin version/::1780191153
 ::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/::1780191153
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/::1780192791
 goblin-tribesman-attack.png::CompressedTexture2D::2113255270783176707::1727338125::1780192791::1::::<><><>0<>0<>47bdfa9874480832b67058b327507d2b<>res://.godot/imported/goblin-tribesman-attack.png-af9d1b2e37d30af37ce2afad9a38ba3d.ctex::
 goblin-tribesman-death.png::CompressedTexture2D::2304340906738841237::1727338142::1780192791::1::::<><><>0<>0<>d6cfb48220a3aa4a920e86e22ab897e7<>res://.godot/imported/goblin-tribesman-death.png-1199e14b7723e870c62fe974e0384371.ctex::
 goblin-tribesman-hurt.png::CompressedTexture2D::3758755628829812618::1727338150::1780192791::1::::<><><>0<>0<>8635bafe15902d308d24b84f0926e82b<>res://.godot/imported/goblin-tribesman-hurt.png-32e28a053fd940d5640b5fd3d8da625c.ctex::
 goblin-tribesman-walk.png::CompressedTexture2D::1917545383103206534::1727338157::1780192791::1::::<><><>0<>0<>11219d93cc09c49e54b9eb90fc193b0b<>res://.godot/imported/goblin-tribesman-walk.png-55bbffef716bef7e7d76c3562237cc9a.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/2. goblin-huntsman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/2. goblin-huntsman/::1780192791
 goblin-huntsman-attack.png::CompressedTexture2D::4382156492764943147::1727338190::1780192791::1::::<><><>0<>0<>e9c8125c71aa87a53f161d5fbedccb59<>res://.godot/imported/goblin-huntsman-attack.png-f1a19f041fb0bea92a7fbdd1889c2723.ctex::
 goblin-huntsman-death.png::CompressedTexture2D::6861866827965512943::1727338198::1780192791::1::::<><><>0<>0<>957c9ce9a5c4574aa62eab541fa7c4f7<>res://.godot/imported/goblin-huntsman-death.png-987d2894661cb10d6a0073ad20a1fbc2.ctex::
 goblin-huntsman-hurt.png::CompressedTexture2D::8113197142074893951::1727338206::1780192791::1::::<><><>0<>0<>d7eb2cd1ab92b05947ea3cd690345f8b<>res://.godot/imported/goblin-huntsman-hurt.png-dd0835e1305c8784d9ef89c5645ee545.ctex::
 goblin-huntsman-walk.png::CompressedTexture2D::7440568900944855245::1727338237::1780192791::1::::<><><>0<>0<>f2dadacb2cecc22712545d57159e5fed<>res://.godot/imported/goblin-huntsman-walk.png-25d0ee54de39c7d8967ee36691e7ed47.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/3. goblin-tribes-guard/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/3. goblin-tribes-guard/::1780192790
 goblin-tribesguard-attack.png::CompressedTexture2D::3568377856726315701::1727338256::1780192790::1::::<><><>0<>0<>dbfe530b5e4c80b03c68e667eb0bb259<>res://.godot/imported/goblin-tribesguard-attack.png-2f0c36384c5bef068b818bd4c4b070b9.ctex::
 goblin-tribesguard-death.png::CompressedTexture2D::4696118459543051586::1727338263::1780192790::1::::<><><>0<>0<>62356ef3d6353d83c592fda565fc9d79<>res://.godot/imported/goblin-tribesguard-death.png-a7a1e1e07b6ba263f4a3f2fe3c054fe1.ctex::
 goblin-tribesguard-hurt.png::CompressedTexture2D::7587166807636344216::1727338271::1780192790::1::::<><><>0<>0<>7dc0060a9deb596ed01caebc406275ac<>res://.godot/imported/goblin-tribesguard-hurt.png-8302107e47c820554d3a70b40bc93e28.ctex::
 goblin-tribesguard-walk.png::CompressedTexture2D::4771567736473227608::1727338278::1780192790::1::::<><><>0<>0<>5252bb4874284742f842e9ea4c6b3a85<>res://.godot/imported/goblin-tribesguard-walk.png-ade8c2c9725225729ca3bebd00b315c1.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/4. goblin-heavy-guard/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/4. goblin-heavy-guard/::1780192790
 goblin-heavyguard-attack.png::CompressedTexture2D::2073689231557793785::1727338293::1780192790::1::::<><><>0<>0<>5919c2868dc4e3e3253f840ef5cf2533<>res://.godot/imported/goblin-heavyguard-attack.png-425a87094c75511d12d5fb8befb811bc.ctex::
 goblin-heavyguard-death.png::CompressedTexture2D::1255533494176877539::1727338338::1780192790::1::::<><><>0<>0<>df62ccf4eeb862279d345d4276b78575<>res://.godot/imported/goblin-heavyguard-death.png-be6214dc86d2cc8a2416dab41e163443.ctex::
 goblin-heavyguard-hurt.png::CompressedTexture2D::2376816011057639588::1727338309::1780192790::1::::<><><>0<>0<>6e63a270412af26cf42c6ff200f192e3<>res://.godot/imported/goblin-heavyguard-hurt.png-2b90e3b93cad684ebf70320f0c6db656.ctex::
 goblin-heavyguard-walk.png::CompressedTexture2D::8740678289650123166::1727338321::1780192790::1::::<><><>0<>0<>25b95c217ae5f86704e5a3e05b1ea0d4<>res://.godot/imported/goblin-heavyguard-walk.png-f45ccb65eba139ee4444a336ffd8a04e.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/5. goblin-light-conjurer/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/5. goblin-light-conjurer/::1780192790
 goblin-light-conjurer-attack.png::CompressedTexture2D::1103748179632039985::1727338424::1780192790::1::::<><><>0<>0<>0129979180aafd25ebb4326790fc3e7a<>res://.godot/imported/goblin-light-conjurer-attack.png-ebe7bb4511e6e3ca407b4a3526ea0be2.ctex::
 goblin-light-conjurer-death.png::CompressedTexture2D::7423947814447346554::1727338431::1780192790::1::::<><><>0<>0<>292159ac44c0b0d29b04cfab200f3136<>res://.godot/imported/goblin-light-conjurer-death.png-fb75c8f6fa81256f87a481db0dd410e1.ctex::
 goblin-light-conjurer-hurt.png::CompressedTexture2D::9107830574542888386::1727338440::1780192790::1::::<><><>0<>0<>7bab2253cb58f60bf4547d76d6dc96f3<>res://.godot/imported/goblin-light-conjurer-hurt.png-838dec1bf193b29f56307f1606d6aa5a.ctex::
 goblin-light-conjurer-walk.png::CompressedTexture2D::1611496001742610964::1727338446::1780192790::1::::<><><>0<>0<>8642a10b54304da65ede553e791ac522<>res://.godot/imported/goblin-light-conjurer-walk.png-215b6bf71249cafb3e01ca1a1b0d7385.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/6. goblin-battle-boy/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/6. goblin-battle-boy/::1780192790
 goblin-battle-boy-attack.png::CompressedTexture2D::6042092250748792540::1727338475::1780192790::1::::<><><>0<>0<>571118b78f5889357e4f791306984649<>res://.godot/imported/goblin-battle-boy-attack.png-6108e515fb6b0627077ec02ae3ea7dd9.ctex::
 goblin-battle-boy-death.png::CompressedTexture2D::8429498607944405490::1727338481::1780192790::1::::<><><>0<>0<>ec6db2cc5c2ef1b2d9ae8c1a0da42d43<>res://.godot/imported/goblin-battle-boy-death.png-34470069f0aa83c03f9668ce79a028f7.ctex::
 goblin-battle-boy-hurt.png::CompressedTexture2D::4275234001886920371::1727338487::1780192790::1::::<><><>0<>0<>6e8719ad8aa2dba7e559434ffe510e71<>res://.godot/imported/goblin-battle-boy-hurt.png-73a4e882d4f07c860aadbe4967937690.ctex::
 goblin-battle-boy-walk.png::CompressedTexture2D::5517928881119510898::1727338495::1780192790::1::::<><><>0<>0<>891cf996aa5af872295d72d2bb08b8b7<>res://.godot/imported/goblin-battle-boy-walk.png-bf552d7a83ed752abe9a7befdf2e142a.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/7. goblin-battle-veteran/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/7. goblin-battle-veteran/::1780192790
 goblin-battle-veteran-attack.png::CompressedTexture2D::5591049002583744044::1727338523::1780192790::1::::<><><>0<>0<>bf1da730b5f66ace682c1e55248cea3c<>res://.godot/imported/goblin-battle-veteran-attack.png-c1b8b087b15402dd85d08f0ae4058bd6.ctex::
 goblin-battle-veteran-death.png::CompressedTexture2D::8297237584034197873::1727338530::1780192790::1::::<><><>0<>0<>bbba99cc439920e88537356e3b91785c<>res://.godot/imported/goblin-battle-veteran-death.png-a5b0dbbbe4ba6adf35bb257ca9dca451.ctex::
 goblin-battle-veteran-hurt.png::CompressedTexture2D::3500834261456042124::1727338537::1780192790::1::::<><><>0<>0<>5e417b3289b0b8ab8e640953acb606ad<>res://.godot/imported/goblin-battle-veteran-hurt.png-babc5a7a8e924e9351d7439ee43953be.ctex::
 goblin-battle-veteran-walk.png::CompressedTexture2D::2305229840361658268::1727338542::1780192790::1::::<><><>0<>0<>502e050d8cf8eaa83ff39d68eb773b42<>res://.godot/imported/goblin-battle-veteran-walk.png-47b2309dc35246c202a3f2891a61676d.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/8. goblin-battle-master/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/8. goblin-battle-master/::1780192791
 goblin-battle-master-attack.png::CompressedTexture2D::7372694377382759197::1727338561::1780192790::1::::<><><>0<>0<>9c7acb1e8b8263c891ab25cc9ba8f27e<>res://.godot/imported/goblin-battle-master-attack.png-c2284ca885b81fd4d44ef10653b7e58e.ctex::
 goblin-battle-master-death.png::CompressedTexture2D::4208895941736669288::1727338568::1780192790::1::::<><><>0<>0<>d4e4f1f598fd33da7aa05ec1db54d1ba<>res://.godot/imported/goblin-battle-master-death.png-3276dce7158341816937e833a6499121.ctex::
 goblin-battle-master-hurt.png::CompressedTexture2D::2774700988887186314::1727338575::1780192790::1::::<><><>0<>0<>12311134b33bac243a83ce73de0d9609<>res://.godot/imported/goblin-battle-master-hurt.png-a9fef1597f9bf323e7a957d3f367c3c8.ctex::
 goblin-battle-master-walk.png::CompressedTexture2D::7405482092473381056::1727339497::1780192791::1::::<><><>0<>0<>1fc68b91dbfcd53e67a4e67296dd4d8d<>res://.godot/imported/goblin-battle-master-walk.png-ef2b9f477fd8552746f2b72aef55ea44.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/9. goblin-apprentice-shaman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/9. goblin-apprentice-shaman/::1780192791
 goblin-apprentice-shaman-attack.png::CompressedTexture2D::5734290426191202943::1727338609::1780192791::1::::<><><>0<>0<>27099cdea19f94941e5770667376c102<>res://.godot/imported/goblin-apprentice-shaman-attack.png-5beecec548bfbc52523c59027a90d79e.ctex::
 goblin-apprentice-shaman-death.png::CompressedTexture2D::1411549082235653268::1727338617::1780192791::1::::<><><>0<>0<>fc22290b6606f0517d4f651ba337d78d<>res://.godot/imported/goblin-apprentice-shaman-death.png-da60bce90fce32e2ad72351f6ea76f6f.ctex::
 goblin-apprentice-shaman-hurt.png::CompressedTexture2D::3438820367413524764::1727338623::1780192791::1::::<><><>0<>0<>578cea97949cca93f12ad4b655d5bb76<>res://.godot/imported/goblin-apprentice-shaman-hurt.png-6326638cf0b64a408339a3a96861cdae.ctex::
 goblin-apprentice-shaman-walk.png::CompressedTexture2D::4838248041106100361::1727338630::1780192791::1::::<><><>0<>0<>1726436f6ca04afa0644bdabd8bed683<>res://.godot/imported/goblin-apprentice-shaman-walk.png-145712a589dd8d8daf06e506fb3df2fc.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/10. goblin-high-shaman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/10. goblin-high-shaman/::1780192791
 goblin-high-shaman-attack.png::CompressedTexture2D::4328895606021478469::1727338651::1780192791::1::::<><><>0<>0<>b89fc668f4e6215dc83dba503880c89d<>res://.godot/imported/goblin-high-shaman-attack.png-170e9afb476eb2e034d1581ffe1c7eb4.ctex::
 goblin-high-shaman-death.png::CompressedTexture2D::1776109217689492939::1727338656::1780192791::1::::<><><>0<>0<>a91c038e1d0156a50655a5408b74ddcb<>res://.godot/imported/goblin-high-shaman-death.png-4395fb9f4d3a4b6dc69d953e7097d13e.ctex::
 goblin-high-shaman-hurt.png::CompressedTexture2D::1791557628095968410::1727338662::1780192791::1::::<><><>0<>0<>8e62f09e3580bb9adbe1556e00e6233c<>res://.godot/imported/goblin-high-shaman-hurt.png-2c0c3e339504f512840c19b21081ef9d.ctex::
 goblin-high-shaman-walk.png::CompressedTexture2D::5016596759898002485::1727338668::1780192791::1::::<><><>0<>0<>5b35501654f4ce81171882b0ef420c05<>res://.godot/imported/goblin-high-shaman-walk.png-35a330177de7647ede49de1f56bc1d9c.ctex::
-::res://Assets/Sprites/Enemy/Goblins/green goblin version/effects/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/green goblin version/effects/::1780192791
 conjurer-projectile.png::CompressedTexture2D::6346327355665058989::1727160226::1780192791::1::::<><><>0<>0<>60dbcdcbc542742890906025351f8481<>res://.godot/imported/conjurer-projectile.png-edeaa464df71e5d320d3ac4490fb31cb.ctex::
 shaman-projectile.png::CompressedTexture2D::1939938211917990263::1727160261::1780192791::1::::<><><>0<>0<>cb65f5359df0f5632a5025e5af3831e2<>res://.godot/imported/shaman-projectile.png-84724c87c0a4440298a669ff109e8346.ctex::
 ::res://Assets/Sprites/Enemy/Goblins/red goblin version/::1780191154
 ::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/::1780191154
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/1. goblin-tribesman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/1. goblin-tribesman/::1780192791
 goblin-tribesman-attack.png::CompressedTexture2D::7305582704107705320::1727083424::1780192791::1::::<><><>0<>0<>a539ad7978834828711c42c1db4c6597<>res://.godot/imported/goblin-tribesman-attack.png-4c378de978664b6f9507413ee270717e.ctex::
 goblin-tribesman-death.png::CompressedTexture2D::2751697130048021661::1727083433::1780192791::1::::<><><>0<>0<>b898e067a8fb108366e4d14c584e8c2a<>res://.godot/imported/goblin-tribesman-death.png-b72e03744fe0a57f41c023c8aaf097d4.ctex::
 goblin-tribesman-hurt.png::CompressedTexture2D::1465888398856467723::1727083443::1780192791::1::::<><><>0<>0<>1f937e9c5059e82fe97591d36019a11b<>res://.godot/imported/goblin-tribesman-hurt.png-cf7f24f3a8e23152b00a3f653a023239.ctex::
 goblin-tribesman-walk.png::CompressedTexture2D::1653143055890918151::1727083454::1780192791::1::::<><><>0<>0<>0f4d012a2f0c54685db53333272a3132<>res://.godot/imported/goblin-tribesman-walk.png-eb0a859a7de85b801eecede2b1a838ee.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/2. goblin-huntsman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/2. goblin-huntsman/::1780192791
 goblin-huntsman-attack.png::CompressedTexture2D::2945015507119128305::1727083463::1780192791::1::::<><><>0<>0<>58bab2b45ff204a637ee56b8daae4153<>res://.godot/imported/goblin-huntsman-attack.png-7c8c695fde83261d3c8f94dbb38708af.ctex::
 goblin-huntsman-death.png::CompressedTexture2D::5397329554340600855::1727083473::1780192791::1::::<><><>0<>0<>82a84a461d6c7bf05262e95766064ba5<>res://.godot/imported/goblin-huntsman-death.png-376652ab3c56a9c468d6e62e10938e8c.ctex::
 goblin-huntsman-hurt.png::CompressedTexture2D::1868958525996180928::1727083481::1780192791::1::::<><><>0<>0<>3b83e045564481329f8d470146844b28<>res://.godot/imported/goblin-huntsman-hurt.png-a42ce74de52acda6482b8a088defcb18.ctex::
 goblin-huntsman-walk.png::CompressedTexture2D::2372395422676003373::1727083490::1780192791::1::::<><><>0<>0<>f1200af848cfea8ec7857013af10c867<>res://.godot/imported/goblin-huntsman-walk.png-a360ae6f502af5c6ed6b4b1273e5bbfa.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/3. goblin-tribes-guard/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/3. goblin-tribes-guard/::1780192791
 goblin-tribesguard-attack.png::CompressedTexture2D::49838084198202268::1727083499::1780192791::1::::<><><>0<>0<>8f53bdd1848f27fa3d8ace7e3e6861a1<>res://.godot/imported/goblin-tribesguard-attack.png-7e0d197880459a77e87d95512e354082.ctex::
 goblin-tribesguard-death.png::CompressedTexture2D::3753233731680059617::1727353444::1780192791::1::::<><><>0<>0<>8bdec2359b3d450879a353115e083868<>res://.godot/imported/goblin-tribesguard-death.png-8b90fc49a8bc6fc55c6ba8ed8ab715b4.ctex::
 goblin-tribesguard-hurt.png::CompressedTexture2D::7163108351254178186::1727083515::1780192791::1::::<><><>0<>0<>ceedf2ee347cac8a419ed932e309f43a<>res://.godot/imported/goblin-tribesguard-hurt.png-6ce7f63e8ae9e29e056434965534c6fd.ctex::
 goblin-tribesguard-walk.png::CompressedTexture2D::4674941223667767999::1727083522::1780192791::1::::<><><>0<>0<>9988a9c313240687806241685622aca7<>res://.godot/imported/goblin-tribesguard-walk.png-db3eae4336658aa16349efa52027988e.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/4. goblin-heavy-guard/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/4. goblin-heavy-guard/::1780192791
 goblin-heavyguard-attack.png::CompressedTexture2D::519023554077645548::1727083531::1780192791::1::::<><><>0<>0<>cb65909b6ee298232f8459024d229464<>res://.godot/imported/goblin-heavyguard-attack.png-e59124271369c6863d3a508d727cdbe1.ctex::
 goblin-heavyguard-death.png::CompressedTexture2D::7557840046176220851::1727083539::1780192791::1::::<><><>0<>0<>a31740b9c065ee679613a579822944b0<>res://.godot/imported/goblin-heavyguard-death.png-35680542034c90c16a466ad55fdbc8fd.ctex::
 goblin-heavyguard-hurt.png::CompressedTexture2D::3947245930906802602::1727083547::1780192791::1::::<><><>0<>0<>11e752c97cc74fba792eccd6b566a88c<>res://.godot/imported/goblin-heavyguard-hurt.png-9305a6f72267289d37a79ea3e56c4015.ctex::
 goblin-heavyguard-walk.png::CompressedTexture2D::6010038514351080217::1727083555::1780192791::1::::<><><>0<>0<>5245531ad3bd69d5b22ff4ecd625c5f6<>res://.godot/imported/goblin-heavyguard-walk.png-316259303bc4af65677bc1f25fd12acb.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/5. goblin-light-conjurer/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/5. goblin-light-conjurer/::1780192791
 goblin-light-conjurer-attack.png::CompressedTexture2D::1208721403461373400::1727083571::1780192791::1::::<><><>0<>0<>7d944271f173e89e73d1e14f46cd5e09<>res://.godot/imported/goblin-light-conjurer-attack.png-359d89b977f588dc6599b16d9b102b38.ctex::
 goblin-light-conjurer-death.png::CompressedTexture2D::202824203530077494::1727083579::1780192791::1::::<><><>0<>0<>c7855128a182469bf41f48fdb91c13ff<>res://.godot/imported/goblin-light-conjurer-death.png-5e75ae8824584356a6fbcf2e9a410cd9.ctex::
 goblin-light-conjurer-hurt.png::CompressedTexture2D::6928151607971000499::1727083587::1780192791::1::::<><><>0<>0<>fe43b92e30739f434bb4efb75254000d<>res://.godot/imported/goblin-light-conjurer-hurt.png-11a2fee2b000d5dce10d846e3ea58d95.ctex::
 goblin-light-conjurer-walk.png::CompressedTexture2D::464313069861930011::1727083595::1780192791::1::::<><><>0<>0<>3a53a8feadcf3d0398f8b674b98bcd00<>res://.godot/imported/goblin-light-conjurer-walk.png-cf0cffca5a4096f5914bdfbf79e6e79b.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/6. goblin-battle-boy/::1780191154
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/6. goblin-battle-boy/::1780192790
 goblin-battle-boy-attack.png::CompressedTexture2D::5397536362084359470::1727159762::1780192790::1::::<><><>0<>0<>313e595b3c5d65742e94dcce11fca5db<>res://.godot/imported/goblin-battle-boy-attack.png-eaee22b59ef78e5ef46558ef695d76f6.ctex::
 goblin-battle-boy-death.png::CompressedTexture2D::5499425328833661110::1727159772::1780192790::1::::<><><>0<>0<>67cd2ceec6ede8c3ee091631706f1b0f<>res://.godot/imported/goblin-battle-boy-death.png-f30da448211086201c7f581f2960a0b3.ctex::
 goblin-battle-boy-hurt.png::CompressedTexture2D::8894183029668072507::1727159781::1780192790::1::::<><><>0<>0<>1440de6d4b91025191005480c6eb0a03<>res://.godot/imported/goblin-battle-boy-hurt.png-1015d7fc901155c2148e40678b462336.ctex::
 goblin-battle-boy-walk.png::CompressedTexture2D::493009456708568024::1727159791::1780192790::1::::<><><>0<>0<>7447aa4ab9f9240b55e7ae064d199c63<>res://.godot/imported/goblin-battle-boy-walk.png-155b5508e6100e1477dc04cff5dec7e4.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/7. goblin-battle-veteran/::1780191154
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/7. goblin-battle-veteran/::1780192790
 goblin-battle-veteran-attack.png::CompressedTexture2D::8305464387029898233::1727159809::1780192790::1::::<><><>0<>0<>8ecc311eaae7e2236357a005b6c373b1<>res://.godot/imported/goblin-battle-veteran-attack.png-91c678426d817bff5695be7643ca6b88.ctex::
 goblin-battle-veteran-death.png::CompressedTexture2D::4680537303007435480::1727159818::1780192790::1::::<><><>0<>0<>8277de4b5cd2b3c00b970cac9b937357<>res://.godot/imported/goblin-battle-veteran-death.png-a58a1f60172f984edf8853a4f8dc9cca.ctex::
 goblin-battle-veteran-hurt.png::CompressedTexture2D::3949695592060740872::1727159826::1780192790::1::::<><><>0<>0<>7f72a8fcb423979b4c18f3808f6ac5e9<>res://.godot/imported/goblin-battle-veteran-hurt.png-4a7460a890686be575a528dc756962da.ctex::
 goblin-battle-veteran-walk.png::CompressedTexture2D::906110749422384288::1727159834::1780192790::1::::<><><>0<>0<>709557ee927984dabe8197a5968e5d8b<>res://.godot/imported/goblin-battle-veteran-walk.png-e237f25867902665702ee023579a7a18.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/8. goblin-battle-master/::1780191154
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/8. goblin-battle-master/::1780192790
 goblin-battle-master-attack.png::CompressedTexture2D::4612700469284401090::1727159862::1780192790::1::::<><><>0<>0<>f6fe1e1d81c55b39154382b71c7fd922<>res://.godot/imported/goblin-battle-master-attack.png-85ccfd5e782a38800c65216afef6d128.ctex::
 goblin-battle-master-death.png::CompressedTexture2D::5983362881768091957::1727353491::1780192790::1::::<><><>0<>0<>af8fdd936c97103e0405ef65a7011524<>res://.godot/imported/goblin-battle-master-death.png-c6225848d2169dbc3adf30a00df9a074.ctex::
 goblin-battle-master-hurt.png::CompressedTexture2D::27971517859740142::1727159878::1780192790::1::::<><><>0<>0<>89c258bb4b7633445d7f9d18cfa01e7e<>res://.godot/imported/goblin-battle-master-hurt.png-3505723965e887309de9c05137bd12de.ctex::
 goblin-battle-master-walk.png::CompressedTexture2D::469456897002274136::1727159887::1780192790::1::::<><><>0<>0<>52cb62f9ad69ccd22e1d21ff8fcebea6<>res://.godot/imported/goblin-battle-master-walk.png-2c46e481acc0ea77b58fa6e0ac6150d7.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/9. goblin-apprentice-shaman/::1780191154
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/9. goblin-apprentice-shaman/::1780192790
 goblin-apprentice-shaman-attack.png::CompressedTexture2D::7056099945654879633::1727159902::1780192790::1::::<><><>0<>0<>bfe00db37fa696bc0fd6053d1d75f453<>res://.godot/imported/goblin-apprentice-shaman-attack.png-e558a7a85e502fc7a7621280d2e26063.ctex::
 goblin-apprentice-shaman-death.png::CompressedTexture2D::7214231363218968753::1727159909::1780192790::1::::<><><>0<>0<>fbdf66646ea9e1070df2e990ef708f3d<>res://.godot/imported/goblin-apprentice-shaman-death.png-4b92a4369aeb2f9f60cee082fbe89c76.ctex::
 goblin-apprentice-shaman-hurt.png::CompressedTexture2D::471631482691456852::1727159922::1780192790::1::::<><><>0<>0<>a0b1f526baf7f9f9aff52f7305aa8add<>res://.godot/imported/goblin-apprentice-shaman-hurt.png-65734a9b4d25745450635d40f1c414ec.ctex::
 goblin-apprentice-shaman-walk.png::CompressedTexture2D::9113578632073633917::1727159930::1780192790::1::::<><><>0<>0<>0b3861b489b94cb4e9056a32d3273372<>res://.godot/imported/goblin-apprentice-shaman-walk.png-d6cd152a5aa5c724f3032c690fab13e9.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/10. goblin-high-shaman/::1780191153
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/characters/10. goblin-high-shaman/::1780192790
 goblin-high-shaman-attack.png::CompressedTexture2D::1321126585402855086::1727159941::1780192790::1::::<><><>0<>0<>ab785644ab6d3f28c649d4dac17f7234<>res://.godot/imported/goblin-high-shaman-attack.png-d2b56c399ed4c7312ef67310fb04d487.ctex::
 goblin-high-shaman-death.png::CompressedTexture2D::5799974861664541728::1727159950::1780192790::1::::<><><>0<>0<>68c0fa1de6503946fed169bb4ecff4d3<>res://.godot/imported/goblin-high-shaman-death.png-43430a23413ee446e9f09dcfe574ccda.ctex::
 goblin-high-shaman-hurt.png::CompressedTexture2D::2225434176754615752::1727159957::1780192790::1::::<><><>0<>0<>2f725dc26abbe903beb2cd5ada76ecc9<>res://.godot/imported/goblin-high-shaman-hurt.png-77dccb6bfe3925bd0c507421dee09161.ctex::
 goblin-high-shaman-walk.png::CompressedTexture2D::331498030646295090::1727159965::1780192790::1::::<><><>0<>0<>2f16d89df4a4859205d37a19ae4c76b0<>res://.godot/imported/goblin-high-shaman-walk.png-ca6aa74f3d9856742400c395fbecd0c3.ctex::
-::res://Assets/Sprites/Enemy/Goblins/red goblin version/effects/::1780191154
+::res://Assets/Sprites/Enemy/Goblins/red goblin version/effects/::1780192790
 conjurer-projectile.png::CompressedTexture2D::3669861109712781741::1727160226::1780192790::1::::<><><>0<>0<>fd173e66af6149605a527170809d1d90<>res://.godot/imported/conjurer-projectile.png-5e2847af040a031e55ea952724553c21.ctex::
 shaman-projectile.png::CompressedTexture2D::1435119495591026368::1727160261::1780192790::1::::<><><>0<>0<>37dc8b43fd630dba09bb736dd152563f<>res://.godot/imported/shaman-projectile.png-ab65ac20bf65498780838ebf9eabfa7d.ctex::
 ::res://Assets/Sprites/NPC/::1780191000
-::res://Assets/Sprites/NPC/Soldiers/::1780191154
+::res://Assets/Sprites/NPC/Soldiers/::1780192790
 Char_001.png::CompressedTexture2D::4183393768643496241::1780161639::1780192790::1::::<><><>0<>0<>281fdf30bbd03cd76698ff9f72747526<>res://.godot/imported/Char_001.png-51ac8f1fef45e4ab943b32c48d8894bf.ctex::
 Char_001_Idle.png::CompressedTexture2D::3228242174638527831::1780161639::1780192790::1::::<><><>0<>0<>ecfd2749886cd13bcd2d0a65811b9b03<>res://.godot/imported/Char_001_Idle.png-fe61d0fb2692eb35cb891d5e6ab5d8a5.ctex::
 Char_002.png::CompressedTexture2D::6596240280037344130::1780161639::1780192790::1::::<><><>0<>0<>ce3d438ff6e547b4cf4bee392f4d3cf7<>res://.godot/imported/Char_002.png-1019b6aa129869692d006d26bb10832f.ctex::
@@ -143,7 +152,7 @@ Char_005_Idle.png::CompressedTexture2D::1346545730410903291::1780161639::1780192
 Char_006.png::CompressedTexture2D::7625378679308064143::1780161639::1780192790::1::::<><><>0<>0<>f5bb1796c1c0aa97f7420cdd4e888bad<>res://.godot/imported/Char_006.png-2f4bc2e298792c698993ac6d4be270d6.ctex::
 Char_006_Idle.png::CompressedTexture2D::2162795005030217131::1780161639::1780192790::1::::<><><>0<>0<>99129dcd03070e6c9b8d559aa99e82ee<>res://.godot/imported/Char_006_Idle.png-7b1a6c8f21c4a8ab644461842e883555.ctex::
 ::res://Assets/Sprites/Packs/::1780162970
-::res://Assets/Sprites/Player/::1780191153
+::res://Assets/Sprites/Player/::1780192790
 Sword_attack_full.png::CompressedTexture2D::5629924970321460998::1780191153::1780192790::1::::<><><>0<>0<>43e4c8add87d7eb4cf9f7eece1240b90<>res://.godot/imported/Sword_attack_full.png-e9786e658b7d26cc0829f0c447604dee.ctex::
 Sword_Death_full.png::CompressedTexture2D::6145026255934477492::1780191153::1780192790::1::::<><><>0<>0<>fea96fe178a3fa513617da6d4b7c790b<>res://.godot/imported/Sword_Death_full.png-4c9b30a9ed69af046bea42ebfd3b53d2.ctex::
 Sword_Hurt_full.png::CompressedTexture2D::5778143066167757905::1780191153::1780192790::1::::<><><>0<>0<>46f8afc41a6f40140f0b835414008922<>res://.godot/imported/Sword_Hurt_full.png-06462561d725663c2b3cbe2f5d2590df.ctex::
@@ -159,7 +168,7 @@ Unarmed_Run_full.png::CompressedTexture2D::6799126160889410841::1780191153::1780
 Unarmed_Walk_full.png::CompressedTexture2D::5074447977696883284::1780191153::1780192790::1::::<><><>0<>0<>c51da835f6931b439f972284e627f2b2<>res://.godot/imported/Unarmed_Walk_full.png-511f3f3600c8d0077acdfa6d5c91b8b3.ctex::
 ::res://Assets/Tiles/::1780191000
 Floor_title.png::CompressedTexture2D::4156752272854930753::1779158589::1779158950::1::::<><><>0<>0<>fe3d6a0c85364496140da5bad7ccc2ae<>res://.godot/imported/Floor_title.png-f889e157f87e6653c518c80a92b2c010.ctex::
-::res://Assets/Tiles/CursedLand/::1780191154
+::res://Assets/Tiles/CursedLand/::1780192792
 bridges.png::CompressedTexture2D::4961019213551031597::1780191154::1780192792::1::::<><><>0<>0<>1eb2f7befc05d6d75ec6d2703ac24873<>res://.godot/imported/bridges.png-d5b754a3df697b4ea3315a7fe9679336.ctex::
 details.png::CompressedTexture2D::6338673599239345713::1780191154::1780192791::1::::<><><>0<>0<>23bbef67ff7298ca776a1481384600fc<>res://.godot/imported/details.png-b78f13688859b08a099df52c10222d01.ctex::
 Ground.png::CompressedTexture2D::7360309679799808600::1780191154::1780192792::1::::<><><>0<>0<>f77eed467af961ef39c94dd646a99013<>res://.godot/imported/Ground.png-9cfe190d1517dd4053db0a3c2b162e71.ctex::
@@ -168,7 +177,7 @@ spots.png::CompressedTexture2D::6089385826049530265::1780191154::1780192791::1::
 Water_coasts.png::CompressedTexture2D::5851980380298603996::1780191154::1780192792::1::::<><><>0<>0<>dd65c6a910e33786478e60edc9bb32a4<>res://.godot/imported/Water_coasts.png-9d1c39b9332e74086fac9efc14b72334.ctex::
 water_detilazation.png::CompressedTexture2D::9135141782514437523::1780191154::1780192791::1::::<><><>0<>0<>9ff845db19d893597f4dc8ea2c3f5370<>res://.godot/imported/water_detilazation.png-8bd305bb841305172e090ee628a2dd69.ctex::
 water_detilazation_v2.png::CompressedTexture2D::3423030272355446302::1780191154::1780192791::1::::<><><>0<>0<>eb754c5c3bfe3b9d7fc7a48222f2d7e1<>res://.godot/imported/water_detilazation_v2.png-761df8d79f6335d8830c9baab5f7c489.ctex::
-::res://Assets/Tiles/CursedLand/Objects_separetely/::1780191154
+::res://Assets/Tiles/CursedLand/Objects_separetely/::1780192792
 Bones_shadow1_1.png::CompressedTexture2D::456097950918055342::1780191154::1780192790::1::::<><><>0<>0<>3fb90c20687d206bb74a0dc5b2a63ba5<>res://.godot/imported/Bones_shadow1_1.png-82c87efe1568f375ca447ecbb6b0e11f.ctex::
 Bones_shadow1_2.png::CompressedTexture2D::5360181799690737198::1780191154::1780192790::1::::<><><>0<>0<>891189b60743afe851165af1deda94b9<>res://.godot/imported/Bones_shadow1_2.png-17b5447d5bce90fde2a3f6a4c8606a89.ctex::
 Bones_shadow1_3.png::CompressedTexture2D::2621269451485371947::1780191154::1780192790::1::::<><><>0<>0<>3663a166d250f72a8a2727773eb8fefe<>res://.godot/imported/Bones_shadow1_3.png-57c3cf59dacd571cf6bf15330fb77724.ctex::
@@ -296,7 +305,7 @@ Veins_shadow2_1.png::CompressedTexture2D::1037707083027369288::1780191154::17801
 Veins_shadow2_2.png::CompressedTexture2D::8995990417505085941::1780191154::1780192792::1::::<><><>0<>0<>ba0052b2416225c1b4d6f065b9f60fa7<>res://.godot/imported/Veins_shadow2_2.png-6b92010d56030dfef0f7c56ca8e8017e.ctex::
 Veins_shadow2_3.png::CompressedTexture2D::4448887533651738945::1780191154::1780192792::1::::<><><>0<>0<>ad8cb64ecdf52021e5404458e289cbf6<>res://.godot/imported/Veins_shadow2_3.png-4423bc370365fe966dcb19b7e00e918d.ctex::
 Veins_shadow2_4.png::CompressedTexture2D::1542287168817462662::1780191154::1780192792::1::::<><><>0<>0<>a526a6f9a16d728eeff747899c42e752<>res://.godot/imported/Veins_shadow2_4.png-d253fdc8b4a4cafed8ae5ff120c7e8ab.ctex::
-::res://Assets/Tiles/Undead/::1780161859
+::res://Assets/Tiles/Undead/::1780202346
 Animation1.png::CompressedTexture2D::5462164180711151357::1780191154::1780192789::1::::<><><>0<>0<>ab5ed2b2c6c3dabba2da2158e6e7b954<>res://.godot/imported/Animation1.png-ca4ca750f5ed057c29e953a94a73c4ec.ctex::
 Animation2.png::CompressedTexture2D::6328651416357431130::1780191154::1780192789::1::::<><><>0<>0<>bff60448e0d780e605ef15715358bdf2<>res://.godot/imported/Animation2.png-e125e1120685bb575ede6a753a3c0774.ctex::
 Animation3.png::CompressedTexture2D::5821053802739022123::1780191154::1780192789::1::::<><><>0<>0<>7643c88f1cf3a97a59309cdb56d5304a<>res://.godot/imported/Animation3.png-28a3f1a26aabffdea89b9f6a54fe5924.ctex::
@@ -309,7 +318,9 @@ Objects.png::CompressedTexture2D::9165475096777960614::1780191154::1780192789::1
 Water_coasts.png::CompressedTexture2D::901592688000089823::1780191154::1780192789::1::::<><><>0<>0<>b475170f991027b044f54facffb5c252<>res://.godot/imported/Water_coasts.png-fad82cf7b433d253a45951772ef1ab52.ctex::
 water_detilazation.png::CompressedTexture2D::8489100230095646167::1780191154::1780192789::1::::<><><>0<>0<>74c9641fc468ba041caabf7cb1e91a8c<>res://.godot/imported/water_detilazation.png-db129bc6835e5936512ac23975995476.ctex::
 water_detilazation_v2.png::CompressedTexture2D::1260514743944007558::1780191154::1780192789::1::::<><><>0<>0<>7dc388522da3ff61d357d41fa2f8aa1d<>res://.godot/imported/water_detilazation_v2.png-d68a35754e80bd17df1fc327a9ec550a.ctex::
-::res://Assets/Tiles/Undead/Objects_separately/::1780161859
+::res://Assets/Tiles/Undead/Demo/::1780202511
+Undead_land_background.png::CompressedTexture2D::5041937641064202226::1780202351::1780203760::1::::<><><>0<>0<>f8936c8fd2a9ac4fbf944d8314acd4b2<>res://.godot/imported/Undead_land_background.png-ccd3ad08599011a88d2bc8e208cb5233.ctex::
+::res://Assets/Tiles/Undead/Objects_separately/::1780192791
 Bones_shadow1_1.png::CompressedTexture2D::7558443354082205080::1780191154::1780192791::1::::<><><>0<>0<>36efff41b281074955baf091f2c08581<>res://.godot/imported/Bones_shadow1_1.png-45880c1d94d3b867cac5d8f047ff919b.ctex::
 Bones_shadow1_2.png::CompressedTexture2D::1802317716355864734::1780191154::1780192791::1::::<><><>0<>0<>fde4d9de9e7da2e11432709bc4c4ee42<>res://.godot/imported/Bones_shadow1_2.png-804e6c3b4bb94801d3c59eb6bf98fb33.ctex::
 Bones_shadow1_3.png::CompressedTexture2D::7851550227351373011::1780191154::1780192791::1::::<><><>0<>0<>e19c7f140e927ac6917774b865e03b50<>res://.godot/imported/Bones_shadow1_3.png-39cbcf84f4f453305c2184ee2c13581c.ctex::
@@ -551,32 +562,32 @@ Tree_shadow3_1.png::CompressedTexture2D::4694729152376784482::1780191154::178019
 Tree_shadow3_2.png::CompressedTexture2D::5752353841421097517::1780191154::1780192789::1::::<><><>0<>0<>81c24a35994de2415f64afd53ecb0dc7<>res://.godot/imported/Tree_shadow3_2.png-8f5fe5d042a2278a38a0b988ac2dd8bc.ctex::
 Tree_shadow3_3.png::CompressedTexture2D::1103351514243752602::1780191154::1780192789::1::::<><><>0<>0<>3e29a831c242c85ae3a07a0e38921db5<>res://.godot/imported/Tree_shadow3_3.png-7a69f1ccdf324f30ec5160dd574133fa.ctex::
 ::res://Levels/::1779101703
-::res://Scenes/::1779163743
+::res://Scenes/::1780202512
 DeathScreen.tscn::PackedScene::-1::1779119769::0::1::::<><><>0<>0<><>::
-Enemy.tscn::PackedScene::8620857250421027341::1779105576::0::1::::<><><>0<>0<><>::uid://t1c2m07s5fnl::::res://Scripts/Core/EnemyGrunt.cs<>uid://cm8v6oqgcau6n::::res://Scripts/Core/EnemyAI.cs<>uid://dhxj07ejejq3f::::res://Scripts/Core/Health.cs
+Enemy.tscn::PackedScene::8620857250421027341::1780200957::0::1::::<><><>0<>0<><>::uid://t1c2m07s5fnl::::res://Scripts/Core/EnemyGrunt.cs<>uid://cm8v6oqgcau6n::::res://Scripts/Core/EnemyAI.cs<>uid://dhxj07ejejq3f::::res://Scripts/Core/Health.cs<>res://Assets/SpriteFrames/green_goblin_tribesman_frames.tres
 HUD.tscn::PackedScene::-1::1779119768::0::1::::<><><>0<>0<><>::
-Main.tscn::PackedScene::-1::1779162405::0::1::::<><><>0<>0<><>::res://Scripts/Core/IsometricCamera.cs<>res://Scripts/Core/LevelManager.cs<>res://Scenes/Player.tscn<>res://Scripts/Core/TilemapSetup.cs<>res://Scenes/Enemy.tscn<>res://Scripts/Core/CombatTrigger.cs
-Player.tscn::PackedScene::9049317789112093156::1779163743::0::1::::<><><>0<>0<><>::uid://wnkhdiqj03by::::res://Scripts/Core/PlayerController.cs<>uid://dhxj07ejejq3f::::res://Scripts/Core/Health.cs<>uid://dhi35ssd4sxr7::::res://Scripts/Core/AttackSystem.cs
+Main.tscn::PackedScene::285266639323183183::1780203680::0::1::::<><><>0<>0<><>::uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn<>uid://k105mbrfws52::::res://Scripts/Core/LevelManager.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>uid://c4s1d6ruxin4f::::res://Scripts/Core/CombatTrigger.cs<>uid://c1bojqd2b63qu::::res://Scripts/Core/TilemapSetup.cs
+Player.tscn::PackedScene::9049317789112093156::1780198947::0::1::::<><><>0<>0<><>::uid://wnkhdiqj03by::::res://Scripts/Core/PlayerController.cs<>uid://dhxj07ejejq3f::::res://Scripts/Core/Health.cs<>uid://dhi35ssd4sxr7::::res://Scripts/Core/AttackSystem.cs<>uid://et4cci46dlfy::::res://Assets/SpriteFrames/player_frames.tres
 ::res://Scripts/::1779101750
 ::res://Scripts/Audio/::1779101750
-::res://Scripts/Core/::1780192169
-AttackSystem.cs::CSharpScript::7668853601595192702::1779157099::0::1::::<>Node<><>0<>0<><>::
+::res://Scripts/Core/::1780201412
+AttackSystem.cs::CSharpScript::7668853601595192702::1780198870::0::1::::<>Node<><>0<>0<><>::
 CombatTrigger.cs::CSharpScript::6847062287081164163::1779162364::0::1::::CombatTrigger<>Node2D<><>0<>0<><>::
 DeathScreen.cs::CSharpScript::4133884783870488379::1780191565::0::1::::<>CanvasLayer<><>0<>0<><>::
-EnemyAI.cs::CSharpScript::5684563133704792923::1779103504::0::1::::<>Node<><>0<>0<><>::
-EnemyBase.cs::CSharpScript::4372973516128543366::1780192169::0::1::::<>CharacterBody2D<><>0<>0<><>::
+EnemyAI.cs::CSharpScript::5684563133704792923::1780201670::0::1::::<>Node<><>0<>0<><>::
+EnemyBase.cs::CSharpScript::4372973516128543366::1780198022::0::1::::<>CharacterBody2D<><>0<>0<><>::
 EnemyGrunt.cs::CSharpScript::1387432171528619689::1779103499::0::1::::<>CharacterBody2D<><>0<>0<><>::
 GameManager.cs::CSharpScript::1265440625677018532::1779157554::0::1::::<>Node<><>0<>0<><>::
 Health.cs::CSharpScript::7698657430012484901::1779102942::0::1::::<>Node<><>0<>0<><>::
 HUD.cs::CSharpScript::4283252124933470855::1779104727::0::1::::<>CanvasLayer<><>0<>0<><>::
-IsometricCamera.cs::CSharpScript::339494597474114761::1779123843::0::1::::<>Camera2D<><>0<>0<><>::
+IsometricCamera.cs::CSharpScript::339494597474114761::1780203562::0::1::::<>Camera2D<><>0<>0<><>::
 IsometricUtils.cs::CSharpScript::1990076490806161659::1779102722::0::1::::<><><>0<>0<><>::
 LevelManager.cs::CSharpScript::757134389227163071::1779159572::0::1::::<>Node<><>0<>0<><>::
 NPCController.cs::CSharpScript::2309580140812738257::1780192169::0::1::::<>CharacterBody2D<><>0<>0<><>::
 PlaceholderSetup.cs::CSharpScript::6826662857252915399::1779156302::0::1::::PlaceholderSetup<>Node<><>0<>0<><>::
-PlayerController.cs::CSharpScript::1571611311992983042::1780192169::0::1::::<>CharacterBody2D<><>0<>0<><>::
-SpriteImporter.gd::GDScript::5165925100107250754::1780192169::0::1::::<>EditorScript<><>0<>1<><>::
-TilemapSetup.cs::CSharpScript::6600682636010338124::1779163360::0::1::::TilemapSetup<>Node<><>0<>0<><>::
+PlayerController.cs::CSharpScript::1571611311992983042::1780198870::0::1::::<>CharacterBody2D<><>0<>0<><>::
+SpriteImporter.gd::GDScript::5165925100107250754::1780198022::0::1::::<>EditorScript<><>0<>1<><>::
+TilemapSetup.cs::CSharpScript::6600682636010338124::1780203519::0::1::::TilemapSetup<>Node<><>0<>0<><>::
 ::res://Scripts/Enemy/::1779101739
 ::res://Scripts/Player/::1779101731
 ::res://Scripts/UI/::1779101745

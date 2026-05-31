@@ -57,23 +57,16 @@ public partial class IsometricCamera : Camera2D
 
 	private void FindPlayer()
 	{
-		Node2D player = GetNodeOrNull<Node2D>("/root/Main/YSort/Player");
+		Node2D player = GetNodeOrNull<Node2D>("/root/Main/World/YSort/Player");
 		if (player != null)
 		{
 			_target = player;
-			GD.Print("[Camera] Target: " + _target.Name);
 		}
 		else
 		{
-			GD.Print("[Camera] No target found at /root/Main/YSort/Player");
-
-			// Try finding by group
 			var players = GetTree().GetNodesInGroup("player");
 			if (players.Count > 0)
-			{
 				_target = players[0] as Node2D;
-				GD.Print("[Camera] Target found via group: " + _target?.Name);
-			}
 		}
 	}
 
@@ -99,7 +92,6 @@ public partial class IsometricCamera : Camera2D
 	public void SetTarget(Node2D target)
 	{
 		_target = target;
-		GD.Print($"[IsometricCamera] Target set → {target?.Name}");
 	}
 
 	/// <summary>

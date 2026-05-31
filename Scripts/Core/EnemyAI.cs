@@ -255,7 +255,6 @@ public partial class EnemyAI : Node
 
             case AIState.Aggro:
                 _enemy.EmitSignal(EnemyBase.SignalName.PlayerDetected, _player);
-                GD.Print($"[{_enemy.Name}] AGGRO");
                 break;
 
             case AIState.Attack:
@@ -269,7 +268,6 @@ public partial class EnemyAI : Node
         }
 
         EmitSignal(SignalName.StateChanged, (int)next);  // listeners cast back to AIState
-        GD.Print($"[{_enemy.Name}] AI: {prev} → {next}");
     }
 
     // ─── Helpers ─────────────────────────────────────────────────────────────
@@ -316,8 +314,7 @@ public partial class EnemyAI : Node
         var hp = _player?.GetNodeOrNull<Health>("Health");
         if (hp != null && !hp.IsDead)
         {
-            int dealt = hp.TakeDamage(AttackDamage);
-            GD.Print($"[{_enemy.Name}] Attacked player for {dealt}");
+            hp.TakeDamage(AttackDamage);
         }
     }
 

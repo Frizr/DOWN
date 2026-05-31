@@ -20,6 +20,8 @@ script = ExtResource("88_combat_trigger")
 [node name="Decorations" type="Node2D" parent="World" unique_id=1554238033]
 y_sort_enabled = true
 
+[node name="ArenaBounds" type="Node2D" parent="World" unique_id=1879206241]
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="World" unique_id=1163184756]
 
 [node name="YSort" type="Node2D" parent="World" unique_id=1074913563]
@@ -32,7 +34,7 @@ y_sort_enabled = true
 [node name="SpawnPoints" type="Node2D" parent="World" unique_id=353437791]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=250535837]
-zoom = Vector2(2, 2)
+zoom = Vector2(2.4, 2.4)
 script = ExtResource("1_iso_cam")
 ZoomMin = 1.0
 ZoomMax = 4.0
