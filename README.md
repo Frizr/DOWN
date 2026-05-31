@@ -1,4 +1,4 @@
-# `D O W N` — 🩸 Isometric Combat Purgatory 🩸
+# `D O W N` — ☠️Isometric Combat Purgatory☠️
 
 ![DOWN Banner](Assets/DOWN.png)
 
@@ -21,7 +21,7 @@ It is a project designed to showcase high-performance C# scripting in Godot, dec
 
 ---
 
-## 💼 Portfolio & Technical Highlights (For Recruiters)
+## Technical Highlights 
 
 This project was built with a strong focus on clean architecture, performance, and satisfying gameplay mechanics. Below are the key engineering highlights:
 
