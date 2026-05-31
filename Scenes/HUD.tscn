@@ -1,3 +1,196 @@
-[gd_scene format=3 uid="uid://down_hud"]
+[gd_scene load_steps=7 format=3 uid="uid://down_hud"]
+
+[ext_resource type="Script" path="res://Scripts/Core/HUD.cs" id="1_hud_script"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_dark"]
+bg_color = Color(0.045, 0.03, 0.035, 0.82)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.55, 0.42, 0.16, 0.75)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 12.0
+content_margin_top = 8.0
+content_margin_right = 12.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_bg"]
+bg_color = Color(0.16, 0.025, 0.025, 0.95)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bar_fill"]
+bg_color = Color(0.22, 0.72, 0.28, 1)
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_combo"]
+bg_color = Color(0.06, 0.035, 0.035, 0.72)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.85, 0.58, 0.16, 0.82)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 14.0
+content_margin_top = 8.0
+content_margin_right = 14.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_banner"]
+bg_color = Color(0.035, 0.02, 0.025, 0.9)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.68, 0.08, 0.06, 0.9)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
 
 [node name="HUD" type="CanvasLayer"]
+layer = 100
+process_mode = 3
+script = ExtResource("1_hud_script")
+
+[node name="HUDRoot" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="HealthSection" type="Panel" parent="HUDRoot"]
+layout_mode = 1
+offset_left = 24.0
+offset_top = 20.0
+offset_right = 254.0
+offset_bottom = 78.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_dark")
+
+[node name="HealthBar" type="ProgressBar" parent="HUDRoot/HealthSection"]
+layout_mode = 1
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 216.0
+offset_bottom = 31.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+theme_override_styles/background = SubResource("StyleBoxFlat_bar_bg")
+theme_override_styles/fill = SubResource("StyleBoxFlat_bar_fill")
+
+[node name="HealthLabel" type="Label" parent="HUDRoot/HealthSection"]
+layout_mode = 1
+offset_left = 14.0
+offset_top = 34.0
+offset_right = 216.0
+offset_bottom = 54.0
+theme_override_colors/font_color = Color(0.92, 0.82, 0.56, 1)
+theme_override_font_sizes/font_size = 16
+text = "100 / 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TopRight" type="Panel" parent="HUDRoot"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -204.0
+offset_top = 20.0
+offset_right = -24.0
+offset_bottom = 58.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_panel_dark")
+
+[node name="ScoreLabel" type="Label" parent="HUDRoot/TopRight"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 10.0
+offset_top = 4.0
+offset_right = -10.0
+offset_bottom = -4.0
+theme_override_colors/font_color = Color(0.95, 0.72, 0.2, 1)
+theme_override_font_sizes/font_size = 18
+text = "SCORE  0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ComboPanel" type="PanelContainer" parent="HUDRoot"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -118.0
+offset_top = 82.0
+offset_right = 118.0
+offset_bottom = 144.0
+pivot_offset = Vector2(118, 31)
+theme_override_styles/panel = SubResource("StyleBoxFlat_combo")
+
+[node name="ComboVBox" type="VBoxContainer" parent="HUDRoot/ComboPanel"]
+layout_mode = 2
+theme_override_constants/separation = 0
+alignment = 1
+
+[node name="ComboLabel" type="Label" parent="HUDRoot/ComboPanel/ComboVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.72, 0.2, 1)
+theme_override_font_sizes/font_size = 22
+text = "x1 COMBO"
+horizontal_alignment = 1
+
+[node name="MultLabel" type="Label" parent="HUDRoot/ComboPanel/ComboVBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.68, 0.95, 0.48, 1)
+theme_override_font_sizes/font_size = 14
+text = "(1.0x DMG)"
+horizontal_alignment = 1
+
+[node name="PauseBanner" type="Panel" parent="."]
+visible = false
+layout_mode = 3
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = -45.0
+offset_right = 180.0
+offset_bottom = 45.0
+pivot_offset = Vector2(180, 45)
+theme_override_styles/panel = SubResource("StyleBoxFlat_banner")
+
+[node name="BannerLabel" type="Label" parent="PauseBanner"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.95, 0.72, 0.2, 1)
+theme_override_font_sizes/font_size = 34
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]

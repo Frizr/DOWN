@@ -25,13 +25,14 @@ public partial class Health : Node
 
     [Signal] public delegate void DamageTakenEventHandler(int amount, int currentHp);
     [Signal] public delegate void HealedEventHandler(int amount, int currentHp);
+    [Signal] public delegate void HealthChangedEventHandler(int current, int max);
     [Signal] public delegate void DiedEventHandler();
 
     // ─── State ────────────────────────────────────────────────────────────────
 
     public int  Current    { get; private set; }
     public bool IsDead     => Current <= 0;
-    public float HpPercent => (float)Current / MaxHealth;
+    public float HpPercent => MaxHealth > 0 ? (float)Current / MaxHealth : 0f;
 
     private float _regenTimer = 0f;
 
@@ -40,6 +41,7 @@ public partial class Health : Node
     public override void _Ready()
     {
         Current = MaxHealth;
+        EmitSignal(SignalName.HealthChanged, Current, MaxHealth);
     }
 
     public override void _Process(double delta)
@@ -68,6 +70,7 @@ public partial class Health : Node
         _regenTimer = RegenDelay;
 
         EmitSignal(SignalName.DamageTaken, dealt, Current);
+        EmitSignal(SignalName.HealthChanged, Current, MaxHealth);
 
         if (IsDead)
             EmitSignal(SignalName.Died);
@@ -84,6 +87,9 @@ public partial class Health : Node
         int before  = Current;
         Current     = Mathf.Min(Current + amount, MaxHealth);
         int healed  = Current - before;
+
+        if (Current != before)
+            EmitSignal(SignalName.HealthChanged, Current, MaxHealth);
 
         if (healed > 0)
             EmitSignal(SignalName.Healed, healed, Current);
