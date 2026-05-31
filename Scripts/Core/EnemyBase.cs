@@ -8,7 +8,7 @@ using Godot;
 ///
 /// Node type  : CharacterBody2D
 /// Children   : Health (Node), AttackSystem (Node), Sprite2D,
-///              AnimationPlayer, EnemyAI (Node),
+///              AnimatedSprite2D, EnemyAI (Node),
 ///              DetectRange (Area2D), AttackRange (Area2D),
 ///              HitBox (Area2D), HurtBox (Area2D)
 /// </summary>
@@ -36,7 +36,7 @@ public partial class EnemyBase : CharacterBody2D
 	// ─── References ───────────────────────────────────────────────────────────
 
 	public Health          HP        { get; private set; }
-	public AnimationPlayer Anim      { get; private set; }
+	public AnimatedSprite2D Sprite   { get; private set; }
 	public EnemyAI         AI        { get; private set; }
 
 	// ─── State ────────────────────────────────────────────────────────────────
@@ -49,7 +49,7 @@ public partial class EnemyBase : CharacterBody2D
 	public override void _Ready()
 	{
 		HP   = GetNode<Health>("Health");
-		Anim = GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+		Sprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		AI   = GetNode<EnemyAI>("EnemyAI");
 
 		HP.DamageTaken += OnDamageTaken;
@@ -128,12 +128,12 @@ public partial class EnemyBase : CharacterBody2D
 
 	public void PlayAnim(string name)
 	{
-		if (Anim == null || _currentAnim == name)
+		if (Sprite == null || Sprite.SpriteFrames == null || _currentAnim == name)
 			return;
-		if (!Anim.HasAnimation(name))
+		if (!Sprite.SpriteFrames.HasAnimation(name))
 			return;
 		_currentAnim = name;
-		Anim.Play(name);
+		Sprite.Play(name);
 	}
 
 	/// <summary>Briefly modulate sprite to white on hit (classic damage flash).</summary>

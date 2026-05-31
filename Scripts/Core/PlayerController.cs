@@ -6,7 +6,7 @@ using Godot;
 /// i-frames, attack input routing, and camera/GameManager integration.
 ///
 /// Node type : CharacterBody2D
-/// Children  : Health (Node), AttackSystem (Node), Sprite2D, AnimationPlayer,
+/// Children  : Health (Node), AttackSystem (Node), Sprite2D, AnimatedSprite2D,
 ///             HitBox (Area2D + CollisionShape2D), HurtBox (Area2D + CollisionShape2D)
 /// </summary>
 public partial class PlayerController : CharacterBody2D
@@ -32,7 +32,7 @@ public partial class PlayerController : CharacterBody2D
 
 	private Health          _health;
 	private AttackSystem    _attack;
-	private AnimationPlayer _anim;
+	private AnimatedSprite2D _sprite;
 	private IsometricCamera _camera;
 
 	// ─── State ────────────────────────────────────────────────────────────────
@@ -59,7 +59,7 @@ public partial class PlayerController : CharacterBody2D
 	{
 		_health = GetNode<Health>("Health");
 		_attack = GetNode<AttackSystem>("AttackSystem");
-		_anim   = GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+		_sprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 
 		// Locate camera (autoload or scene path)
 		_camera = GetNodeOrNull<IsometricCamera>("/root/Main/Camera");
@@ -219,13 +219,13 @@ public partial class PlayerController : CharacterBody2D
 	/// <summary>Play animation only if it isn't already playing (prevents restart spam).</summary>
 	private void PlayAnim(string animName)
 	{
-		if (_anim == null || _currentAnim == animName)
+		if (_sprite == null || _sprite.SpriteFrames == null || _currentAnim == animName)
 			return;
-		if (!_anim.HasAnimation(animName))
+		if (!_sprite.SpriteFrames.HasAnimation(animName))
 			return;
 
 		_currentAnim = animName;
-		_anim.Play(animName);
+		_sprite.Play(animName);
 	}
 
 	// ─── Public Accessors ─────────────────────────────────────────────────────
