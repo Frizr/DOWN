@@ -4,17 +4,23 @@ using Godot;
 public partial class TilemapSetup : Node
 {
 	private const string TileMapPath = "World/TileMap";
-	private const string FloorTexturePath = "res://Assets/Tiles/Floor_title.png";
-	private const int TileSize = 128;
-	private const int TextureRegionSize = 1024;
-	private const int AtlasColumns = 1;
-	private const int AtlasRows = 1;
-	private const int GridWidth = 30;
-	private const int GridHeight = 20;
+	private const string FloorTexturePath = "res://Assets/Tiles/Undead/Ground_rocks.png";
+	private const int TileSize = 16;
+	private const int TextureRegionSize = 16;
+	private const int GridWidth = 40;
+	private const int GridHeight = 30;
 	private const int SpriteWidth = 32;
 	private const int SpriteHeight = 48;
 	private const int FloorSourceId = 0;
-	private static readonly Vector2I FloorAtlasCoords = new(0, 0);
+	private static readonly Vector2 TileMapScale = new(4f, 4f);
+	private static readonly Vector2I[] FloorAtlasCoords =
+	{
+		new(5, 7), new(6, 7), new(7, 7), new(8, 7),
+		new(9, 7), new(10, 7), new(11, 7), new(12, 7),
+		new(5, 8), new(6, 8), new(7, 8), new(8, 8),
+		new(9, 8), new(10, 8), new(11, 8), new(12, 8),
+		new(13, 14), new(14, 14), new(15, 14), new(16, 14),
+	};
 
 	public override void _Ready()
 	{
@@ -36,12 +42,13 @@ public partial class TilemapSetup : Node
 		var tileSet = CreateTileSet(texture);
 		tileMap.TileSet = tileSet;
 		tileMap.Position = new Vector2(-960f, -640f);
+		tileMap.Scale = TileMapScale;
 		tileMap.Clear();
 
 		for (int y = 0; y < GridHeight; y++)
 		{
 			for (int x = 0; x < GridWidth; x++)
-				tileMap.SetCell(new Vector2I(x, y), FloorSourceId, FloorAtlasCoords);
+				tileMap.SetCell(new Vector2I(x, y), FloorSourceId, PickFloorTile(x, y));
 		}
 
 		SetupPlaceholders();
@@ -66,10 +73,17 @@ public partial class TilemapSetup : Node
 			TextureRegionSize = new Vector2I(TextureRegionSize, TextureRegionSize)
 		};
 
-		source.CreateTile(new Vector2I(0, 0));
+		foreach (Vector2I atlasCoords in FloorAtlasCoords)
+			source.CreateTile(atlasCoords);
 
 		tileSet.AddSource(source, FloorSourceId);
 		return tileSet;
+	}
+
+	private static Vector2I PickFloorTile(int x, int y)
+	{
+		int index = Mathf.Abs((x * 17) + (y * 31) + ((x + y) % 3)) % FloorAtlasCoords.Length;
+		return FloorAtlasCoords[index];
 	}
 
 	private void SetupPlaceholders()

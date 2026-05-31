@@ -38,6 +38,7 @@ public partial class AttackSystem : Node
     private int   _comboStep  = 0;   // 0→1→2→reset (steps 1-2 light, step 3 heavy)
     private float _cooldownTimer = 0f;
     private float _comboTimer    = 0f;
+    private float _attackTimer   = 0f;
     private Area2D _hitBox;
 
     // ─── Lifecycle ────────────────────────────────────────────────────────────
@@ -65,6 +66,13 @@ public partial class AttackSystem : Node
 
         if (_cooldownTimer > 0f)
             _cooldownTimer -= dt;
+
+        if (IsAttacking)
+        {
+            _attackTimer -= dt;
+            if (_attackTimer <= 0f)
+                OnAnimationFinished();
+        }
 
         // Auto-reset combo chain if the window lapses
         if (_comboStep > 0 && !IsAttacking)
@@ -98,6 +106,7 @@ public partial class AttackSystem : Node
 
         float cooldown = isHeavy ? HeavyCooldown : LightCooldown;
         _cooldownTimer = cooldown;
+        _attackTimer = cooldown;
 
         EmitSignal(SignalName.AttackStarted, _comboStep);
 
@@ -111,6 +120,7 @@ public partial class AttackSystem : Node
     public void OnAnimationFinished()
     {
         IsAttacking = false;
+        _attackTimer = 0f;
     }
 
     // ─── Private Helpers ──────────────────────────────────────────────────────

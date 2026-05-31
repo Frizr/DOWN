@@ -65,6 +65,9 @@ public partial class PlayerController : CharacterBody2D
 		// Wire attack signals → GameManager combo
 		_attack.HitConnected += OnHitConnected;
 
+		if (_sprite != null)
+			_sprite.AnimationFinished += OnSpriteAnimationFinished;
+
 		PlayAnim("idle");
 		GD.Print("[PlayerController] Ready.");
 	}
@@ -156,7 +159,10 @@ public partial class PlayerController : CharacterBody2D
 		{
 			// Friction deceleration
 			Velocity = Velocity.Lerp(Vector2.Zero, 1f - Mathf.Pow(Friction, dt * 60f));
-			if (!_attack.IsAttacking)
+			bool movementAnimIsStillPlaying = IsMovementAnimation(_currentAnim);
+			if (_attack.IsAttacking && movementAnimIsStillPlaying)
+				_attack.OnAnimationFinished();
+			if (!_attack.IsAttacking || movementAnimIsStillPlaying)
 				PlayAnim("idle");
 		}
 
@@ -210,6 +216,15 @@ public partial class PlayerController : CharacterBody2D
 		GD.Print($"[Player] Hit {target.Name} for {damage}.");
 	}
 
+	private void OnSpriteAnimationFinished()
+	{
+		if (_attack != null && (_attack.IsAttacking || _currentAnim.StartsWith("attack")))
+			_attack.OnAnimationFinished();
+
+		if (_moveDir == Vector2.Zero && !_currentAnim.StartsWith("death"))
+			PlayAnim("idle");
+	}
+
 	// ─── Animation Helper ─────────────────────────────────────────────────────
 
 	private string _currentAnim = "";
@@ -251,6 +266,11 @@ public partial class PlayerController : CharacterBody2D
 			return _facing.Y >= 0f ? "down" : "up";
 
 		return _facing.X >= 0f ? "right" : "left";
+	}
+
+	private static bool IsMovementAnimation(string animName)
+	{
+		return animName.StartsWith("walk") || animName.StartsWith("run");
 	}
 
 	// ─── Public Accessors ─────────────────────────────────────────────────────
