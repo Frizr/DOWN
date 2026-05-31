@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1780205989
+::res://::1780206610
 asset_import_report.txt::TextFile::-1::1780162246::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1779103267::0::1::::<><><>0<>0<><>::
 generate_sprites.run.err.log::TextFile::-1::1779366407::0::1::::<><><>0<>0<><>::
@@ -7,10 +7,13 @@ generate_sprites.run.out.log::TextFile::-1::1779367762::0::1::::<><><>0<>0<><>::
 icon.svg::CompressedTexture2D::4463896471293308240::1779101445::1779101459::1::::<><><>0<>0<>29e508e13f38b5824b4ccf11ce64e820<>res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex::
 main.tscn::PackedScene::1114132511101865590::1780193349::0::1::::<><><>0<>0<><>::uid://c4i5e0xqxso7p::::res://Scripts/Core/PlaceholderSetup.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn<>uid://et4cci46dlfy::::res://Assets/SpriteFrames/player_frames.tres
 node_2d.tscn::PackedScene::9008596204051764317::1779103609::0::1::::<><><>0<>0<><>::
-README.md::TextFile::-1::1780205989::0::1::::<><><>0<>0<><>::
-::res://Assets/::1780192940
+README.md::TextFile::-1::1780206878::0::1::::<><><>0<>0<><>::
+::res://Assets/::1780206863
 DOWN.png::CompressedTexture2D::5848989178879371319::1780206055::1780206070::1::::<><><>0<>0<>7179fbb202bd93ec7072e79f9f2f8d2d<>res://.godot/imported/DOWN.png-5b21b95fb11f040e1f5a185cd0b74b27.ctex::
 icon.png::CompressedTexture2D::7441162122297246026::1779120930::1779120556::0::::<><><>0<>0<>a680587987851c8fe11192c11269e37a<>::
+reference.png::CompressedTexture2D::4320389988510645029::1780206285::1780207349::1::::<><><>0<>0<>8bc773002ba1362f85c5a5a8ea745a83<>res://.godot/imported/reference.png-e653cd04ac3fb03784115ff85bc9852e.ctex::
+screenshot1.png::CompressedTexture2D::4801352324885981630::1780206285::1780207349::1::::<><><>0<>0<>26d4b9bfd2e7d276452ce2bbc8b2e093<>res://.godot/imported/screenshot1.png-969231f7ff35a24c9e46309194013408.ctex::
+screenshot2.png::CompressedTexture2D::3438208231272266662::1780206285::1780207349::1::::<><><>0<>0<>293ee61cdf79a7f006adeb236df17fc0<>res://.godot/imported/screenshot2.png-f8009becc35d65f060bb90edc06a74f6.ctex::
 ::res://Assets/Audio/::1779101776
 ::res://Assets/SpriteFrames/::1780198948
 char_001_frames.tres::SpriteFrames::7541766059267196098::1780193681::0::1::::<><><>0<>0<><>::uid://b0up5cdlvt3yj::::res://Assets/Sprites/NPC/Soldiers/Char_001.png
