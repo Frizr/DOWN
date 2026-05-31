@@ -26,6 +26,9 @@ script = ExtResource("88_combat_trigger")
 ; Assign the tile_set to your 64×32 isometric tileset resource.
 ; Add a NavigationRegion2D child to enable NavigationAgent2D pathfinding.
 
+[node name="Decorations" type="Node2D" parent="World"]
+y_sort_enabled = true
+
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="World"]
 ; Draw the walkable navigation polygon over your TileMap.
 ; EnemyAI.NavigationAgent2D uses this automatically.
