@@ -1,4 +1,4 @@
-# `D O W N` â€” â˜ ï¸Isometric Combat Purgatoryâ˜ ï¸
+DOWN
 
 ![DOWN Banner](Assets/DOWN.png)
 
