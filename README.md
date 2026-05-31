@@ -12,6 +12,15 @@ Success demands mastering precision dodge rolls to exploit tight invincibility f
 
 ---
 
+## 📸 Screenshots
+
+![Gameplay Screenshot 1](Assets/screenshot1.png)
+
+![Gameplay Screenshot 2](Assets/screenshot2.png)
+
+---
+
+
 ## 🕹️ Controls Guide
 
 Control your character using a standard keyboard and mouse setup, optimized for fast-paced action:
