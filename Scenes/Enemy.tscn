@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://t1c2m07s5fnl" path="res://Scripts/Core/EnemyGrunt.cs" id="1_xeo28"]
 [ext_resource type="Script" uid="uid://cm8v6oqgcau6n" path="res://Scripts/Core/EnemyAI.cs" id="2_ai"]
 [ext_resource type="Script" uid="uid://dhxj07ejejq3f" path="res://Scripts/Core/Health.cs" id="3_health"]
+[ext_resource type="SpriteFrames" uid="uid://dfpj1xu0574j3" path="res://Assets/SpriteFrames/char_001_frames.tres" id="4_char01"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 9.0
@@ -20,8 +21,6 @@ size = Vector2(36, 18)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
 size = Vector2(20, 26)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_xeo28"]
-
 [node name="Enemy" type="CharacterBody2D" unique_id=1743319368]
 collision_layer = 2
 collision_mask = 3
@@ -32,6 +31,7 @@ position = Vector2(0, 4)
 shape = SubResource("CapsuleShape2D_body")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1825110096]
+visible = false
 position = Vector2(0, -16)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1765930532]
@@ -86,4 +86,6 @@ position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_hurtbox")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1004865545]
-sprite_frames = SubResource("SpriteFrames_xeo28")
+scale = Vector2(2.5, 2.5)
+sprite_frames = ExtResource("4_char01")
+animation = &"idle_down"

@@ -128,12 +128,17 @@ public partial class EnemyBase : CharacterBody2D
 
 	public void PlayAnim(string name)
 	{
-		if (Sprite == null || Sprite.SpriteFrames == null || _currentAnim == name)
+		if (Sprite == null || Sprite.SpriteFrames == null)
 			return;
-		if (!Sprite.SpriteFrames.HasAnimation(name))
+
+		string resolvedName = Sprite.SpriteFrames.HasAnimation(name) ? name : $"{name}_down";
+		if (_currentAnim == resolvedName)
 			return;
-		_currentAnim = name;
-		Sprite.Play(name);
+		if (!Sprite.SpriteFrames.HasAnimation(resolvedName))
+			return;
+
+		_currentAnim = resolvedName;
+		Sprite.Play(resolvedName);
 	}
 
 	/// <summary>Briefly modulate sprite to white on hit (classic damage flash).</summary>

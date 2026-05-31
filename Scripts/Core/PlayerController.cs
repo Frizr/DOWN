@@ -44,8 +44,8 @@ public partial class PlayerController : CharacterBody2D
 	private float _dodgeTimer     = 0f;
 	private float _dodgeCoolTimer = 0f;
 
-	// Facing direction (last non-zero move direction — for attack hitbox orientation)
-	private Vector2 _facing = Vector2.Right;
+	// Facing direction from the last non-zero input, used for directional animations.
+	private Vector2 _facing = Vector2.Down;
 
 	// ─── Isometric Conversion Constants (mirrors IsometricUtils) ─────────────
 	//  We inline the projection here so PlayerController has no static dependency.
@@ -71,18 +71,26 @@ public partial class PlayerController : CharacterBody2D
 		// Wire attack signals → GameManager combo
 		_attack.HitConnected += OnHitConnected;
 
+		PlayAnim("idle");
 		GD.Print("[PlayerController] Ready.");
 	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-		var input = Input.GetVector("move_left", "move_right", "move_up", "move_down");
-		GD.Print("[Player] input=" + input);
-		if (input != Vector2.Zero)
+		float dt = (float)delta;
+
+		ReadMovement();
+		ReadAttack();
+		ReadDodge();
+		UpdateDodgeTimers(dt);
+
+		if (_isDodging)
 		{
-			Velocity = input * 200f;
-			MoveAndSlide();
+			PerformDodge(dt);
+			return;
 		}
+
+		ApplyMovement(dt);
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -110,9 +118,10 @@ public partial class PlayerController : CharacterBody2D
 		// Project flat input onto the isometric axes
 		// Right-key  → move northeast in iso space
 		// Down-key   → move southeast in iso space
+		Vector2 inputFacing = new Vector2(inputX, inputY).Normalized();
 		Vector2 dir = (IsoRight * inputX + IsoDown * inputY).Normalized();
 		_moveDir = dir;
-		_facing  = dir;
+		_facing  = inputFacing;
 	}
 
 	private void ReadAttack()
@@ -219,13 +228,40 @@ public partial class PlayerController : CharacterBody2D
 	/// <summary>Play animation only if it isn't already playing (prevents restart spam).</summary>
 	private void PlayAnim(string animName)
 	{
-		if (_sprite == null || _sprite.SpriteFrames == null || _currentAnim == animName)
-			return;
-		if (!_sprite.SpriteFrames.HasAnimation(animName))
+		if (_sprite == null || _sprite.SpriteFrames == null)
 			return;
 
-		_currentAnim = animName;
-		_sprite.Play(animName);
+		string resolvedAnim = ResolveDirectionalAnim(animName);
+		if (_currentAnim == resolvedAnim)
+			return;
+		if (!_sprite.SpriteFrames.HasAnimation(resolvedAnim))
+			return;
+
+		_currentAnim = resolvedAnim;
+		_sprite.Play(resolvedAnim);
+	}
+
+	private string ResolveDirectionalAnim(string baseAnim)
+	{
+		if (baseAnim.Contains('_'))
+			return baseAnim;
+
+		string directionalAnim = $"{baseAnim}_{GetFacingDirection()}";
+		if (_sprite.SpriteFrames.HasAnimation(directionalAnim))
+			return directionalAnim;
+
+		return baseAnim;
+	}
+
+	private string GetFacingDirection()
+	{
+		float ax = Mathf.Abs(_facing.X);
+		float ay = Mathf.Abs(_facing.Y);
+
+		if (ay >= ax)
+			return _facing.Y >= 0f ? "down" : "up";
+
+		return _facing.X >= 0f ? "right" : "left";
 	}
 
 	// ─── Public Accessors ─────────────────────────────────────────────────────
