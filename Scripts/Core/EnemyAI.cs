@@ -71,7 +71,7 @@ public partial class EnemyAI : Node
     public override void _Ready()
     {
         _enemy = GetParent<EnemyBase>();
-        _nav   = GetNode<NavigationAgent2D>("NavigationAgent2D");
+        _nav   = _enemy.GetNode<NavigationAgent2D>("NavigationAgent2D");
 
         // Resolve waypoint node paths
         foreach (var path in WaypointPaths)

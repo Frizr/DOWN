@@ -1,73 +1,46 @@
-[gd_scene load_steps=6 format=3 uid="uid://down_main"]
+[gd_scene format=3 uid="uid://ecgkgwfkyd7d"]
 
-[ext_resource type="Script"      path="res://Scripts/Core/IsometricCamera.cs" id="1_iso_cam"]
-[ext_resource type="Script"      path="res://Scripts/Core/LevelManager.cs"    id="2_lvl_mgr"]
-[ext_resource type="PackedScene" path="res://Scenes/Player.tscn"              id="3_player"]
-[ext_resource type="Script" path="res://Scripts/Core/TilemapSetup.cs" id="99_tilemap_setup"]
-[ext_resource type="PackedScene" path="res://Scenes/Enemy.tscn" id="2_enemy"]
-[ext_resource type="Script" path="res://Scripts/Core/CombatTrigger.cs" id="88_combat_trigger"]
-; ══════════════════════════════════════════════════════════════════════════════
-; Main — Root Scene
-; ══════════════════════════════════════════════════════════════════════════════
+[ext_resource type="Script" uid="uid://e3poq685d010" path="res://Scripts/Core/IsometricCamera.cs" id="1_iso_cam"]
+[ext_resource type="PackedScene" uid="uid://du3ai24edqb2d" path="res://Scenes/Enemy.tscn" id="2_enemy"]
+[ext_resource type="Script" uid="uid://k105mbrfws52" path="res://Scripts/Core/LevelManager.cs" id="2_lvl_mgr"]
+[ext_resource type="PackedScene" uid="uid://d16s7a2b3tt77" path="res://Scenes/Player.tscn" id="3_player"]
+[ext_resource type="Script" uid="uid://c4s1d6ruxin4f" path="res://Scripts/Core/CombatTrigger.cs" id="88_combat_trigger"]
+[ext_resource type="Script" uid="uid://c1bojqd2b63qu" path="res://Scripts/Core/TilemapSetup.cs" id="99_tilemap_setup"]
 
-[node name="Main" type="Node2D"]
+[node name="Main" type="Node2D" unique_id=531286139]
 script = ExtResource("99_tilemap_setup")
 
-[node name="CombatTrigger" type="Node2D" parent="."]
+[node name="CombatTrigger" type="Node2D" parent="." unique_id=1939178938]
 script = ExtResource("88_combat_trigger")
 
-; ── World ─────────────────────────────────────────────────────────────────────
-; Contains all gameplay geometry and entities.
+[node name="World" type="Node2D" parent="." unique_id=1359986497]
 
-[node name="World" type="Node2D" parent="."]
+[node name="TileMap" type="TileMapLayer" parent="World" unique_id=320433113]
 
-[node name="TileMap" type="TileMapLayer" parent="World"]
-; Build your level layout here in the editor.
-; Assign the tile_set to your 64×32 isometric tileset resource.
-; Add a NavigationRegion2D child to enable NavigationAgent2D pathfinding.
-
-[node name="Decorations" type="Node2D" parent="World"]
+[node name="Decorations" type="Node2D" parent="World" unique_id=1554238033]
 y_sort_enabled = true
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="World"]
-; Draw the walkable navigation polygon over your TileMap.
-; EnemyAI.NavigationAgent2D uses this automatically.
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="World" unique_id=1163184756]
 
-[node name="YSort" type="Node2D" parent="World"]
+[node name="YSort" type="Node2D" parent="World" unique_id=1074913563]
 y_sort_enabled = true
-; All runtime entities (Player, Enemies, Pickups) are spawned here.
-; Isometric depth sorting is handled by ZIndex set from world position.
 
-[node name="Player" parent="World/YSort" instance=ExtResource("3_player")]
+[node name="Player" parent="World/YSort" unique_id=933239875 instance=ExtResource("3_player")]
 
-[node name="Enemy" parent="World/YSort" instance=ExtResource("2_enemy")]
+[node name="Enemy" parent="World/YSort" unique_id=1040932531 instance=ExtResource("2_enemy")]
 
-[node name="SpawnPoints" type="Node2D" parent="World"]
-; Add Node2D children here and place them in the editor.
-; Add each one to the group "spawn_point" (Node > Groups in Inspector).
+[node name="SpawnPoints" type="Node2D" parent="World" unique_id=353437791]
 
-; ── Camera ────────────────────────────────────────────────────────────────────
-
-[node name="Camera" type="Camera2D" parent="."]
-zoom   = Vector2(2, 2)
+[node name="Camera" type="Camera2D" parent="." unique_id=250535837]
+zoom = Vector2(2, 2)
 script = ExtResource("1_iso_cam")
-FollowSpeed = 8.0
-ZoomMin     = 1.0
-ZoomMax     = 4.0
-ZoomStep    = 0.15
-ShakeDecay  = 5.0
+ZoomMin = 1.0
+ZoomMax = 4.0
+ZoomStep = 0.15
 
-; ── Level Manager ─────────────────────────────────────────────────────────────
+[node name="LevelManager" type="Node" parent="." unique_id=1106684666]
+script = ExtResource("2_lvl_mgr")
+MaxWaves = 0
 
-[node name="LevelManager" type="Node" parent="."]
-script        = ExtResource("2_lvl_mgr")
-EnemiesPerWave = 5
-WaveClearDelay = 2.0
-MaxWaves       = 0
-YSortPath      = "/root/Main/World/YSort"
-; Assign EnemyScene and GruntScene in Inspector after setting up enemy scenes.
-
-[node name="UI" type="CanvasLayer" parent="."]
+[node name="UI" type="CanvasLayer" parent="." unique_id=919625968]
 layer = 100
-
-; ── UI Layers ─────────────────────────────────────────────────────────────────

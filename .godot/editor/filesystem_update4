@@ -23,3 +23,4 @@ res://Assets/SpriteFrames/char_004_frames.tres
 res://Assets/SpriteFrames/char_005_frames.tres
 res://Scripts/Core/SpriteImporter.gd
 res://Assets/SpriteFrames/green_goblin_tribesman_frames.tres
+res://Scenes/Main.tscn

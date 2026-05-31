@@ -43,7 +43,7 @@ MaxHealth = 60
 [node name="EnemyAI" type="Node" parent="." unique_id=182156367]
 script = ExtResource("2_ai")
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="EnemyAI" unique_id=2064323543]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2064323543]
 path_desired_distance = 6.0
 target_desired_distance = 16.0
 avoidance_enabled = true
