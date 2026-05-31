@@ -1,6 +1,6 @@
 # DOWN - 💀 Dark Isometric Arena Survival
 
-![DOWN Reference Banner](Assets/reference.png)
+![DOWN Banner](Assets/DOWN.png)
 
 [![Godot Engine](https://img.shields.io/badge/Godot-4.x%20%28.NET%2F%23C%29-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
 [![Language](https://img.shields.io/badge/Language-C%23-green?style=for-the-badge&logo=c-sharp)](https://dotnet.microsoft.com)
