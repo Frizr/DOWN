@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://d16s7a2b3tt77" path="res://Scenes/Player.tscn" id="1_h2yge"]
 [ext_resource type="Script" uid="uid://e3poq685d010" path="res://Scripts/Core/IsometricCamera.cs" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://du3ai24edqb2d" path="res://Scenes/Enemy.tscn" id="2_1bvp3"]
+[ext_resource type="SpriteFrames" uid="uid://et4cci46dlfy" path="res://Assets/SpriteFrames/player_frames.tres" id="3_lquwl"]
 
 [node name="Main" type="Node2D" unique_id=283844036 groups=["spawn_point"]]
 position = Vector2(-106, -59)
@@ -17,6 +18,10 @@ position = Vector2(113, 59)
 
 [node name="Player" parent="YSort" unique_id=1796213078 groups=["player", "spawn_point"] instance=ExtResource("1_h2yge")]
 position = Vector2(596, 338)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="YSort/Player" unique_id=750316106]
+sprite_frames = ExtResource("3_lquwl")
+animation = &"idle_down"
 
 [node name="Camera" type="Camera2D" parent="YSort" unique_id=426865956]
 position = Vector2(633, 358)
