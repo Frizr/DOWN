@@ -276,27 +276,71 @@ public partial class PlayerController : CharacterBody2D
 		if (_sprite == null || _sprite.SpriteFrames == null)
 			return false;
 
-		string resolvedAnim = ResolveDirectionalAnim(animName);
-		if (_currentAnim == resolvedAnim)
-			return true;
-		if (!_sprite.SpriteFrames.HasAnimation(resolvedAnim))
+		SpriteFrames frames = _sprite.SpriteFrames;
+		string resolvedAnim = ResolvePlayableAnim(animName, frames);
+		if (string.IsNullOrEmpty(resolvedAnim))
 			return false;
+
+		if (_currentAnim == resolvedAnim && _sprite.Animation.ToString() == resolvedAnim && _sprite.IsPlaying())
+			return true;
 
 		_currentAnim = resolvedAnim;
 		_sprite.Play(resolvedAnim);
 		return true;
 	}
 
-	private string ResolveDirectionalAnim(string baseAnim)
+	private string ResolvePlayableAnim(string animName, SpriteFrames frames)
 	{
-		if (baseAnim.Contains('_'))
-			return baseAnim;
+		string baseAnim = GetAnimationBase(animName);
+		string requestedDirection = GetAnimationDirection(animName);
+		string requestedAnim = string.IsNullOrEmpty(requestedDirection)
+			? $"{baseAnim}_{GetFacingDirection()}"
+			: $"{baseAnim}_{requestedDirection}";
 
-		string directionalAnim = $"{baseAnim}_{GetFacingDirection()}";
-		if (_sprite.SpriteFrames.HasAnimation(directionalAnim))
-			return directionalAnim;
+		if (HasPlayableAnimation(frames, requestedAnim))
+			return requestedAnim;
 
-		return baseAnim;
+		string baseUp = $"{baseAnim}_up";
+		if (HasPlayableAnimation(frames, baseUp))
+			return baseUp;
+
+		string baseDown = $"{baseAnim}_down";
+		if (HasPlayableAnimation(frames, baseDown))
+			return baseDown;
+
+		if (HasPlayableAnimation(frames, "idle_up"))
+			return "idle_up";
+
+		if (HasPlayableAnimation(frames, "idle_down"))
+			return "idle_down";
+
+		foreach (StringName animation in frames.GetAnimationNames())
+		{
+			string candidate = animation.ToString();
+			if (HasPlayableAnimation(frames, candidate))
+				return candidate;
+		}
+
+		return "";
+	}
+
+	private static string GetAnimationBase(string animName)
+	{
+		int separator = animName.IndexOf('_');
+		return separator > 0 ? animName[..separator] : animName;
+	}
+
+	private static string GetAnimationDirection(string animName)
+	{
+		int separator = animName.IndexOf('_');
+		return separator >= 0 && separator < animName.Length - 1 ? animName[(separator + 1)..] : "";
+	}
+
+	private static bool HasPlayableAnimation(SpriteFrames frames, string animName)
+	{
+		return !string.IsNullOrEmpty(animName)
+			&& frames.HasAnimation(animName)
+			&& frames.GetFrameCount(animName) > 0;
 	}
 
 	private string GetFacingDirection()

@@ -16,15 +16,18 @@ public partial class TilemapSetup : Node
 	private static readonly Vector2 CameraZoom = new(2.4f, 2.4f);
 	private const int ArenaTileSize = 32;
 	private const int ArenaMargin = 64;
-	private static readonly Rect2 FallbackArenaRect = new(new Vector2(32f, -32f), new Vector2(1216f, 768f));
+	private static readonly Rect2 PreferredArenaRect = new(new Vector2(330f, 250f), new Vector2(760f, 460f));
+	private static readonly Rect2 FallbackArenaRect = PreferredArenaRect;
 	private static readonly Color ArenaDebugColor = new(1f, 0.82f, 0.25f, 0.75f);
-	private const int ArenaWallThickness = ArenaTileSize;
-	private const uint ArenaCollisionLayer = 2;
+	private const int ArenaWallThickness = 96;
+	private const uint PlayerCollisionLayer = 1;
+	private const uint ArenaCollisionLayer = 4;
 	private const float MinimumEnemySpawnDistance = 230f;
 	private static readonly bool ShowArenaDebug = false;
 	private static readonly bool ShowSpawnDebugMarker = false;
 	private static readonly bool LogSpawnSelection = false;
 	private Rect2 _arenaRect = FallbackArenaRect;
+
 
 	private static readonly Vector2[] EnemySpawnPoints =
 	{
@@ -143,8 +146,8 @@ public partial class TilemapSetup : Node
 
 		AddArenaWall(boundsRoot, "TopWall", new Vector2(centerX, top - ArenaWallThickness * 0.5f), new Vector2(_arenaRect.Size.X + ArenaWallThickness * 2f, ArenaWallThickness));
 		AddArenaWall(boundsRoot, "BottomWall", new Vector2(centerX, bottom + ArenaWallThickness * 0.5f), new Vector2(_arenaRect.Size.X + ArenaWallThickness * 2f, ArenaWallThickness));
-		AddArenaWall(boundsRoot, "LeftWall", new Vector2(left - ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, _arenaRect.Size.Y));
-		AddArenaWall(boundsRoot, "RightWall", new Vector2(right + ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, _arenaRect.Size.Y));
+		AddArenaWall(boundsRoot, "LeftWall", new Vector2(left - ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, _arenaRect.Size.Y + ArenaWallThickness * 2f));
+		AddArenaWall(boundsRoot, "RightWall", new Vector2(right + ArenaWallThickness * 0.5f, centerY), new Vector2(ArenaWallThickness, _arenaRect.Size.Y + ArenaWallThickness * 2f));
 	}
 
 	private void SetupPlayerEnemyPositions()
@@ -154,6 +157,8 @@ public partial class TilemapSetup : Node
 		{
 			player.Position = PlayerSpawn;
 			player.AddToGroup("player");
+			if (player is CollisionObject2D playerCollision)
+				playerCollision.CollisionMask |= ArenaCollisionLayer;
 		}
 		else
 		{
@@ -253,6 +258,10 @@ public partial class TilemapSetup : Node
 	{
 		Vector2 scaledSize = texture.GetSize() * BaseGroundScale;
 		Vector2 backgroundTopLeft = BaseGroundPosition - scaledSize * 0.5f;
+		Rect2 backgroundRect = new(backgroundTopLeft, scaledSize);
+		if (ContainsRect(backgroundRect, PreferredArenaRect))
+			return PreferredArenaRect;
+
 		Vector2 playableTopLeft = backgroundTopLeft + new Vector2(ArenaMargin, ArenaMargin);
 		Vector2 playableEnd = backgroundTopLeft + scaledSize - new Vector2(ArenaMargin, ArenaMargin);
 
@@ -264,6 +273,14 @@ public partial class TilemapSetup : Node
 			return FallbackArenaRect;
 
 		return new Rect2(snappedTopLeft, snappedSize);
+	}
+
+	private static bool ContainsRect(Rect2 outer, Rect2 inner)
+	{
+		return inner.Position.X >= outer.Position.X
+			&& inner.Position.Y >= outer.Position.Y
+			&& inner.End.X <= outer.End.X
+			&& inner.End.Y <= outer.End.Y;
 	}
 
 	private static float SnapUpToTile(float value)
@@ -283,7 +300,7 @@ public partial class TilemapSetup : Node
 			Name = name,
 			Position = position,
 			CollisionLayer = ArenaCollisionLayer,
-			CollisionMask = 0
+			CollisionMask = PlayerCollisionLayer
 		};
 		parent.AddChild(body);
 

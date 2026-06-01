@@ -1,5 +1,5 @@
 63f7b34db8d8cdea90c76aacccf841ec
-::res://::1780247490
+::res://::1780272832
 asset_import_report.txt::TextFile::-1::1780162246::0::1::::<><><>0<>0<><>::
 export_presets.cfg::TextFile::-1::1779103267::0::1::::<><><>0<>0<><>::
 generate_sprites.run.err.log::TextFile::-1::1779366407::0::1::::<><><>0<>0<><>::
@@ -15,15 +15,15 @@ reference.png::CompressedTexture2D::4320389988510645029::1780206285::1780207349:
 screenshot1.png::CompressedTexture2D::4801352324885981630::1780206285::1780207349::1::::<><><>0<>0<>26d4b9bfd2e7d276452ce2bbc8b2e093<>res://.godot/imported/screenshot1.png-969231f7ff35a24c9e46309194013408.ctex::
 screenshot2.png::CompressedTexture2D::3438208231272266662::1780206285::1780207349::1::::<><><>0<>0<>293ee61cdf79a7f006adeb236df17fc0<>res://.godot/imported/screenshot2.png-f8009becc35d65f060bb90edc06a74f6.ctex::
 ::res://Assets/Audio/::1779101776
-::res://Assets/SpriteFrames/::1780198948
+::res://Assets/SpriteFrames/::1780248014
 char_001_frames.tres::SpriteFrames::7541766059267196098::1780193681::0::1::::<><><>0<>0<><>::uid://b0up5cdlvt3yj::::res://Assets/Sprites/NPC/Soldiers/Char_001.png
 char_002_frames.tres::SpriteFrames::1036583289597823527::1780193682::0::1::::<><><>0<>0<><>::uid://c08jd4opkldmg::::res://Assets/Sprites/NPC/Soldiers/Char_002.png
 char_003_frames.tres::SpriteFrames::2363743538386032739::1780192940::0::1::::<><><>0<>0<><>::uid://cf4cd2mptnlau::::res://Assets/Sprites/NPC/Soldiers/Char_003.png
 char_004_frames.tres::SpriteFrames::3756653898785499459::1780193682::0::1::::<><><>0<>0<><>::uid://waff5futbd4g::::res://Assets/Sprites/NPC/Soldiers/Char_004.png
 char_005_frames.tres::SpriteFrames::6899514218875921540::1780193682::0::1::::<><><>0<>0<><>::uid://bfxgjcd3yhdkf::::res://Assets/Sprites/NPC/Soldiers/Char_005.png
 char_006_frames.tres::SpriteFrames::6268554678892967250::1780192940::0::1::::<><><>0<>0<><>::uid://dgv14w6hhcrud::::res://Assets/Sprites/NPC/Soldiers/Char_006.png
-green_goblin_tribesman_frames.tres::SpriteFrames::7146982053130392742::1780198947::0::1::::<><><>0<>0<><>::uid://5dxagore70jn::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-attack.png<>uid://73ifmyuye0tl::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-death.png<>uid://bts1fknhtelsk::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-hurt.png<>uid://2k4xskjgkple::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-walk.png
-player_frames.tres::SpriteFrames::321743035021622678::1780193347::0::1::::<><><>0<>0<><>::uid://cmhgbohyogr07::::res://Assets/Sprites/Player/Sword_attack_full.png<>uid://ctsxxjo6j5v85::::res://Assets/Sprites/Player/Sword_Death_full.png<>uid://cok8f37k11r4d::::res://Assets/Sprites/Player/Sword_Hurt_full.png<>uid://bqj3sbncf1aoh::::res://Assets/Sprites/Player/Sword_Idle_full.png<>uid://cyny28tr88wcx::::res://Assets/Sprites/Player/Sword_Run_full.png<>uid://kmvms4ovprw8::::res://Assets/Sprites/Player/Sword_Walk_full.png
+green_goblin_tribesman_frames.tres::SpriteFrames::7146982053130392742::1780248014::0::1::::<><><>0<>0<><>::uid://5dxagore70jn::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-attack.png<>uid://73ifmyuye0tl::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-death.png<>uid://bts1fknhtelsk::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-hurt.png<>uid://2k4xskjgkple::::res://Assets/Sprites/Enemy/Goblins/green goblin version/characters/1. goblin-tribesman/goblin-tribesman-walk.png
+player_frames.tres::SpriteFrames::321743035021622678::1780248014::0::1::::<><><>0<>0<><>::uid://cmhgbohyogr07::::res://Assets/Sprites/Player/Sword_attack_full.png<>uid://ctsxxjo6j5v85::::res://Assets/Sprites/Player/Sword_Death_full.png<>uid://cok8f37k11r4d::::res://Assets/Sprites/Player/Sword_Hurt_full.png<>uid://bqj3sbncf1aoh::::res://Assets/Sprites/Player/Sword_Idle_full.png<>uid://cyny28tr88wcx::::res://Assets/Sprites/Player/Sword_Run_full.png<>uid://kmvms4ovprw8::::res://Assets/Sprites/Player/Sword_Walk_full.png
 ::res://Assets/Sprites/::1780191000
 crosshair.png::CompressedTexture2D::1386226078928388758::1779161360::1779161495::1::::<><><>0<>0<>85e1599423099f5d2a1ea45f7c2a175b<>res://.godot/imported/crosshair.png-f9e1ed6841917a17a79f96f1872903eb.ctex::
 stay_enemy.jpg::CompressedTexture2D::1712174833475057440::1779201375::1779415754::1::::<><><>0<>0<>6053361a92eb5378ce073a4689629fbd<>res://.godot/imported/stay_enemy.jpg-c3294ae056e11e79201ca5e835898e8d.ctex::
@@ -565,11 +565,11 @@ Tree_shadow3_1.png::CompressedTexture2D::4694729152376784482::1780191154::178019
 Tree_shadow3_2.png::CompressedTexture2D::5752353841421097517::1780191154::1780192789::1::::<><><>0<>0<>81c24a35994de2415f64afd53ecb0dc7<>res://.godot/imported/Tree_shadow3_2.png-8f5fe5d042a2278a38a0b988ac2dd8bc.ctex::
 Tree_shadow3_3.png::CompressedTexture2D::1103351514243752602::1780191154::1780192789::1::::<><><>0<>0<>3e29a831c242c85ae3a07a0e38921db5<>res://.godot/imported/Tree_shadow3_3.png-7a69f1ccdf324f30ec5160dd574133fa.ctex::
 ::res://Levels/::1779101703
-::res://Scenes/::1780243661
+::res://Scenes/::1780248014
 DeathScreen.tscn::PackedScene::-1::1779119769::0::1::::<><><>0<>0<><>::
 Enemy.tscn::PackedScene::8620857250421027341::1780246820::0::1::::<><><>0<>0<><>::uid://t1c2m07s5fnl::::res://Scripts/Core/EnemyGrunt.cs<>uid://cm8v6oqgcau6n::::res://Scripts/Core/EnemyAI.cs<>uid://dhxj07ejejq3f::::res://Scripts/Core/Health.cs<>res://Assets/SpriteFrames/green_goblin_tribesman_frames.tres
 HUD.tscn::PackedScene::-1::1780243766::0::1::::<><><>0<>0<><>::res://Scripts/Core/HUD.cs
-Main.tscn::PackedScene::285266639323183183::1780243661::0::1::::<><><>0<>0<><>::uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn<>uid://k105mbrfws52::::res://Scripts/Core/LevelManager.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>res://Scenes/HUD.tscn<>uid://c4s1d6ruxin4f::::res://Scripts/Core/CombatTrigger.cs<>uid://c1bojqd2b63qu::::res://Scripts/Core/TilemapSetup.cs
+Main.tscn::PackedScene::285266639323183183::1780248014::0::1::::<><><>0<>0<><>::uid://e3poq685d010::::res://Scripts/Core/IsometricCamera.cs<>uid://du3ai24edqb2d::::res://Scenes/Enemy.tscn<>uid://k105mbrfws52::::res://Scripts/Core/LevelManager.cs<>uid://d16s7a2b3tt77::::res://Scenes/Player.tscn<>res://Scenes/HUD.tscn<>uid://c4s1d6ruxin4f::::res://Scripts/Core/CombatTrigger.cs<>uid://c1bojqd2b63qu::::res://Scripts/Core/TilemapSetup.cs
 Player.tscn::PackedScene::9049317789112093156::1780198947::0::1::::<><><>0<>0<><>::uid://wnkhdiqj03by::::res://Scripts/Core/PlayerController.cs<>uid://dhxj07ejejq3f::::res://Scripts/Core/Health.cs<>uid://dhi35ssd4sxr7::::res://Scripts/Core/AttackSystem.cs<>uid://et4cci46dlfy::::res://Assets/SpriteFrames/player_frames.tres
 ::res://Scripts/::1779101750
 ::res://Scripts/Audio/::1779101750
@@ -590,7 +590,7 @@ NPCController.cs::CSharpScript::2309580140812738257::1780192169::0::1::::<>Chara
 PlaceholderSetup.cs::CSharpScript::6826662857252915399::1779156302::0::1::::PlaceholderSetup<>Node<><>0<>0<><>::
 PlayerController.cs::CSharpScript::1571611311992983042::1780246578::0::1::::<>CharacterBody2D<><>0<>0<><>::
 SpriteImporter.gd::GDScript::5165925100107250754::1780198022::0::1::::<>EditorScript<><>0<>1<><>::
-TilemapSetup.cs::CSharpScript::6600682636010338124::1780245150::0::1::::TilemapSetup<>Node<><>0<>0<><>::
+TilemapSetup.cs::CSharpScript::6600682636010338124::1780247626::0::1::::TilemapSetup<>Node<><>0<>0<><>::
 ::res://Scripts/Enemy/::1779101739
 ::res://Scripts/Player/::1779101731
 ::res://Scripts/UI/::1779101745
