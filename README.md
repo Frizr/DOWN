@@ -1,5 +1,7 @@
 # DOWN - 💀 Dark Fantasy Action RPG Prototype
 
+> **🚧 Project Status:** *Ongoing development – features are actively being added and refined.*
+
 ![DOWN Banner](Assets/DOWN.png)
 
 [![Godot Engine](https://img.shields.io/badge/Godot-4.6%20%28.NET%2FC%23%29-478CBF?style=for-the-badge&logo=godot-engine&logoColor=white)](https://godotengine.org)
