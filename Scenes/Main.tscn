@@ -5,6 +5,8 @@
 [ext_resource type="Script" uid="uid://k105mbrfws52" path="res://Scripts/Core/LevelManager.cs" id="2_lvl_mgr"]
 [ext_resource type="PackedScene" uid="uid://d16s7a2b3tt77" path="res://Scenes/Player.tscn" id="3_player"]
 [ext_resource type="PackedScene" path="res://Scenes/HUD.tscn" id="4_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/DeathScreen.tscn" id="5_death"]
+[ext_resource type="Script" uid="uid://csp3viacyrr3y" path="res://Scripts/Core/GeneratedAudioFeedback.cs" id="6_audio_feedback"]
 [ext_resource type="Script" uid="uid://c4s1d6ruxin4f" path="res://Scripts/Core/CombatTrigger.cs" id="88_combat_trigger"]
 [ext_resource type="Script" uid="uid://c1bojqd2b63qu" path="res://Scripts/Core/TilemapSetup.cs" id="99_tilemap_setup"]
 
@@ -35,14 +37,19 @@ y_sort_enabled = true
 [node name="SpawnPoints" type="Node2D" parent="World" unique_id=353437791]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=250535837]
-zoom = Vector2(2.4, 2.4)
+zoom = Vector2(0.9, 0.9)
 script = ExtResource("1_iso_cam")
-ZoomMin = 1.0
-ZoomMax = 4.0
+ZoomMin = 0.85
 ZoomStep = 0.15
 
 [node name="LevelManager" type="Node" parent="." unique_id=1106684666]
 script = ExtResource("2_lvl_mgr")
+EnemyScene = ExtResource("2_enemy")
 MaxWaves = 0
 
+[node name="GeneratedAudioFeedback" type="Node" parent="."]
+script = ExtResource("6_audio_feedback")
+
 [node name="HUD" parent="." unique_id=919625968 instance=ExtResource("4_hud")]
+
+[node name="DeathScreen" parent="." unique_id=61651103 instance=ExtResource("5_death")]

@@ -40,6 +40,8 @@ public partial class IsometricCamera : Camera2D
 	private float  _targetZoom   = 1.0f;
 	private float  _shakeStrength = 0.0f;
 	private RandomNumberGenerator _rng = new();
+	private bool _hasBounds = false;
+	private Rect2 _bounds;
 
 	// ─── Godot Lifecycle ──────────────────────────────────────────────────────
 
@@ -78,7 +80,9 @@ public partial class IsometricCamera : Camera2D
 		SmoothZoom(dt);
 
 		if (_target != null)
-			GlobalPosition = GlobalPosition.Lerp(_target.GlobalPosition, FollowSpeed * dt);
+			GlobalPosition = ClampToBounds(GlobalPosition.Lerp(_target.GlobalPosition, FollowSpeed * dt));
+		else
+			GlobalPosition = ClampToBounds(GlobalPosition);
 
 		ApplyShake(dt);
 	}
@@ -92,6 +96,13 @@ public partial class IsometricCamera : Camera2D
 	public void SetTarget(Node2D target)
 	{
 		_target = target;
+	}
+
+	public void SetBounds(Rect2 bounds)
+	{
+		_bounds = bounds;
+		_hasBounds = true;
+		GlobalPosition = ClampToBounds(GlobalPosition);
 	}
 
 	/// <summary>
@@ -109,7 +120,7 @@ public partial class IsometricCamera : Camera2D
 	/// </summary>
 	public void SnapTo(Vector2 worldPosition)
 	{
-		GlobalPosition = worldPosition;
+		GlobalPosition = ClampToBounds(worldPosition);
 	}
 
 	// ─── Private Helpers ──────────────────────────────────────────────────────
@@ -129,6 +140,26 @@ public partial class IsometricCamera : Camera2D
 		float current = Zoom.X;
 		float next    = Mathf.Lerp(current, _targetZoom, ZoomSpeed * dt);
 		Zoom = new Vector2(next, next);
+	}
+
+	private Vector2 ClampToBounds(Vector2 position)
+	{
+		if (!_hasBounds)
+			return position;
+
+		Vector2 viewportSize = GetViewportRect().Size;
+		float zoomX = Mathf.Max(Zoom.X, 0.001f);
+		float zoomY = Mathf.Max(Zoom.Y, 0.001f);
+		Vector2 halfView = new(viewportSize.X / (2f * zoomX), viewportSize.Y / (2f * zoomY));
+
+		float minX = _bounds.Position.X + halfView.X;
+		float maxX = _bounds.End.X - halfView.X;
+		float minY = _bounds.Position.Y + halfView.Y;
+		float maxY = _bounds.End.Y - halfView.Y;
+
+		float x = minX <= maxX ? Mathf.Clamp(position.X, minX, maxX) : _bounds.GetCenter().X;
+		float y = minY <= maxY ? Mathf.Clamp(position.Y, minY, maxY) : _bounds.GetCenter().Y;
+		return new Vector2(x, y);
 	}
 
 	/// <summary>Smoothly move camera toward the target's screen-space position.</summary>

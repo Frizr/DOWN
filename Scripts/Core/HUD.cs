@@ -5,6 +5,9 @@ using Godot;
 /// </summary>
 public partial class HUD : CanvasLayer
 {
+	private const string GameScene = "res://Scenes/Main.tscn";
+	private const string MainMenuScene = "res://Scenes/MainMenu.tscn";
+
 	private ProgressBar _healthBar;
 	private Label _healthLabel;
 	private Label _scoreLabel;
@@ -13,6 +16,9 @@ public partial class HUD : CanvasLayer
 	private Label _comboMultLabel;
 	private Control _pauseBanner;
 	private Label _bannerLabel;
+	private Button _resumeButton;
+	private Button _restartButton;
+	private Button _menuButton;
 	private AnimationPlayer _anim;
 	private Health _playerHealth;
 
@@ -33,6 +39,7 @@ public partial class HUD : CanvasLayer
 		_pauseBanner = GetNodeOrNull<Control>("PauseBanner");
 		_bannerLabel = GetNodeOrNull<Label>("PauseBanner/BannerLabel");
 		_anim = GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
+		BuildPauseMenu();
 
 		if (_comboPanel != null)
 		{
@@ -227,6 +234,77 @@ public partial class HUD : CanvasLayer
 	{
 		if (_pauseBanner != null)
 			_pauseBanner.Visible = false;
+	}
+
+	private void BuildPauseMenu()
+	{
+		if (_pauseBanner == null)
+			return;
+
+		_pauseBanner.MouseFilter = Control.MouseFilterEnum.Stop;
+		_pauseBanner.OffsetTop = -92f;
+		_pauseBanner.OffsetBottom = 92f;
+
+		if (_bannerLabel != null)
+		{
+			_bannerLabel.OffsetBottom = -64f;
+			_bannerLabel.MouseFilter = Control.MouseFilterEnum.Ignore;
+		}
+
+		if (_pauseBanner.GetNodeOrNull<Node>("PauseButtons") != null)
+			return;
+
+		var buttons = new HBoxContainer
+		{
+			Name = "PauseButtons",
+			Alignment = BoxContainer.AlignmentMode.Center,
+			Position = new Vector2(30f, 108f),
+			Size = new Vector2(300f, 44f)
+		};
+		buttons.AddThemeConstantOverride("separation", 10);
+		_pauseBanner.AddChild(buttons);
+
+		_resumeButton = CreatePauseButton("Resume");
+		_restartButton = CreatePauseButton("Restart");
+		_menuButton = CreatePauseButton("Menu");
+
+		buttons.AddChild(_resumeButton);
+		buttons.AddChild(_restartButton);
+		buttons.AddChild(_menuButton);
+
+		_resumeButton.Pressed += OnResumePressed;
+		_restartButton.Pressed += OnRestartPressed;
+		_menuButton.Pressed += OnMenuPressed;
+	}
+
+	private static Button CreatePauseButton(string text)
+	{
+		return new Button
+		{
+			Text = text,
+			CustomMinimumSize = new Vector2(92f, 40f),
+			FocusMode = Control.FocusModeEnum.All
+		};
+	}
+
+	private void OnResumePressed()
+	{
+		GameManager.Instance?.SetState(GameManager.GameState.Playing);
+	}
+
+	private void OnRestartPressed()
+	{
+		GameManager.Instance?.SetState(GameManager.GameState.Playing);
+		GetTree().ChangeSceneToFile(GameScene);
+	}
+
+	private void OnMenuPressed()
+	{
+		GameManager.Instance?.SetState(GameManager.GameState.MainMenu);
+		if (ResourceLoader.Exists(MainMenuScene))
+			GetTree().ChangeSceneToFile(MainMenuScene);
+		else
+			GetTree().ChangeSceneToFile(GameScene);
 	}
 
 	private void PlayPauseAnimation(bool forward)

@@ -37,7 +37,7 @@ public partial class DeathScreen : CanvasLayer
         _highScoreLabel  = GetNode<Label>("Root/VBox/HighScoreLabel");
         _restartBtn      = GetNode<Button>("Root/VBox/Buttons/RestartBtn");
         _menuBtn         = GetNode<Button>("Root/VBox/Buttons/MenuBtn");
-        _anim            = GetNode<AnimationPlayer>("AnimationPlayer");
+        _anim            = GetNodeOrNull<AnimationPlayer>("AnimationPlayer");
 
         // Connect buttons
         _restartBtn.Pressed += OnRestartPressed;
@@ -97,20 +97,21 @@ public partial class DeathScreen : CanvasLayer
             .SetTrans(Tween.TransitionType.Back)
             .SetEase(Tween.EaseType.Out);
 
-        _anim.Play("death_screen_in");
+        if (_anim != null && _anim.HasAnimation("death_screen_in"))
+            _anim.Play("death_screen_in");
     }
 
     // ─── Button Handlers ─────────────────────────────────────────────────────
 
     private void OnRestartPressed()
     {
-        GameManager.Instance.SetState(GameManager.GameState.Playing);
+        GameManager.Instance?.SetState(GameManager.GameState.Playing);
         GetTree().ChangeSceneToFile(GameScene);
     }
 
     private void OnMenuPressed()
     {
-        GameManager.Instance.SetState(GameManager.GameState.MainMenu);
+        GameManager.Instance?.SetState(GameManager.GameState.MainMenu);
         // MainMenu scene may not exist yet — fall back gracefully
         if (ResourceLoader.Exists(MainMenuScene))
             GetTree().ChangeSceneToFile(MainMenuScene);

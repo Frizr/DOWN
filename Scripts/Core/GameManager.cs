@@ -89,6 +89,15 @@ public partial class GameManager : Node
         }
     }
 
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_cancel") || @event.IsActionPressed("tactical_pause"))
+        {
+            TogglePause();
+            GetViewport().SetInputAsHandled();
+        }
+    }
+
     // ─── State Management ────────────────────────────────────────────────────
 
     /// <summary>

@@ -35,7 +35,15 @@ public partial class NPCController : CharacterBody2D
 			return;
 		}
 
-		var wp  = GetNode<Node2D>(Waypoints[_waypointIndex]);
+		var wp  = GetNodeOrNull<Node2D>(Waypoints[_waypointIndex]);
+		if (wp == null)
+		{
+			Velocity = Vector2.Zero;
+			PlayAnim("idle");
+			_waypointIndex = (_waypointIndex + 1) % Waypoints.Length;
+			return;
+		}
+
 		Vector2 dir = wp.GlobalPosition - GlobalPosition;
 
 		if (dir.Length() < 6f)

@@ -43,7 +43,10 @@ public partial class PlayerController : CharacterBody2D
 	private bool  _isDodging      = false;
 	private float _dodgeTimer     = 0f;
 	private float _dodgeCoolTimer = 0f;
+	private float _attackAnimTimer = 0f;
 	private bool  _isDead         = false;
+	private bool  _hasPlayableBounds = false;
+	private Rect2 _playableBounds;
 
 	// Facing direction from the last non-zero input, used for directional animations.
 	private Vector2 _facing = Vector2.Down;
@@ -88,6 +91,7 @@ public partial class PlayerController : CharacterBody2D
 		ReadAttack();
 		ReadDodge();
 		UpdateDodgeTimers(dt);
+		UpdateAttackAnimationTimer(dt);
 
 		if (_isDodging)
 		{
@@ -100,9 +104,7 @@ public partial class PlayerController : CharacterBody2D
 
 	public override void _UnhandledInput(InputEvent @event)
 	{
-		// Pause toggle — always available even during combat
-		if (@event.IsActionPressed("ui_cancel"))
-			GameManager.Instance?.TogglePause();
+		// Pause input is handled by GameManager so it still works while the tree is paused.
 	}
 
 	// ─── Input Reading ────────────────────────────────────────────────────────
@@ -131,8 +133,10 @@ public partial class PlayerController : CharacterBody2D
 
 		if (Input.IsActionJustPressed("attack"))
 		{
-			_attack.SetFacing(_facing);
-			_attack.TryAttack();
+			Vector2 attackFacing = GetAttackFacing();
+			_attack.SetFacing(attackFacing);
+			if (_attack.TryAttack())
+				_facing = attackFacing;
 		}
 	}
 
@@ -168,26 +172,26 @@ public partial class PlayerController : CharacterBody2D
 		if (_moveDir != Vector2.Zero)
 		{
 			Velocity = _moveDir * speed;
-			PlayAnim(sprinting ? "run" : "walk");
+			if (!IsAttackAnimationLocked())
+				PlayAnim(sprinting ? "run" : "walk");
 		}
 		else
 		{
 			// Friction deceleration
 			Velocity = Velocity.Lerp(Vector2.Zero, 1f - Mathf.Pow(Friction, dt * 60f));
-			bool movementAnimIsStillPlaying = IsMovementAnimation(_currentAnim);
-			if (_attack.IsAttacking && movementAnimIsStillPlaying)
-				_attack.OnAnimationFinished();
-			if (!_attack.IsAttacking || movementAnimIsStillPlaying)
+			if (!IsAttackAnimationLocked())
 				PlayAnim("idle");
 		}
 
 		MoveAndSlide();
+		ClampToPlayableBounds();
 	}
 
 	private void PerformDodge(float dt)
 	{
 		Velocity = _dodgeDir * DodgeSpeed;
 		MoveAndSlide();
+		ClampToPlayableBounds();
 	}
 
 	private void UpdateDodgeTimers(float dt)
@@ -204,6 +208,12 @@ public partial class PlayerController : CharacterBody2D
 				Velocity   = Vector2.Zero;
 			}
 		}
+	}
+
+	private void UpdateAttackAnimationTimer(float dt)
+	{
+		if (_attackAnimTimer > 0f)
+			_attackAnimTimer = Mathf.Max(0f, _attackAnimTimer - dt);
 	}
 
 	// ─── Signal Handlers ──────────────────────────────────────────────────────
@@ -242,7 +252,9 @@ public partial class PlayerController : CharacterBody2D
 		if (_isDead)
 			return;
 
-		PlayAnim("attack");
+		float fallbackDuration = _attack?.AttackAnimLockDuration ?? 0.45f;
+		bool animationStarted = PlayAnim("attack", true);
+		_attackAnimTimer = animationStarted ? GetCurrentAnimationDuration(fallbackDuration) : fallbackDuration;
 	}
 
 	private void OnHitConnected(Node target, int damage)
@@ -260,7 +272,10 @@ public partial class PlayerController : CharacterBody2D
 			return;
 
 		if (_attack != null && (_attack.IsAttacking || _currentAnim.StartsWith("attack")))
+		{
 			_attack.OnAnimationFinished();
+			_attackAnimTimer = 0f;
+		}
 
 		if (_moveDir == Vector2.Zero && !_currentAnim.StartsWith("death"))
 			PlayAnim("idle");
@@ -271,7 +286,7 @@ public partial class PlayerController : CharacterBody2D
 	private string _currentAnim = "";
 
 	/// <summary>Play animation only if it isn't already playing (prevents restart spam).</summary>
-	private bool PlayAnim(string animName)
+	private bool PlayAnim(string animName, bool force = false)
 	{
 		if (_sprite == null || _sprite.SpriteFrames == null)
 			return false;
@@ -281,11 +296,13 @@ public partial class PlayerController : CharacterBody2D
 		if (string.IsNullOrEmpty(resolvedAnim))
 			return false;
 
-		if (_currentAnim == resolvedAnim && _sprite.Animation.ToString() == resolvedAnim && _sprite.IsPlaying())
+		if (!force && _currentAnim == resolvedAnim && _sprite.Animation.ToString() == resolvedAnim && _sprite.IsPlaying())
 			return true;
 
 		_currentAnim = resolvedAnim;
 		_sprite.Play(resolvedAnim);
+		if (force)
+			_sprite.Frame = 0;
 		return true;
 	}
 
@@ -354,9 +371,52 @@ public partial class PlayerController : CharacterBody2D
 		return _facing.X >= 0f ? "right" : "left";
 	}
 
-	private static bool IsMovementAnimation(string animName)
+	private Vector2 GetAttackFacing()
 	{
-		return animName.StartsWith("walk") || animName.StartsWith("run");
+		if (TryGetNearestEnemyDirection(150f, out Vector2 direction))
+			return direction;
+
+		return _facing == Vector2.Zero ? Vector2.Down : _facing;
+	}
+
+	private bool TryGetNearestEnemyDirection(float maxDistance, out Vector2 direction)
+	{
+		direction = Vector2.Zero;
+		float bestDistanceSq = maxDistance * maxDistance;
+
+		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
+		{
+			if (node is not Node2D enemy || !GodotObject.IsInstanceValid(enemy))
+				continue;
+
+			Vector2 toEnemy = enemy.GlobalPosition - GlobalPosition;
+			float distanceSq = toEnemy.LengthSquared();
+			if (distanceSq <= 1f || distanceSq > bestDistanceSq)
+				continue;
+
+			bestDistanceSq = distanceSq;
+			direction = toEnemy.Normalized();
+		}
+
+		return direction != Vector2.Zero;
+	}
+
+	private bool IsAttackAnimationLocked()
+	{
+		return (_attack != null && _attack.IsAttacking)
+			|| _attackAnimTimer > 0f
+			|| (_currentAnim.StartsWith("attack") && _sprite?.IsPlaying() == true);
+	}
+
+	private void ClampToPlayableBounds()
+	{
+		if (!_hasPlayableBounds)
+			return;
+
+		GlobalPosition = new Vector2(
+			Mathf.Clamp(GlobalPosition.X, _playableBounds.Position.X, _playableBounds.End.X),
+			Mathf.Clamp(GlobalPosition.Y, _playableBounds.Position.Y, _playableBounds.End.Y)
+		);
 	}
 
 	private async void ShowGameOverAfterDeathDelay(float delay)
@@ -390,4 +450,11 @@ public partial class PlayerController : CharacterBody2D
 
 	/// <summary>Whether the player is dead and locked out of movement/combat.</summary>
 	public bool IsDead => _isDead;
+
+	public void SetPlayableBounds(Rect2 bounds)
+	{
+		_playableBounds = bounds;
+		_hasPlayableBounds = true;
+		ClampToPlayableBounds();
+	}
 }

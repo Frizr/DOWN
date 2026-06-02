@@ -35,6 +35,7 @@ public partial class Health : Node
     public float HpPercent => MaxHealth > 0 ? (float)Current / MaxHealth : 0f;
 
     private float _regenTimer = 0f;
+    private float _regenAccumulator = 0f;
 
     // ─── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -51,7 +52,15 @@ public partial class Health : Node
 
         _regenTimer -= (float)delta;
         if (_regenTimer <= 0f)
-            Heal(Mathf.RoundToInt(RegenPerSec * (float)delta));
+        {
+            _regenAccumulator += RegenPerSec * (float)delta;
+            int healAmount = Mathf.FloorToInt(_regenAccumulator);
+            if (healAmount > 0)
+            {
+                _regenAccumulator -= healAmount;
+                Heal(healAmount);
+            }
+        }
     }
 
     // ─── Public API ───────────────────────────────────────────────────────────
@@ -68,6 +77,7 @@ public partial class Health : Node
         int dealt = Mathf.Min(amount, Current);
         Current  -= dealt;
         _regenTimer = RegenDelay;
+        _regenAccumulator = 0f;
 
         EmitSignal(SignalName.DamageTaken, dealt, Current);
         EmitSignal(SignalName.HealthChanged, Current, MaxHealth);
