@@ -1,8 +1,9 @@
-res://Scenes/Main.tscn
+res://Scenes/Player.tscn
 res://Assets/SpriteFrames/player_frames.tres
 res://Assets/SpriteFrames/green_goblin_tribesman_frames.tres
 res://Scripts/Core/TilemapSetup.cs
 res://Scripts/Core/CombatTrigger.cs
+res://Scripts/Core/GeneratedAudioFeedback.cs
 res://Scripts/Core/LevelManager.cs
 res://Scripts/Core/HUD.cs
 res://Scripts/Core/DeathScreen.cs
@@ -16,5 +17,3 @@ res://Scripts/Core/PlayerController.cs
 res://Scripts/Core/PlaceholderSetup.cs
 res://Scripts/Core/GameManager.cs
 res://Scripts/Core/NPCController.cs
-res://Scripts/Core/GeneratedAudioFeedback.cs
-res://Scenes/Player.tscn

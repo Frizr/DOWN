@@ -105,6 +105,13 @@ public partial class IsometricCamera : Camera2D
 		GlobalPosition = ClampToBounds(GlobalPosition);
 	}
 
+	public void SetZoom(float zoom)
+	{
+		float clampedZoom = Mathf.Clamp(zoom, ZoomMin, ZoomMax);
+		_targetZoom = clampedZoom;
+		Zoom = new Vector2(clampedZoom, clampedZoom);
+	}
+
 	/// <summary>
 	/// Trigger a screen shake.
 	/// strength : maximum pixel offset (e.g. 8 for light, 24 for heavy hit).

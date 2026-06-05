@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/DeathScreen.tscn" id="5_death"]
 [ext_resource type="Script" uid="uid://csp3viacyrr3y" path="res://Scripts/Core/GeneratedAudioFeedback.cs" id="6_audio_feedback"]
 [ext_resource type="Script" uid="uid://c4s1d6ruxin4f" path="res://Scripts/Core/CombatTrigger.cs" id="88_combat_trigger"]
-[ext_resource type="Script" uid="uid://c1bojqd2b63qu" path="res://Scripts/Core/TilemapSetup.cs" id="99_tilemap_setup"]
+[ext_resource type="Script" uid="uid://de4pmehn6252p" path="res://Scripts/Core/TilemapSetup.cs" id="99_tilemap_setup"]
 
 [node name="Main" type="Node2D" unique_id=531286139]
 script = ExtResource("99_tilemap_setup")
@@ -32,14 +32,12 @@ y_sort_enabled = true
 
 [node name="Player" parent="World/YSort" unique_id=933239875 instance=ExtResource("3_player")]
 
-[node name="Enemy" parent="World/YSort" unique_id=1040932531 instance=ExtResource("2_enemy")]
-
 [node name="SpawnPoints" type="Node2D" parent="World" unique_id=353437791]
 
 [node name="Camera" type="Camera2D" parent="." unique_id=250535837]
-zoom = Vector2(0.9, 0.9)
+zoom = Vector2(2.05, 2.05)
 script = ExtResource("1_iso_cam")
-ZoomMin = 0.85
+ZoomMin = 1.25
 ZoomStep = 0.15
 
 [node name="LevelManager" type="Node" parent="." unique_id=1106684666]

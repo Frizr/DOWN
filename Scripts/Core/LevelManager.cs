@@ -12,7 +12,6 @@ using Godot.Collections;
 /// </summary>
 public partial class LevelManager : Node
 {
-	private static readonly Vector2 DefaultSpawnPosition = new(640f, 360f);
 	private const float MinimumSpawnDistanceFromPlayer = 220f;
 
 	// ─── Inspector ────────────────────────────────────────────────────────────
@@ -51,17 +50,6 @@ public partial class LevelManager : Node
 	private Rect2 _playableBounds;
 
 	private RandomNumberGenerator _rng = new();
-	private static readonly Vector2[] FallbackSpawnPositions =
-	{
-		new(420f, 320f),
-		new(800f, 192f),
-		new(1080f, 380f),
-		new(520f, 620f),
-		new(960f, 640f),
-		new(320f, 520f),
-		new(1120f, 224f),
-		new(1152f, 672f)
-	};
 
 	// ─── Lifecycle ────────────────────────────────────────────────────────────
 
@@ -118,8 +106,7 @@ public partial class LevelManager : Node
 	{
 		CurrentWave = 0;
 		CollectSpawnPoints();
-		if (_spawnPoints.Count == 0)
-			GD.Print($"[LevelManager] No spawn points found. Using default spawn position {DefaultSpawnPosition}.");
+		ClearExistingEnemies();
 		SpawnNextWave();
 	}
 
@@ -149,7 +136,7 @@ public partial class LevelManager : Node
 
 		// Scale difficulty: more enemies each wave
 		int count = EnemiesPerWave + (CurrentWave - 1) * 2;
-		_aliveCount = count;
+		_aliveCount = 0;
 
 		EmitSignal(SignalName.WaveStarted, CurrentWave);
 		GD.Print($"[LevelManager] Wave {CurrentWave} — spawning {count} enemies.");
@@ -160,23 +147,29 @@ public partial class LevelManager : Node
 			// Stagger spawns so they don't all appear at once
 			await ToSignal(GetTree().CreateTimer(0.35f, false), SceneTreeTimer.SignalName.Timeout);
 		}
+
+		if (_aliveCount == 0 && _waveActive)
+		{
+			GD.Print("[LevelManager] Warning: no safe enemy spawn positions were available.");
+			OnWaveCleared();
+		}
 	}
 
-	private void SpawnEnemy()
+	private bool SpawnEnemy()
 	{
 		if (EnemyScene == null)
 		{
 			GD.Print("[LevelManager] Warning: EnemyScene is not assigned; cannot spawn enemy.");
-			return;
+			return false;
 		}
 
 		if (!ResolveYSort())
 		{
 			GD.Print($"[LevelManager] Warning: YSort node not found at '{YSortPath}'; cannot spawn enemy.");
-			return;
+			return false;
 		}
 
-		Vector2 spawnPosition = DefaultSpawnPosition;
+		Vector2? spawnPosition = null;
 		if (_spawnPoints.Count > 0)
 		{
 			for (int attempt = 0; attempt < 8; attempt++)
@@ -191,10 +184,10 @@ public partial class LevelManager : Node
 				}
 			}
 		}
-		else if (FallbackSpawnPositions.Length > 0)
-		{
-			spawnPosition = PickFallbackSpawnPosition();
-		}
+
+		spawnPosition ??= PickFallbackSpawnPosition();
+		if (spawnPosition == null)
+			return false;
 
 		// Alternate grunt / standard based on wave (every 3rd enemy is a grunt)
 		PackedScene scene = (GruntScene != null && _rng.Randf() < 0.35f)
@@ -204,28 +197,49 @@ public partial class LevelManager : Node
 		var enemy = scene.Instantiate<EnemyBase>();
 		_ySort.AddChild(enemy);
 
-		enemy.GlobalPosition = spawnPosition;
+		enemy.GlobalPosition = spawnPosition.Value;
 
 		// Add to group so LevelManager can track them
 		enemy.AddToGroup("enemy");
 		enemy.EnemyDied += OnEnemyDied;
+		_aliveCount++;
 
 		GD.Print($"[LevelManager] Spawned {enemy.Name} at {enemy.GlobalPosition}");
+		return true;
 	}
 
-	private Vector2 PickFallbackSpawnPosition()
+	private void ClearExistingEnemies()
 	{
-		int startIndex = (int)_rng.RandiRange(0, FallbackSpawnPositions.Length - 1);
-		for (int offset = 0; offset < FallbackSpawnPositions.Length; offset++)
+		foreach (Node node in GetTree().GetNodesInGroup("enemy"))
 		{
-			Vector2 candidate = FallbackSpawnPositions[(startIndex + offset) % FallbackSpawnPositions.Length];
+			if (node is EnemyBase enemy)
+				enemy.EnemyDied -= OnEnemyDied;
+
+			node.QueueFree();
+		}
+
+		_aliveCount = 0;
+	}
+
+	private Vector2? PickFallbackSpawnPosition()
+	{
+		if (LevelLayoutData.FallbackEnemySpawns.Length == 0)
+			return IsUsableSpawnPosition(LevelLayoutData.DefaultEnemySpawn)
+				? LevelLayoutData.DefaultEnemySpawn
+				: null;
+
+		int startIndex = (int)_rng.RandiRange(0, LevelLayoutData.FallbackEnemySpawns.Length - 1);
+		for (int offset = 0; offset < LevelLayoutData.FallbackEnemySpawns.Length; offset++)
+		{
+			Vector2 candidate = LevelLayoutData.FallbackEnemySpawns[(startIndex + offset) % LevelLayoutData.FallbackEnemySpawns.Length];
 			candidate += new Vector2(_rng.RandfRange(-28f, 28f), _rng.RandfRange(-18f, 18f));
 			candidate = ClampToPlayableBounds(candidate);
 			if (IsUsableSpawnPosition(candidate))
 				return candidate;
 		}
 
-		return ClampToPlayableBounds(DefaultSpawnPosition);
+		Vector2 defaultSpawn = ClampToPlayableBounds(LevelLayoutData.DefaultEnemySpawn);
+		return IsUsableSpawnPosition(defaultSpawn) ? defaultSpawn : null;
 	}
 
 	private bool IsUsableSpawnPosition(Vector2 position)

@@ -310,7 +310,15 @@ public partial class HUD : CanvasLayer
 	private void PlayPauseAnimation(bool forward)
 	{
 		if (_anim == null || !_anim.HasAnimation("pause_in"))
+		{
+			if (_pauseBanner != null)
+			{
+				_pauseBanner.Modulate = forward ? Colors.White : new Color(1f, 1f, 1f, 0f);
+				_pauseBanner.Scale = Vector2.One;
+				_pauseBanner.Visible = forward;
+			}
 			return;
+		}
 
 		if (forward)
 			_anim.Play("pause_in");
