@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" path="res://Scenes/HUD.tscn" id="4_hud"]
 [ext_resource type="PackedScene" path="res://Scenes/DeathScreen.tscn" id="5_death"]
 [ext_resource type="Script" uid="uid://csp3viacyrr3y" path="res://Scripts/Core/GeneratedAudioFeedback.cs" id="6_audio_feedback"]
+[ext_resource type="PackedScene" path="res://Scenes/Levels/Level01.tscn" id="7_level01"]
 [ext_resource type="Script" uid="uid://c4s1d6ruxin4f" path="res://Scripts/Core/CombatTrigger.cs" id="88_combat_trigger"]
 [ext_resource type="Script" uid="uid://de4pmehn6252p" path="res://Scripts/Core/TilemapSetup.cs" id="99_tilemap_setup"]
 
@@ -17,6 +18,8 @@ script = ExtResource("99_tilemap_setup")
 script = ExtResource("88_combat_trigger")
 
 [node name="World" type="Node2D" parent="." unique_id=1359986497]
+
+[node name="Level01" parent="World" instance=ExtResource("7_level01")]
 
 [node name="TileMap" type="TileMapLayer" parent="World" unique_id=320433113]
 

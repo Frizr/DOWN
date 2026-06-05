@@ -1,0 +1,82 @@
+[gd_scene load_steps=3 format=3]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_horizontal_wall"]
+size = Vector2(1152, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vertical_wall"]
+size = Vector2(96, 752)
+
+[node name="Level01" type="Node2D"]
+
+[node name="GroundLayer" type="Node2D" parent="."]
+
+[node name="PlaceholderGround" type="ColorRect" parent="GroundLayer"]
+offset_left = 160.0
+offset_top = 120.0
+offset_right = 1120.0
+offset_bottom = 680.0
+color = Color(0.16, 0.21, 0.18, 1)
+
+[node name="GroundBorder" type="Line2D" parent="GroundLayer"]
+z_index = 1
+points = PackedVector2Array(160, 120, 1120, 120, 1120, 680, 160, 680, 160, 120)
+width = 4.0
+default_color = Color(0.42, 0.52, 0.43, 1)
+
+[node name="DecorationLayer" type="Node2D" parent="."]
+
+[node name="ManualPropRockA" type="Polygon2D" parent="DecorationLayer"]
+position = Vector2(360, 260)
+z_index = 5
+color = Color(0.34, 0.35, 0.3, 1)
+polygon = PackedVector2Array(-28, -10, 4, -22, 30, -6, 18, 18, -18, 20)
+
+[node name="ManualPropRockB" type="Polygon2D" parent="DecorationLayer"]
+position = Vector2(1010, 585)
+z_index = 5
+color = Color(0.29, 0.31, 0.27, 1)
+polygon = PackedVector2Array(-20, -8, 10, -18, 28, 4, 8, 18, -26, 10)
+
+[node name="CollisionLayer" type="Node2D" parent="."]
+
+[node name="SpawnPoints" type="Node2D" parent="."]
+
+[node name="PlayerSpawn" type="Marker2D" parent="SpawnPoints"]
+position = Vector2(640, 420)
+
+[node name="EnemySpawn" type="Marker2D" parent="SpawnPoints" groups=["spawn_point"]]
+position = Vector2(920, 420)
+
+[node name="Bounds" type="Node2D" parent="."]
+
+[node name="TopWall" type="StaticBody2D" parent="Bounds"]
+position = Vector2(640, 72)
+collision_layer = 4
+collision_mask = 1
+
+[node name="TopWallShape" type="CollisionShape2D" parent="Bounds/TopWall"]
+shape = SubResource("RectangleShape2D_horizontal_wall")
+
+[node name="BottomWall" type="StaticBody2D" parent="Bounds"]
+position = Vector2(640, 728)
+collision_layer = 4
+collision_mask = 1
+
+[node name="BottomWallShape" type="CollisionShape2D" parent="Bounds/BottomWall"]
+shape = SubResource("RectangleShape2D_horizontal_wall")
+
+[node name="LeftWall" type="StaticBody2D" parent="Bounds"]
+position = Vector2(112, 400)
+collision_layer = 4
+collision_mask = 1
+
+[node name="LeftWallShape" type="CollisionShape2D" parent="Bounds/LeftWall"]
+shape = SubResource("RectangleShape2D_vertical_wall")
+
+[node name="RightWall" type="StaticBody2D" parent="Bounds"]
+position = Vector2(1168, 400)
+collision_layer = 4
+collision_mask = 1
+
+[node name="RightWallShape" type="CollisionShape2D" parent="Bounds/RightWall"]
+shape = SubResource("RectangleShape2D_vertical_wall")
