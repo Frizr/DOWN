@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "status": "minimal_safe_probe_catalog",
+  "tile_size": {
+    "width": 64,
+    "height": 64
+  },
+  "coordinate_system": "Atlas cell coordinates [x,y] from the top-left of each source image. Ground_rocks.png is treated as a 64x64 atlas for the current AI-assisted workflow.",
+  "source_notes": {
+    "ground_rocks": {
+      "path": "res://Assets/Tiles/Undead/Ground_rocks.png",
+      "source_id_in_undead_ground_tileset": 0,
+      "usage": "Terrain candidate source only. Most cells remain excluded because they contain cliff faces, transparent holes, edge fragments, or corner-only shapes."
+    },
+    "details": {
+      "path": "res://Assets/Tiles/Undead/Details.png",
+      "source_id_in_undead_ground_tileset": 1,
+      "usage": "Floor detail overlays only."
+    },
+    "objects": {
+      "path": "res://Assets/Tiles/Undead/Objects.png",
+      "usage": "Not used in this ground catalog. Props should be cataloged separately."
+    }
+  },
+  "exclusion_rules": [
+    "Do not use cells where a blue/dark vertical cliff face is the main visible area.",
+    "Do not use cells with large white or transparent background holes.",
+    "Do not use obvious corner-only shapes as base ground.",
+    "Do not use broken edge fragments as base ground.",
+    "Do not use Objects.png for base floor."
+  ],
+  "categories": {
+    "ground_plain": [],
+    "ground_rough": [],
+    "cliff_border_top": [],
+    "cliff_border_bottom": [],
+    "cliff_border_left": [],
+    "cliff_border_right": [],
+    "corner_outer": [],
+    "corner_inner": [],
+    "floor_detail_small": [
+      {
+        "sheet": "details",
+        "coord": [1, 0],
+        "region": [64, 0, 64, 64],
+        "reason": "Small crack and pebble detail; suitable as an overlay only."
+      },
+      {
+        "sheet": "details",
+        "coord": [2, 0],
+        "region": [128, 0, 64, 64],
+        "reason": "Small crack detail; suitable as an overlay only."
+      },
+      {
+        "sheet": "details",
+        "coord": [4, 0],
+        "region": [256, 0, 64, 64],
+        "reason": "Small crack and pebble detail; suitable as an overlay only."
+      },
+      {
+        "sheet": "details",
+        "coord": [5, 0],
+        "region": [320, 0, 64, 64],
+        "reason": "Small crack detail; suitable as an overlay only."
+      },
+      {
+        "sheet": "details",
+        "coord": [6, 1],
+        "region": [384, 64, 64, 64],
+        "reason": "Sparse small rock detail; suitable as an overlay only."
+      },
+      {
+        "sheet": "details",
+        "coord": [8, 1],
+        "region": [512, 64, 64, 64],
+        "reason": "Sparse small rock and shard detail; suitable as an overlay only."
+      }
+    ],
+    "maybe_ground": [
+      {
+        "sheet": "ground_rocks",
+        "coord": [6, 3],
+        "region": [384, 192, 64, 64],
+        "reason": "Mostly rough rubble, but may be a broken transition rather than a safe walkable floor."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [5, 5],
+        "region": [320, 320, 64, 64],
+        "reason": "Mostly flat dark-green mass, but its material/role is unclear."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [6, 5],
+        "region": [384, 320, 64, 64],
+        "reason": "Mostly rough ground-looking area, but it includes edge-like material and needs visual validation."
+      }
+    ],
+    "maybe_border": [
+      {
+        "sheet": "ground_rocks",
+        "coord": [2, 1],
+        "region": [128, 64, 64, 64],
+        "reason": "Border-like top surface, but contains transparent/background area."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [3, 1],
+        "region": [192, 64, 64, 64],
+        "reason": "Border-like top surface, but contains transparent/background area."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [4, 1],
+        "region": [256, 64, 64, 64],
+        "reason": "Possible border/corner transition; not safe enough for automatic use."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [6, 1],
+        "region": [384, 64, 64, 64],
+        "reason": "Possible border cap, but includes an internal hole."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [1, 5],
+        "region": [64, 320, 64, 64],
+        "reason": "Border-like top surface, but includes broken edge fragments."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [2, 5],
+        "region": [128, 320, 64, 64],
+        "reason": "Border-like top surface, but includes broken edge fragments."
+      },
+      {
+        "sheet": "ground_rocks",
+        "coord": [3, 5],
+        "region": [192, 320, 64, 64],
+        "reason": "Border-like top surface, but includes broken edge fragments."
+      }
+    ]
+  }
+}
