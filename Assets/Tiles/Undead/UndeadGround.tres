@@ -1,6 +1,7 @@
-[gd_resource type="TileSet" load_steps=3 format=3]
+[gd_resource type="TileSet" load_steps=5 format=3]
 
 [ext_resource type="Texture2D" uid="uid://cowi1uic2todb" path="res://Assets/Tiles/Undead/Ground_rocks.png" id="1_ground_rocks"]
+[ext_resource type="Texture2D" uid="uid://bjree0l7veu22" path="res://Assets/Tiles/Undead/Details.png" id="2_details"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_undead_ground"]
 texture = ExtResource("1_ground_rocks")
@@ -69,7 +70,30 @@ texture_region_size = Vector2i(64, 64)
 5:8/0 = 0
 6:8/0 = 0
 
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_undead_details"]
+texture = ExtResource("2_details")
+texture_region_size = Vector2i(64, 64)
+0:0/0 = 0
+1:0/0 = 0
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+0:1/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+8:1/0 = 0
+
 [resource]
 resource_name = "UndeadGround"
 tile_size = Vector2i(64, 64)
 sources/0 = SubResource("TileSetAtlasSource_undead_ground")
+sources/1 = SubResource("TileSetAtlasSource_undead_details")

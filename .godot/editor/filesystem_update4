@@ -1,4 +1,4 @@
-res://Scenes/Player.tscn
+res://Scenes/Levels/Level01.tscn
 res://Assets/SpriteFrames/player_frames.tres
 res://Assets/SpriteFrames/green_goblin_tribesman_frames.tres
 res://Scripts/Core/TilemapSetup.cs
