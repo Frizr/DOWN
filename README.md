@@ -56,6 +56,9 @@ DOWN is currently undergoing a **Combat Overhaul**. We are shifting from a gener
 | :--------- | :----------------- |
 | **Move**   | `W` `A` `S` `D`    |
 | **Attack** | `Left Mouse Click` |
+| **Cleave** | `Q`                |
+| **Buff**   | `E`                |
+| **Dodge**  | `Space`            |
 
 ---
 
@@ -175,6 +178,9 @@ DOWN/
 - [x] Player movement with WASD
 - [x] Directional player animation
 - [x] Player attack hitbox with facing direction
+- [x] Snappy movement & Friction tuning
+- [x] Dodge Roll with Attack Canceling
+- [x] Active Skill Kit (Q Cleave, E Buff)
 - [x] Enemy chase and attack behavior
 - [x] Health and damage system
 - [x] Enemy death and score reward
