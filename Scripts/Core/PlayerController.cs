@@ -64,13 +64,13 @@ public partial class PlayerController : CharacterBody2D
 		if (!InputMap.HasAction("skill_1"))
 		{
 			InputMap.AddAction("skill_1");
-			var qKey = new InputEventKey { Keycode = Key.Q };
+			var qKey = new InputEventKey { Keycode = Key.Key1 };
 			InputMap.ActionAddEvent("skill_1", qKey);
 		}
 		if (!InputMap.HasAction("skill_2"))
 		{
 			InputMap.AddAction("skill_2");
-			var eKey = new InputEventKey { Keycode = Key.E };
+			var eKey = new InputEventKey { Keycode = Key.Key2 };
 			InputMap.ActionAddEvent("skill_2", eKey);
 		}
 		if (!InputMap.HasAction("dodge"))

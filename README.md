@@ -56,8 +56,8 @@ DOWN is currently undergoing a **Combat Overhaul**. We are shifting from a gener
 | :--------- | :----------------- |
 | **Move**   | `W` `A` `S` `D`    |
 | **Attack** | `Left Mouse Click` |
-| **Cleave** | `Q`                |
-| **Buff**   | `E`                |
+| **Cleave** | `1`                |
+| **Buff**   | `2`                |
 | **Dodge**  | `Space`            |
 
 ---
