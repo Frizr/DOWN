@@ -24,9 +24,7 @@ DOWN is a dark fantasy action RPG prototype built using **Godot Engine 4.6 (.NET
 
 ## 🎮 Current Prototype Status
 
-DOWN is currently undergoing a **Combat Overhaul**. We are shifting from a generic top-down shooter to a fast-paced, skill-based Action RPG (inspired by games like _Drakantos_).
-
-**See the current design spec here:** [2026-06-23-combat-overhaul-design.md](2026-06-23-combat-overhaul-design.md)
+DOWN is currently undergoing a **Combat Overhaul**. We are shifting from a generic top-down shooter to a fast-paced, skill-based Action RPG 
 
 **Working:**
 
