@@ -58,6 +58,7 @@ public partial class PlayerController : CharacterBody2D
 	// ─── Lifecycle ────────────────────────────────────────────────────────────
 
 	private AnimatedSprite2D _animSprite;
+	private CpuParticles2D _dustParticles;
 
 	private void EnsureInputMaps()
 	{
@@ -105,6 +106,42 @@ public partial class PlayerController : CharacterBody2D
 			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
 
 		PlayAnim("idle");
+		
+		// Add shadow
+		Sprite2D shadow = new Sprite2D();
+		GradientTexture2D grad = new GradientTexture2D();
+		grad.Fill = GradientTexture2D.FillEnum.Radial;
+		grad.FillFrom = new Vector2(0.5f, 0.5f);
+		grad.FillTo = new Vector2(0.5f, 0.0f);
+		grad.Gradient = new Gradient();
+		grad.Gradient.Colors = new[] { new Color(0, 0, 0, 0.4f), new Color(0, 0, 0, 0f) };
+		grad.Gradient.Offsets = new[] { 0f, 1f };
+		grad.Width = 24;
+		grad.Height = 12;
+		shadow.Texture = grad;
+		shadow.ZIndex = -1;
+		shadow.Position = new Vector2(0, 10);
+		AddChild(shadow);
+		
+		// Add dust particles
+		_dustParticles = new CpuParticles2D();
+		_dustParticles.Emitting = false;
+		_dustParticles.Amount = 15;
+		_dustParticles.Lifetime = 0.4f;
+		_dustParticles.OneShot = false;
+		_dustParticles.EmissionShape = CpuParticles2D.EmissionShapeEnum.Sphere;
+		_dustParticles.EmissionSphereRadius = 8f;
+		_dustParticles.Gravity = new Vector2(0, -20);
+		_dustParticles.Direction = new Vector2(0, -1);
+		_dustParticles.Spread = 45f;
+		_dustParticles.InitialVelocityMin = 10f;
+		_dustParticles.InitialVelocityMax = 30f;
+		_dustParticles.ScaleAmountMin = 2f;
+		_dustParticles.ScaleAmountMax = 4f;
+		_dustParticles.Color = new Color(0.8f, 0.8f, 0.7f, 0.6f);
+		_dustParticles.ZIndex = -1;
+		_dustParticles.Position = new Vector2(0, 12);
+		AddChild(_dustParticles);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -113,6 +150,7 @@ public partial class PlayerController : CharacterBody2D
 		{
 			Velocity = Vector2.Zero;
 			MoveAndSlide();
+			if (_dustParticles != null) _dustParticles.Emitting = false;
 			return;
 		}
 
@@ -141,10 +179,14 @@ public partial class PlayerController : CharacterBody2D
 		if (_isDodging)
 		{
 			PerformDodge(dt);
+			if (_dustParticles != null) _dustParticles.Emitting = true;
 			return;
 		}
 
 		ApplyMovement(dt);
+		
+		if (_dustParticles != null)
+			_dustParticles.Emitting = (_moveDir != Vector2.Zero);
 	}
 
 	private string GetDirectionSuffix()

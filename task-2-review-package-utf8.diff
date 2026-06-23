@@ -1,0 +1,339 @@
+﻿5532880 Fix architectual flaws from Task 2 review: shared resource mutation, unsafe timer callback, destructive modulate override, and extracted magic numbers.
+ecc7cb9 feat: implement active skill kit (Cleave and Buff)
+ Scripts/Core/AttackSystem.cs     | 68 ++++++++++++++++++++++++++++++++++++++++
+ Scripts/Core/PlayerController.cs | 50 ++++++++++++++++++++++++++---
+ 2 files changed, 114 insertions(+), 4 deletions(-)
+diff --git a/Scripts/Core/AttackSystem.cs b/Scripts/Core/AttackSystem.cs
+index f3a4d24..2cf1a32 100644
+--- a/Scripts/Core/AttackSystem.cs
++++ b/Scripts/Core/AttackSystem.cs
+@@ -19,39 +19,48 @@ public partial class AttackSystem : Node
+     [Export] public float HitStopDuration = 0.06f;  // seconds engine pauses on connect
+     [Export] public float MeleeRange = 96f;
+     [Export] public float DirectionalTolerance = 0.2f;
+ 
+     [ExportGroup("Timing (seconds)")]
+     [Export] public float LightCooldown  = 0.35f;
+     [Export] public float HeavyCooldown  = 0.6f;
+     [Export] public float ComboWindow    = 0.55f;  // time after hit to chain next attack
+     [Export] public float HitBoxDuration = 0.18f;  // how long hitbox stays active
+     [Export] public float AttackAnimLockDuration = 0.86f;
++    [Export] public float Skill1Cooldown = 4.0f;
++    [Export] public float Skill2Cooldown = 8.0f;
++    [Export] public float Skill1HitBoxSize = 120f;
++    [Export] public float Skill1AnimLockMult = 1.5f;
++    [Export] public float Skill2SpeedMult = 1.8f;
++    [Export] public float Skill2Duration = 3.0f;
+ 
+     [ExportGroup("References")]
+     [Export] public NodePath HitBoxPath = "HitBox";  // Area2D child node
+     [Export] public string SlashSheetPath = "res://Assets/Generated/Effects/custom_slash_sheet.png";
+     [Export] public string HitImpactSheetPath = "res://Assets/Generated/Effects/custom_hit_impact_sheet.png";
+ 
+     // ΓöÇΓöÇΓöÇ Signals ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ 
+     [Signal] public delegate void AttackStartedEventHandler(int comboStep);
+     [Signal] public delegate void HitConnectedEventHandler(Node target, int damage);
+     [Signal] public delegate void ComboFinishedEventHandler();
++    [Signal] public delegate void BuffTriggeredEventHandler(float speedMultiplier, float duration);
+ 
+     // ΓöÇΓöÇΓöÇ State ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ 
+     public  bool  IsAttacking { get; private set; } = false;
+     private int   _comboStep  = 0;   // 0ΓåÆ1ΓåÆ2ΓåÆreset (steps 1-2 light, step 3 heavy)
+     private float _cooldownTimer = 0f;
+     private float _comboTimer    = 0f;
+     private float _attackTimer   = 0f;
++    private float _skill1Timer   = 0f;
++    private float _skill2Timer   = 0f;
+     private int   _activeDamage  = 0;
+     private Area2D _hitBox;
+     private CollisionShape2D _hitBoxShape;
+     private Line2D _slashVisual;
+     private AnimatedSprite2D _slashSprite;
+     private SpriteFrames _slashFrames;
+     private SpriteFrames _hitImpactFrames;
+     private readonly HashSet<ulong> _hitTargets = new();
+     private Node _owner;
+     private Vector2 _facing = Vector2.Right;
+@@ -91,20 +100,26 @@ public partial class AttackSystem : Node
+     public override void _Process(double delta)
+     {
+         if (_disabled)
+             return;
+ 
+         float dt = (float)delta;
+ 
+         if (_cooldownTimer > 0f)
+             _cooldownTimer -= dt;
+ 
++        if (_skill1Timer > 0f)
++            _skill1Timer -= dt;
++
++        if (_skill2Timer > 0f)
++            _skill2Timer -= dt;
++
+         if (IsAttacking)
+         {
+             _attackTimer -= dt;
+             if (_attackTimer <= 0f)
+                 OnAnimationFinished();
+         }
+ 
+         // Auto-reset combo chain if the window lapses
+         if (_comboStep > 0 && !IsAttacking)
+         {
+@@ -140,20 +155,73 @@ public partial class AttackSystem : Node
+         _attackTimer = Mathf.Max(cooldown, AttackAnimLockDuration);
+ 
+         EmitSignal(SignalName.AttackStarted, _comboStep);
+ 
+         // Activate hitbox for a brief window then deactivate
+         ActivateHitBox(isHeavy ? HeavyDamage : LightDamage);
+ 
+         return true;
+     }
+ 
++    public bool TrySkill1()
++    {
++        if (_disabled || IsOwnerDead() || _skill1Timer > 0f || IsAttacking)
++            return false;
++
++        IsAttacking = true;
++        _skill1Timer = Skill1Cooldown;
++        _attackTimer = AttackAnimLockDuration * Skill1AnimLockMult; // Longer lock for heavy skill
++
++        EmitSignal(SignalName.AttackStarted, 2); // Pass 2 to simulate heavy hit
++        
++        // Temporarily widen hitbox
++        if (_hitBoxShape?.Shape is RectangleShape2D rect)
++        {
++            var originalShape = _hitBoxShape.Shape;
++            var newRect = (RectangleShape2D)rect.Duplicate();
++            newRect.Size = new Vector2(Skill1HitBoxSize, Skill1HitBoxSize); // Massive AoE
++            _hitBoxShape.Shape = newRect;
++            
++            ActivateHitBox(HeavyDamage * 2);
++            
++            // Reset shape after delay safely
++            RestoreShapeAfterDelay(originalShape, HitBoxDuration);
++        }
++        else
++        {
++            ActivateHitBox(HeavyDamage * 2);
++        }
++
++        return true;
++    }
++
++    private async void RestoreShapeAfterDelay(Shape2D originalShape, float delay)
++    {
++        await ToSignal(GetTree().CreateTimer(delay, false), SceneTreeTimer.SignalName.Timeout);
++        if (GodotObject.IsInstanceValid(this) && GodotObject.IsInstanceValid(_hitBoxShape))
++        {
++            _hitBoxShape.Shape = originalShape;
++        }
++    }
++
++    public bool TrySkill2()
++    {
++        if (_disabled || IsOwnerDead() || _skill2Timer > 0f || IsAttacking)
++            return false;
++
++        _skill2Timer = Skill2Cooldown;
++        
++        // Emit buff to PlayerController
++        EmitSignal(SignalName.BuffTriggered, Skill2SpeedMult, Skill2Duration);
++        return true;
++    }
++
+     public void SetFacing(Vector2 facing)
+     {
+         if (facing == Vector2.Zero)
+             return;
+ 
+         _facing = facing.Normalized();
+         UpdateHitBoxDirection();
+     }
+ 
+     /// <summary>Called externally when the attack animation finishes.</summary>
+diff --git a/Scripts/Core/PlayerController.cs b/Scripts/Core/PlayerController.cs
+index 01a68c4..5a06397 100644
+--- a/Scripts/Core/PlayerController.cs
++++ b/Scripts/Core/PlayerController.cs
+@@ -37,20 +37,24 @@ public partial class PlayerController : CharacterBody2D
+ 
+ 	// ΓöÇΓöÇΓöÇ State ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ 
+ 	private Vector2 _moveDir     = Vector2.Zero;
+ 	private Vector2 _dodgeDir    = Vector2.Zero;
+ 
+ 	private bool  _isDodging      = false;
+ 	private float _dodgeTimer     = 0f;
+ 	private float _dodgeCoolTimer = 0f;
+ 	private float _attackAnimTimer = 0f;
++	private float _buffTimer      = 0f;
++	private float _buffSpeedMult  = 1f;
++	private Color _originalModulate = Colors.White;
++	private bool  _wasBuffed      = false;
+ 	private bool  _isDead         = false;
+ 	private bool  _hasPlayableBounds = false;
+ 	private Rect2 _playableBounds;
+ 
+ 	// Facing direction from the last non-zero input, used for directional animations.
+ 	private Vector2 _facing = Vector2.Down;
+ 
+ 	// ΓöÇΓöÇΓöÇ Lifecycle ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ 
+ 	private AnimatedSprite2D _animSprite;
+@@ -88,38 +92,53 @@ public partial class PlayerController : CharacterBody2D
+ 		// Locate camera (autoload or scene path)
+ 		_camera = GetNodeOrNull<IsometricCamera>("/root/Main/Camera");
+ 
+ 		// Wire health signals
+ 		_health.DamageTaken += OnDamageTaken;
+ 		_health.Died        += OnDied;
+ 
+ 		// Wire attack signals ΓåÆ GameManager combo
+ 		_attack.AttackStarted += OnAttackStarted;
+ 		_attack.HitConnected += OnHitConnected;
++		_attack.Connect(AttackSystem.SignalName.BuffTriggered, Callable.From<float, float>(OnBuffTriggered));
+ 
+ 		if (_animSprite != null)
+ 			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
+ 
+ 		PlayAnim("idle");
+ 	}
+ 
+ 	public override void _PhysicsProcess(double delta)
+ 	{
+ 		if (_isDead)
+ 		{
+ 			Velocity = Vector2.Zero;
+ 			MoveAndSlide();
+ 			return;
+ 		}
+ 
+ 		float dt = (float)delta;
+ 
++		if (_buffTimer > 0f)
++		{
++			_buffTimer -= dt;
++			if (_buffTimer <= 0f)
++			{
++				_buffSpeedMult = 1f;
++				if (_wasBuffed)
++				{
++					Modulate = _originalModulate;
++					_wasBuffed = false;
++				}
++			}
++		}
++
+ 		ReadMovement();
+ 		ReadAttack();
+ 		ReadDodge();
+ 		UpdateDodgeTimers(dt);
+ 		UpdateAttackAnimationTimer(dt);
+ 
+ 		if (_isDodging)
+ 		{
+ 			PerformDodge(dt);
+ 			return;
+@@ -157,26 +176,36 @@ public partial class PlayerController : CharacterBody2D
+ 			return;
+ 		}
+ 
+ 		Vector2 dir = new Vector2(inputX, inputY).Normalized();
+ 		_moveDir = dir;
+ 		_facing  = dir;
+ 	}
+ 
+ 	private void ReadAttack()
+ 	{
+-		if (_isDead)
++		if (_isDead || _isDodging)
+ 			return;
+ 
+-		if (Input.IsActionJustPressed("attack"))
++		Vector2 attackFacing = GetAttackFacing();
++
++		if (Input.IsActionJustPressed("skill_1"))
++		{
++			_attack.SetFacing(attackFacing);
++			if (_attack.TrySkill1()) _facing = attackFacing;
++		}
++		else if (Input.IsActionJustPressed("skill_2"))
++		{
++			_attack.TrySkill2();
++		}
++		else if (Input.IsActionJustPressed("attack"))
+ 		{
+-			Vector2 attackFacing = GetAttackFacing();
+ 			_attack.SetFacing(attackFacing);
+ 			if (_attack.TryAttack())
+ 				_facing = attackFacing;
+ 		}
+ 	}
+ 
+ 	private void ReadDodge()
+ 	{
+ 		if (_isDead)
+ 			return;
+@@ -204,21 +233,21 @@ public partial class PlayerController : CharacterBody2D
+ 
+ 		_camera?.Shake(ShakeOnDodge);
+ 		PlayAnim("dodge");
+ 	}
+ 
+ 	// ΓöÇΓöÇΓöÇ Movement Application ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ
+ 
+ 	private void ApplyMovement(float dt)
+ 	{
+ 		bool sprinting = Input.IsActionPressed("sprint");
+-		float speed    = MoveSpeed * (sprinting ? SprintMult : 1f);
++		float speed    = MoveSpeed * (sprinting ? SprintMult : 1f) * _buffSpeedMult;
+ 
+ 		if (_moveDir != Vector2.Zero)
+ 		{
+ 			Velocity = _moveDir * speed;
+ 			if (!IsAttackAnimationLocked())
+ 				PlayAnim(sprinting ? "run" : "walk");
+ 		}
+ 		else
+ 		{
+ 			// Friction deceleration
+@@ -307,20 +336,33 @@ public partial class PlayerController : CharacterBody2D
+ 			return;
+ 
+ 		GameManager.Instance?.IncrementCombo();
+ 		
+ 		// Intended design: Players get a small "Hit Score" for landing attacks, 
+ 		// and a larger "Kill Score" from EnemyBase.OnDied() when the enemy dies.
+ 		int hitScore = damage * 5;
+ 		GameManager.Instance?.AddScore(hitScore);
+ 	}
+ 
++	private void OnBuffTriggered(float speedMult, float duration)
++	{
++		_buffSpeedMult = speedMult;
++		_buffTimer = duration;
++		// Visual feedback
++		if (!_wasBuffed)
++		{
++			_originalModulate = Modulate;
++			_wasBuffed = true;
++		}
++		Modulate = new Color(1.5f, 1.5f, 2.0f);
++	}
++
+ 	private void OnSpriteAnimationFinished()
+ 	{
+ 		if (_isDead)
+ 			return;
+ 
+ 		if (_attack != null && (_attack.IsAttacking || _currentAnim.StartsWith("attack")))
+ 		{
+ 			_attack.OnAnimationFinished();
+ 			_attackAnimTimer = 0f;
+ 		}

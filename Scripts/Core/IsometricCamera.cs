@@ -76,7 +76,7 @@ public partial class IsometricCamera : Camera2D
 	{
 		float dt = (float)delta;
 
-		HandleZoomInput();
+		HandleZoomInput(dt);
 		SmoothZoom(dt);
 
 		if (_target != null)
@@ -132,13 +132,21 @@ public partial class IsometricCamera : Camera2D
 
 	// ─── Private Helpers ──────────────────────────────────────────────────────
 
-	/// <summary>Read scroll-wheel input and adjust the target zoom level.</summary>
-	private void HandleZoomInput()
+	/// <summary>Read scroll-wheel input and Q/E keys to adjust the target zoom level.</summary>
+	private void HandleZoomInput(float dt)
 	{
+		// Scroll wheel (discrete steps)
 		if (Input.IsActionJustReleased("zoom_in"))      // Map in Project > Input Map
-			_targetZoom = Mathf.Clamp(_targetZoom - ZoomStep, ZoomMin, ZoomMax);
-		else if (Input.IsActionJustReleased("zoom_out"))
 			_targetZoom = Mathf.Clamp(_targetZoom + ZoomStep, ZoomMin, ZoomMax);
+		else if (Input.IsActionJustReleased("zoom_out"))
+			_targetZoom = Mathf.Clamp(_targetZoom - ZoomStep, ZoomMin, ZoomMax);
+
+		// Q/E Keyboard (continuous smooth zoom)
+		// Q = Zoom In (increase zoom), E = Zoom Out (decrease zoom)
+		if (Input.IsPhysicalKeyPressed(Key.Q))
+			_targetZoom = Mathf.Clamp(_targetZoom + ZoomStep * 15f * dt, ZoomMin, ZoomMax);
+		else if (Input.IsPhysicalKeyPressed(Key.E))
+			_targetZoom = Mathf.Clamp(_targetZoom - ZoomStep * 15f * dt, ZoomMin, ZoomMax);
 	}
 
 	/// <summary>Lerp current zoom toward _targetZoom.</summary>

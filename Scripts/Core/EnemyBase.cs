@@ -57,6 +57,22 @@ public partial class EnemyBase : CharacterBody2D
 		HP.Died        += OnDied;
 
 		OnReady();   // hook for subclasses
+		
+		// Add shadow
+		Sprite2D shadow = new Sprite2D();
+		GradientTexture2D grad = new GradientTexture2D();
+		grad.Fill = GradientTexture2D.FillEnum.Radial;
+		grad.FillFrom = new Vector2(0.5f, 0.5f);
+		grad.FillTo = new Vector2(0.5f, 0.0f);
+		grad.Gradient = new Gradient();
+		grad.Gradient.Colors = new[] { new Color(0, 0, 0, 0.4f), new Color(0, 0, 0, 0f) };
+		grad.Gradient.Offsets = new[] { 0f, 1f };
+		grad.Width = 24;
+		grad.Height = 12;
+		shadow.Texture = grad;
+		shadow.ZIndex = -1;
+		shadow.Position = new Vector2(0, 10);
+		AddChild(shadow);
 	}
 
 	public override void _PhysicsProcess(double delta)
@@ -122,6 +138,16 @@ public partial class EnemyBase : CharacterBody2D
 		_animSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 		if (_animSprite != null)
 			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
+			
+		CanvasItem visuals = Visuals;
+		if (visuals != null && visuals.Material is ShaderMaterial vMat)
+		{
+			visuals.Material = (ShaderMaterial)vMat.Duplicate();
+		}
+		else if (_animSprite != null && _animSprite.Material is ShaderMaterial aMat)
+		{
+			_animSprite.Material = (ShaderMaterial)aMat.Duplicate();
+		}
 	}
 
 	private void OnSpriteAnimationFinished()
@@ -219,12 +245,25 @@ public partial class EnemyBase : CharacterBody2D
 		CanvasItem visuals = Visuals;
 		if (visuals == null) return;
 
-		Color original = visuals.Modulate;
-		visuals.Modulate = Colors.White * 4f;  // Over-bright = white flash
-		await ToSignal(
-			GetTree().CreateTimer(FlashDuration, false),
-			SceneTreeTimer.SignalName.Timeout
-		);
-		visuals.Modulate = original;
+		ShaderMaterial mat = visuals.Material as ShaderMaterial ?? _animSprite?.Material as ShaderMaterial;
+		if (mat != null)
+		{
+			mat.SetShaderParameter("flash_amount", 1.0f);
+			await ToSignal(
+				GetTree().CreateTimer(FlashDuration, false),
+				SceneTreeTimer.SignalName.Timeout
+			);
+			mat.SetShaderParameter("flash_amount", 0.0f);
+		}
+		else
+		{
+			Color original = visuals.Modulate;
+			visuals.Modulate = Colors.White * 4f;  // Over-bright = white flash
+			await ToSignal(
+				GetTree().CreateTimer(FlashDuration, false),
+				SceneTreeTimer.SignalName.Timeout
+			);
+			visuals.Modulate = original;
+		}
 	}
 }
