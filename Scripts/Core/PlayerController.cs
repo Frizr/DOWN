@@ -16,7 +16,7 @@ public partial class PlayerController : CharacterBody2D
 	[ExportGroup("Movement")]
 	[Export] public float MoveSpeed    = 180f;   // pixels per second in world-space
 	[Export] public float SprintMult   = 1.65f;  // Sprint modifier (Shift)
-	[Export] public float Friction     = 0.15f;  // Lower = slidier feel
+	[Export] public float Friction     = 0.85f;  // Changed from 0.15f for snappy movement
 
 	[ExportGroup("Dodge Roll")]
 	[Export] public float DodgeSpeed    = 400f;  // Peak dodge velocity
@@ -55,8 +55,32 @@ public partial class PlayerController : CharacterBody2D
 
 	private AnimatedSprite2D _animSprite;
 
+	private void EnsureInputMaps()
+	{
+		if (!InputMap.HasAction("skill_1"))
+		{
+			InputMap.AddAction("skill_1");
+			var qKey = new InputEventKey { Keycode = Key.Q };
+			InputMap.ActionAddEvent("skill_1", qKey);
+		}
+		if (!InputMap.HasAction("skill_2"))
+		{
+			InputMap.AddAction("skill_2");
+			var eKey = new InputEventKey { Keycode = Key.E };
+			InputMap.ActionAddEvent("skill_2", eKey);
+		}
+		if (!InputMap.HasAction("dodge"))
+		{
+			InputMap.AddAction("dodge");
+			var spaceKey = new InputEventKey { Keycode = Key.Space };
+			InputMap.ActionAddEvent("dodge", spaceKey);
+		}
+	}
+
 	public override void _Ready()
 	{
+		EnsureInputMaps();
+		
 		_health = GetNode<Health>("Health");
 		_attack = GetNode<AttackSystem>("AttackSystem");
 		_animSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
@@ -166,6 +190,13 @@ public partial class PlayerController : CharacterBody2D
 		_isDodging    = true;
 		_dodgeTimer   = DodgeDuration;
 		_dodgeCoolTimer = DodgeCooldown;
+
+		// Animation Canceling
+		if (_attack != null && _attack.IsAttacking)
+		{
+			_attack.OnAnimationFinished();
+			_attackAnimTimer = 0f;
+		}
 
 		// Grant i-frames
 		_health.SetInvincible(DodgeIFrames);
