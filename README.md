@@ -1,4 +1,4 @@
-# DOWN - 💀 Dark Fantasy Action RPG Prototype
+# DOWN - 💀 Sci-Fi Space Marine Zombie Shooter Prototype
 
 > **🚧 Project Status:** _Combat Overhaul Phase._
 
@@ -8,7 +8,7 @@
 [![Language](https://img.shields.io/badge/Language-C%23-green?style=for-the-badge&logo=c-sharp)](https://dotnet.microsoft.com)
 [![Status](https://img.shields.io/badge/Status-Active%20Development%20%2F%20On%20Going-orange?style=for-the-badge)](https://github.com/Frizr/DOWN)
 
-DOWN is a dark fantasy action RPG prototype built using **Godot Engine 4.6 (.NET/C#)**. The player is dropped into an undead arena and must fight off enemies in a focused combat prototype designed to validate the core gameplay loop.
+DOWN is a sci-fi top-down shooter prototype built using **Godot Engine 4.6 (.NET/C#)**. The player is a Space Marine dropped into the "down" world, and must fight off hordes of zombie monsters in a focused combat prototype inspired by games like Hypersomnia.
 
 > **Note:** This is an early prototype. The primary focus is testing and refining core combat, movement, and enemy behavior before expanding into full level design and UI polish.
 
