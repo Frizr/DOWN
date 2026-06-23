@@ -186,7 +186,7 @@ public partial class PlayerController : CharacterBody2D
 		ApplyMovement(dt);
 		
 		if (_dustParticles != null)
-			_dustParticles.Emitting = (_moveDir != Vector2.Zero);
+			_dustParticles.Emitting = (Velocity.LengthSquared() > 0.01f);
 	}
 
 	private string GetDirectionSuffix()

@@ -253,7 +253,10 @@ public partial class EnemyBase : CharacterBody2D
 				GetTree().CreateTimer(FlashDuration, false),
 				SceneTreeTimer.SignalName.Timeout
 			);
-			mat.SetShaderParameter("flash_amount", 0.0f);
+			if (IsInstanceValid(this))
+			{
+				mat.SetShaderParameter("flash_amount", 0.0f);
+			}
 		}
 		else
 		{
@@ -263,7 +266,10 @@ public partial class EnemyBase : CharacterBody2D
 				GetTree().CreateTimer(FlashDuration, false),
 				SceneTreeTimer.SignalName.Timeout
 			);
-			visuals.Modulate = original;
+			if (IsInstanceValid(this))
+			{
+				visuals.Modulate = original;
+			}
 		}
 	}
 }
