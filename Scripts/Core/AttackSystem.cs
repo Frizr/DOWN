@@ -57,6 +57,7 @@ public partial class AttackSystem : Node
     private int   _activeDamage  = 0;
     private Area2D _hitBox;
     private CollisionShape2D _hitBoxShape;
+    private Shape2D _originalHitBoxShape;
     private Line2D _slashVisual;
     private AnimatedSprite2D _slashSprite;
     private SpriteFrames _slashFrames;
@@ -176,15 +177,12 @@ public partial class AttackSystem : Node
         // Temporarily widen hitbox
         if (_hitBoxShape?.Shape is RectangleShape2D rect)
         {
-            var originalShape = _hitBoxShape.Shape;
+            _originalHitBoxShape = _hitBoxShape.Shape;
             var newRect = (RectangleShape2D)rect.Duplicate();
             newRect.Size = new Vector2(Skill1HitBoxSize, Skill1HitBoxSize); // Massive AoE
             _hitBoxShape.Shape = newRect;
             
             ActivateHitBox(HeavyDamage * 2);
-            
-            // Reset shape after delay safely
-            RestoreShapeAfterDelay(originalShape, HitBoxDuration);
         }
         else
         {
@@ -192,15 +190,6 @@ public partial class AttackSystem : Node
         }
 
         return true;
-    }
-
-    private async void RestoreShapeAfterDelay(Shape2D originalShape, float delay)
-    {
-        await ToSignal(GetTree().CreateTimer(delay, false), SceneTreeTimer.SignalName.Timeout);
-        if (GodotObject.IsInstanceValid(this) && GodotObject.IsInstanceValid(_hitBoxShape))
-        {
-            _hitBoxShape.Shape = originalShape;
-        }
     }
 
     public bool TrySkill2()
@@ -379,6 +368,12 @@ public partial class AttackSystem : Node
             _slashVisual.Visible = false;
         if (_slashSprite != null)
             _slashSprite.Visible = false;
+            
+        if (_originalHitBoxShape != null && _hitBoxShape != null)
+        {
+            _hitBoxShape.Shape = _originalHitBoxShape;
+            _originalHitBoxShape = null;
+        }
     }
 
     private bool IsOwnerDead()

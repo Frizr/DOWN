@@ -46,7 +46,7 @@ public partial class PlayerController : CharacterBody2D
 	private float _attackAnimTimer = 0f;
 	private float _buffTimer      = 0f;
 	private float _buffSpeedMult  = 1f;
-	private Color _originalModulate = Colors.White;
+	private Color _originalSelfModulate = Colors.White;
 	private bool  _wasBuffed      = false;
 	private bool  _isDead         = false;
 	private bool  _hasPlayableBounds = false;
@@ -99,7 +99,7 @@ public partial class PlayerController : CharacterBody2D
 		// Wire attack signals → GameManager combo
 		_attack.AttackStarted += OnAttackStarted;
 		_attack.HitConnected += OnHitConnected;
-		_attack.Connect(AttackSystem.SignalName.BuffTriggered, Callable.From<float, float>(OnBuffTriggered));
+		_attack.BuffTriggered += OnBuffTriggered;
 
 		if (_animSprite != null)
 			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
@@ -126,7 +126,7 @@ public partial class PlayerController : CharacterBody2D
 				_buffSpeedMult = 1f;
 				if (_wasBuffed)
 				{
-					Modulate = _originalModulate;
+					SelfModulate = _originalSelfModulate;
 					_wasBuffed = false;
 				}
 			}
@@ -350,10 +350,10 @@ public partial class PlayerController : CharacterBody2D
 		// Visual feedback
 		if (!_wasBuffed)
 		{
-			_originalModulate = Modulate;
+			_originalSelfModulate = SelfModulate;
 			_wasBuffed = true;
 		}
-		Modulate = new Color(1.5f, 1.5f, 2.0f);
+		SelfModulate = new Color(1.5f, 1.5f, 2.0f);
 	}
 
 	private void OnSpriteAnimationFinished()
