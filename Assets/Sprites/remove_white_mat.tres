@@ -1,0 +1,8 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://c_remove_white_mat_1"]
+
+[ext_resource type="Shader" path="res://Assets/Sprites/remove_white.gdshader" id="1_shader"]
+
+[resource]
+shader = ExtResource("1_shader")
+shader_parameter/key_color = Color(1, 1, 1, 1)
+shader_parameter/tolerance = 0.2

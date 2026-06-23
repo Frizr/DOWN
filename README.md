@@ -1,6 +1,6 @@
 # DOWN - 💀 Dark Fantasy Action RPG Prototype
 
-> **🚧 Project Status:** *Ongoing development – features are actively being added and refined.*
+> **🚧 Project Status:** _Combat Overhaul Phase._
 
 ![DOWN Banner](Assets/DOWN.png)
 
@@ -24,7 +24,9 @@ DOWN is a dark fantasy action RPG prototype built using **Godot Engine 4.6 (.NET
 
 ## 🎮 Current Prototype Status
 
-DOWN is currently an early gameplay prototype. The main focus is validating the core combat loop before expanding into full level design, UI polish, and additional enemies.
+DOWN is currently undergoing a **Combat Overhaul**. We are shifting from a generic top-down shooter to a fast-paced, skill-based Action RPG (inspired by games like _Drakantos_).
+
+**See the current design spec here:** [2026-06-23-combat-overhaul-design.md](2026-06-23-combat-overhaul-design.md)
 
 **Working:**
 
@@ -52,9 +54,9 @@ DOWN is currently an early gameplay prototype. The main focus is validating the 
 
 ## 🕹️ Controls
 
-| Action | Input |
-| :--- | :--- |
-| **Move** | `W` `A` `S` `D` |
+| Action     | Input              |
+| :--------- | :----------------- |
+| **Move**   | `W` `A` `S` `D`    |
 | **Attack** | `Left Mouse Click` |
 
 ---
@@ -62,15 +64,18 @@ DOWN is currently an early gameplay prototype. The main focus is validating the 
 ## ⚔️ Combat System
 
 ### Player Attack
+
 - Left-click triggers a melee attack.
 - The attack hitbox shifts its position based on the player's facing direction, ensuring hits register in the correct direction.
 
 ### Enemy Behavior
+
 - Enemies detect the player and directly chase them.
 - Enemies deal damage to the player on contact within attack range.
 - Enemies have HP; when HP reaches zero, they die and award score.
 
 ### Health & Damage
+
 - Both player and enemy use a shared `Health` component.
 - Damage decreases current HP.
 - Death is triggered when HP reaches zero.
@@ -105,28 +110,30 @@ Managed by the `GameManager` global singleton:
 
 Each script is scoped to a single responsibility:
 
-| Script | Role |
-| :--- | :--- |
-| `GameManager.cs` | Score tracking and game state management. |
-| `PlayerController.cs` | Reads `W/A/S/D` input, routes movement to `CharacterBody2D`, and connects signals for damage and death. |
-| `EnemyBase.cs` | Base class shared by all enemy types. Handles velocity movement, damage flashing, and death signal emission. |
-| `EnemyAI.cs` | Enemy detection, direct chase fallback, and attack range behavior. |
-| `AttackSystem.cs` | Player attack hitbox, facing-based hitbox offset, and enemy damage detection. |
-| `Health.cs` | Reusable health/damage/death component. Stores current and max HP, exposes `TakeDamage()`, and emits `Died` signal. |
-| `TilemapSetup.cs` | Prototype arena setup: background image, player/enemy placement, camera focus, and invisible arena bounds. |
-| `HUD.cs` | In-game UI overlay (in progress). |
-| `DeathScreen.cs` | End-of-run screen (in progress). |
+| Script                | Role                                                                                                                |
+| :-------------------- | :------------------------------------------------------------------------------------------------------------------ |
+| `GameManager.cs`      | Score tracking and game state management.                                                                           |
+| `PlayerController.cs` | Reads `W/A/S/D` input, routes movement to `CharacterBody2D`, and connects signals for damage and death.             |
+| `EnemyBase.cs`        | Base class shared by all enemy types. Handles velocity movement, damage flashing, and death signal emission.        |
+| `EnemyAI.cs`          | Enemy detection, direct chase fallback, and attack range behavior.                                                  |
+| `AttackSystem.cs`     | Player attack hitbox, facing-based hitbox offset, and enemy damage detection.                                       |
+| `Health.cs`           | Reusable health/damage/death component. Stores current and max HP, exposes `TakeDamage()`, and emits `Died` signal. |
+| `TilemapSetup.cs`     | Prototype arena setup: background image, player/enemy placement, camera focus, and invisible arena bounds.          |
+| `HUD.cs`              | In-game UI overlay (in progress).                                                                                   |
+| `DeathScreen.cs`      | End-of-run screen (in progress).                                                                                    |
 
 ---
 
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 1. **Godot Engine 4.6 (.NET Edition)** — the standard Godot build will not compile C# scripts.
 2. **.NET SDK 6.0 or 8.0** installed on your system.
-3. A C#-compatible editor such as **VS Code** (with the *C# Dev Kit* extension) or **Visual Studio 2022**.
+3. A C#-compatible editor such as **VS Code** (with the _C# Dev Kit_ extension) or **Visual Studio 2022**.
 
 ### Setup & Run
+
 1. Clone or download this repository to a local folder.
 2. Open **Godot Engine (.NET Edition)** and import the project via `project.godot`.
 3. Click the **Build** (hammer) button in the top-right corner to compile the C# assembly.
@@ -185,4 +192,3 @@ DOWN/
 - [ ] Audio: ambient music and combat SFX
 - [ ] Boss encounter
 - [ ] Player ability upgrades
-

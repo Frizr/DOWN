@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://du3ai24edqb2d"]
+
+[ext_resource type="Script" uid="uid://t1c2m07s5fnl" path="res://Scripts/Core/EnemyGrunt.cs" id="1_xeo28"]
+[ext_resource type="Script" uid="uid://cm8v6oqgcau6n" path="res://Scripts/Core/EnemyAI.cs" id="2_ai"]
+[ext_resource type="Script" uid="uid://dhxj07ejejq3f" path="res://Scripts/Core/Health.cs" id="3_health"]
+[ext_resource type="SpriteFrames" path="res://Assets/SpriteFrames/green_goblin_tribesman_frames.tres" id="4_goblin"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
+radius = 9.0
+height = 18.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 220.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_attack"]
+radius = 60.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hitbox"]
+size = Vector2(36, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurtbox"]
+size = Vector2(20, 26)
+
+[node name="Enemy" type="CharacterBody2D" unique_id=1743319368]
+collision_layer = 2
+collision_mask = 3
+script = ExtResource("1_xeo28")
+
+[node name="Collision" type="CollisionShape2D" parent="." unique_id=466707879]
+position = Vector2(0, 4)
+shape = SubResource("CapsuleShape2D_body")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1825110096]
+visible = false
+position = Vector2(0, -16)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1765930532]
+
+[node name="Health" type="Node" parent="." unique_id=1752030667]
+script = ExtResource("3_health")
+MaxHealth = 60
+
+[node name="EnemyAI" type="Node" parent="." unique_id=182156367]
+script = ExtResource("2_ai")
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=2064323543]
+path_desired_distance = 6.0
+target_desired_distance = 16.0
+avoidance_enabled = true
+
+[node name="DetectRange" type="Area2D" parent="." unique_id=70719540]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="DetectShape" type="CollisionShape2D" parent="DetectRange" unique_id=180969224]
+shape = SubResource("CircleShape2D_detect")
+debug_color = Color(1, 1, 0, 0.08)
+
+[node name="AttackRange" type="Area2D" parent="." unique_id=1831476146]
+collision_layer = 0
+collision_mask = 0
+monitoring = false
+monitorable = false
+
+[node name="AttackShape" type="CollisionShape2D" parent="AttackRange" unique_id=793640814]
+shape = SubResource("CircleShape2D_attack")
+debug_color = Color(1, 0, 0, 0.12)
+
+[node name="HitBox" type="Area2D" parent="." unique_id=1613342810]
+collision_layer = 32
+collision_mask = 16
+monitoring = false
+
+[node name="HitBoxShape" type="CollisionShape2D" parent="HitBox" unique_id=942709487]
+position = Vector2(24, 0)
+shape = SubResource("RectangleShape2D_hitbox")
+
+[node name="HurtBox" type="Area2D" parent="." unique_id=1461268140]
+collision_layer = 8
+collision_mask = 4
+
+[node name="HurtBoxShape" type="CollisionShape2D" parent="HurtBox" unique_id=2031290262]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_hurtbox")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1004865545]
+scale = Vector2(2.5, 2.5)
+sprite_frames = ExtResource("4_goblin")
+animation = &"walk_down"

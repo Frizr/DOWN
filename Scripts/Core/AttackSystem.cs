@@ -79,6 +79,8 @@ public partial class AttackSystem : Node
         _slashVisual = GetParent()?.GetNodeOrNull<Line2D>("SlashVisual");
         if (_slashVisual != null)
             _slashVisual.Visible = false;
+        
+        SetupSlashVisual();
         SetupCustomEffectSprites();
 
         // Wire up hit detection
@@ -340,60 +342,66 @@ public partial class AttackSystem : Node
             if (_hitBoxShape.Shape is RectangleShape2D rect)
                 rect.Size = new Vector2(56f, 84f);
         }
+    }
 
-        UpdateSlashDirection();
+    private Tween _slashTween;
+
+    private void SetupSlashVisual()
+    {
+        if (_slashVisual == null) return;
+        
+        // Create a nice sharp sword swoosh curve
+        var curve = new Curve();
+        curve.AddPoint(new Vector2(0f, 0.0f));
+        curve.AddPoint(new Vector2(0.5f, 1.0f));
+        curve.AddPoint(new Vector2(1.0f, 0.0f));
+        _slashVisual.WidthCurve = curve;
+        _slashVisual.Width = 32f;
+        _slashVisual.DefaultColor = new Color(1f, 1f, 1f, 0.8f); // Sharp white swoosh
+        _slashVisual.BeginCapMode = Line2D.LineCapMode.Round;
+        _slashVisual.EndCapMode = Line2D.LineCapMode.Round;
+        
+        // Generate a smooth arc
+        var points = new Vector2[20];
+        float radius = 28f;
+        float startAngle = -Mathf.Pi * 0.45f;
+        float endAngle = Mathf.Pi * 0.45f;
+        for(int i=0; i<20; i++) {
+            float t = i / 19f;
+            float arcAngle = Mathf.Lerp(startAngle, endAngle, t);
+            points[i] = new Vector2(Mathf.Cos(arcAngle), Mathf.Sin(arcAngle)) * radius;
+        }
+        _slashVisual.Points = points;
     }
 
     private void ShowSlashVisual()
     {
-        UpdateSlashDirection();
-        if (_slashVisual != null)
-            _slashVisual.Visible = false;
-        if (_slashSprite != null && _slashFrames != null)
-        {
-            _slashSprite.Visible = true;
-            _slashSprite.Frame = 0;
-            _slashSprite.Play("slash");
-        }
-    }
-
-    private void UpdateSlashDirection()
-    {
+        if (_slashVisual == null) return;
+        
+        _slashVisual.Visible = true;
+        
+        // Calculate the base orientation from facing
         bool horizontal = Mathf.Abs(_facing.X) >= Mathf.Abs(_facing.Y);
-        if (horizontal)
-        {
-            float side = _facing.X >= 0f ? 1f : -1f;
-            if (_slashVisual != null)
-            {
-                _slashVisual.Position = new Vector2(44f * side, -6f);
-                _slashVisual.Rotation = side > 0f ? -0.55f : 0.55f;
-                _slashVisual.Scale = new Vector2(side, 1f);
-            }
-            if (_slashSprite != null)
-            {
-                _slashSprite.Position = new Vector2(48f * side, -8f);
-                _slashSprite.Rotation = 0f;
-                _slashSprite.FlipH = side < 0f;
-                _slashSprite.Scale = new Vector2(1.45f, 1.45f);
-            }
-        }
-        else
-        {
-            float side = _facing.Y >= 0f ? 1f : -1f;
-            if (_slashVisual != null)
-            {
-                _slashVisual.Position = new Vector2(0f, 34f * side);
-                _slashVisual.Rotation = side > 0f ? 1.1f : -2.0f;
-                _slashVisual.Scale = Vector2.One;
-            }
-            if (_slashSprite != null)
-            {
-                _slashSprite.Position = new Vector2(0f, 46f * side);
-                _slashSprite.Rotation = side > 0f ? Mathf.Pi * 0.5f : -Mathf.Pi * 0.5f;
-                _slashSprite.FlipH = false;
-                _slashSprite.Scale = new Vector2(1.45f, 1.45f);
-            }
-        }
+        float targetAngle = horizontal ? (_facing.X > 0 ? 0 : Mathf.Pi) : (_facing.Y > 0 ? Mathf.Pi/2 : -Mathf.Pi/2);
+        
+        _slashVisual.Position = _facing * 16f; // Offset in facing direction
+        _slashVisual.Modulate = new Color(1f, 1f, 1f, 1f);
+        
+        // Add some dynamic swing by rotating over the tween
+        _slashVisual.Rotation = targetAngle - 0.5f; 
+        _slashVisual.Scale = new Vector2(0.3f, 0.8f);
+
+        _slashTween?.Kill();
+        _slashTween = GetTree().CreateTween().SetParallel(true);
+        // Swing the rotation
+        _slashTween.TweenProperty(_slashVisual, "rotation", targetAngle + 0.5f, HitBoxDuration)
+            .SetTrans(Tween.TransitionType.Cubic).SetEase(Tween.EaseType.Out);
+        // Grow the slash
+        _slashTween.TweenProperty(_slashVisual, "scale", new Vector2(1.6f, 1.6f), HitBoxDuration * 0.7f)
+            .SetTrans(Tween.TransitionType.Back).SetEase(Tween.EaseType.Out);
+        // Fade it out fast
+        _slashTween.TweenProperty(_slashVisual, "modulate:a", 0f, HitBoxDuration)
+            .SetTrans(Tween.TransitionType.Expo).SetEase(Tween.EaseType.In);
     }
 
     private void SetupCustomEffectSprites()

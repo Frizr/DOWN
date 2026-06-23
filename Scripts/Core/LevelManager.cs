@@ -19,6 +19,7 @@ public partial class LevelManager : Node
 	[ExportGroup("Scenes")]
 	[Export] public PackedScene EnemyScene;   // Assign res://Scenes/Enemy.tscn in editor
 	[Export] public PackedScene GruntScene;   // Optional: res://Scenes/EnemyGrunt.tscn
+	[Export] public PackedScene BruteScene;   // Optional: res://Scenes/EnemyBrute.tscn
 
 	[ExportGroup("Wave Settings")]
 	[Export] public bool  AutoStart       = true;
@@ -189,10 +190,17 @@ public partial class LevelManager : Node
 		if (spawnPosition == null)
 			return false;
 
-		// Alternate grunt / standard based on wave (every 3rd enemy is a grunt)
-		PackedScene scene = (GruntScene != null && _rng.Randf() < 0.35f)
-			? GruntScene
-			: EnemyScene;
+		PackedScene scene = EnemyScene;
+		
+		float rngVal = _rng.Randf();
+		if (BruteScene != null && CurrentWave >= 3 && rngVal < 0.10f)
+		{
+			scene = BruteScene;
+		}
+		else if (GruntScene != null && rngVal < 0.45f)
+		{
+			scene = GruntScene;
+		}
 
 		var enemy = scene.Instantiate<EnemyBase>();
 		_ySort.AddChild(enemy);

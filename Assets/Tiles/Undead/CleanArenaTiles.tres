@@ -1,8 +1,8 @@
-[gd_resource type="TileSet" load_steps=7 format=3]
+[gd_resource type="TileSet" format=3 uid="uid://dlu2kyls1oeb7"]
 
-[ext_resource type="Texture2D" path="res://Assets/Tiles/Undead/Generated/clean_rock_floor.png" id="1_floor_main"]
-[ext_resource type="Texture2D" path="res://Assets/Tiles/Undead/Generated/clean_rock_floor_var1.png" id="2_floor_var1"]
-[ext_resource type="Texture2D" path="res://Assets/Tiles/Undead/Generated/clean_rock_floor_var2.png" id="3_floor_var2"]
+[ext_resource type="Texture2D" uid="uid://cnsko8akhbk0p" path="res://Assets/Tiles/Undead/Generated/clean_rock_floor.png" id="1_floor_main"]
+[ext_resource type="Texture2D" uid="uid://dq7tua5hq04qf" path="res://Assets/Tiles/Undead/Generated/clean_rock_floor_var1.png" id="2_floor_var1"]
+[ext_resource type="Texture2D" uid="uid://67dcyhvpdsrf" path="res://Assets/Tiles/Undead/Generated/clean_rock_floor_var2.png" id="3_floor_var2"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_floor_main"]
 texture = ExtResource("1_floor_main")

@@ -32,7 +32,7 @@ public partial class PlayerController : CharacterBody2D
 
 	private Health          _health;
 	private AttackSystem    _attack;
-	private AnimatedSprite2D _sprite;
+	private AnimationPlayer _animPlayer;
 	private IsometricCamera _camera;
 
 	// ─── State ────────────────────────────────────────────────────────────────
@@ -53,11 +53,13 @@ public partial class PlayerController : CharacterBody2D
 
 	// ─── Lifecycle ────────────────────────────────────────────────────────────
 
+	private AnimatedSprite2D _animSprite;
+
 	public override void _Ready()
 	{
 		_health = GetNode<Health>("Health");
 		_attack = GetNode<AttackSystem>("AttackSystem");
-		_sprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+		_animSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
 
 		// Locate camera (autoload or scene path)
 		_camera = GetNodeOrNull<IsometricCamera>("/root/Main/Camera");
@@ -70,8 +72,8 @@ public partial class PlayerController : CharacterBody2D
 		_attack.AttackStarted += OnAttackStarted;
 		_attack.HitConnected += OnHitConnected;
 
-		if (_sprite != null)
-			_sprite.AnimationFinished += OnSpriteAnimationFinished;
+		if (_animSprite != null)
+			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
 
 		PlayAnim("idle");
 	}
@@ -100,6 +102,16 @@ public partial class PlayerController : CharacterBody2D
 		}
 
 		ApplyMovement(dt);
+	}
+
+	private string GetDirectionSuffix()
+	{
+		float ax = Mathf.Abs(_facing.X);
+		float ay = Mathf.Abs(_facing.Y);
+		if (ay >= ax)
+			return _facing.Y >= 0f ? "down" : "up";
+		else
+			return _facing.X >= 0f ? "right" : "left";
 	}
 
 	public override void _UnhandledInput(InputEvent @event)
@@ -263,7 +275,11 @@ public partial class PlayerController : CharacterBody2D
 			return;
 
 		GameManager.Instance?.IncrementCombo();
-		GameManager.Instance?.AddScore(damage * 10);
+		
+		// Intended design: Players get a small "Hit Score" for landing attacks, 
+		// and a larger "Kill Score" from EnemyBase.OnDied() when the enemy dies.
+		int hitScore = damage * 5;
+		GameManager.Instance?.AddScore(hitScore);
 	}
 
 	private void OnSpriteAnimationFinished()
@@ -284,92 +300,6 @@ public partial class PlayerController : CharacterBody2D
 	// ─── Animation Helper ─────────────────────────────────────────────────────
 
 	private string _currentAnim = "";
-
-	/// <summary>Play animation only if it isn't already playing (prevents restart spam).</summary>
-	private bool PlayAnim(string animName, bool force = false)
-	{
-		if (_sprite == null || _sprite.SpriteFrames == null)
-			return false;
-
-		SpriteFrames frames = _sprite.SpriteFrames;
-		string resolvedAnim = ResolvePlayableAnim(animName, frames);
-		if (string.IsNullOrEmpty(resolvedAnim))
-			return false;
-
-		if (!force && _currentAnim == resolvedAnim && _sprite.Animation.ToString() == resolvedAnim && _sprite.IsPlaying())
-			return true;
-
-		_currentAnim = resolvedAnim;
-		_sprite.Play(resolvedAnim);
-		if (force)
-			_sprite.Frame = 0;
-		return true;
-	}
-
-	private string ResolvePlayableAnim(string animName, SpriteFrames frames)
-	{
-		string baseAnim = GetAnimationBase(animName);
-		string requestedDirection = GetAnimationDirection(animName);
-		string requestedAnim = string.IsNullOrEmpty(requestedDirection)
-			? $"{baseAnim}_{GetFacingDirection()}"
-			: $"{baseAnim}_{requestedDirection}";
-
-		if (HasPlayableAnimation(frames, requestedAnim))
-			return requestedAnim;
-
-		string baseUp = $"{baseAnim}_up";
-		if (HasPlayableAnimation(frames, baseUp))
-			return baseUp;
-
-		string baseDown = $"{baseAnim}_down";
-		if (HasPlayableAnimation(frames, baseDown))
-			return baseDown;
-
-		if (HasPlayableAnimation(frames, "idle_up"))
-			return "idle_up";
-
-		if (HasPlayableAnimation(frames, "idle_down"))
-			return "idle_down";
-
-		foreach (StringName animation in frames.GetAnimationNames())
-		{
-			string candidate = animation.ToString();
-			if (HasPlayableAnimation(frames, candidate))
-				return candidate;
-		}
-
-		return "";
-	}
-
-	private static string GetAnimationBase(string animName)
-	{
-		int separator = animName.IndexOf('_');
-		return separator > 0 ? animName[..separator] : animName;
-	}
-
-	private static string GetAnimationDirection(string animName)
-	{
-		int separator = animName.IndexOf('_');
-		return separator >= 0 && separator < animName.Length - 1 ? animName[(separator + 1)..] : "";
-	}
-
-	private static bool HasPlayableAnimation(SpriteFrames frames, string animName)
-	{
-		return !string.IsNullOrEmpty(animName)
-			&& frames.HasAnimation(animName)
-			&& frames.GetFrameCount(animName) > 0;
-	}
-
-	private string GetFacingDirection()
-	{
-		float ax = Mathf.Abs(_facing.X);
-		float ay = Mathf.Abs(_facing.Y);
-
-		if (ay >= ax)
-			return _facing.Y >= 0f ? "down" : "up";
-
-		return _facing.X >= 0f ? "right" : "left";
-	}
 
 	private Vector2 GetAttackFacing()
 	{
@@ -401,11 +331,58 @@ public partial class PlayerController : CharacterBody2D
 		return direction != Vector2.Zero;
 	}
 
+	/// <summary>Play animation only if it isn't already playing (prevents restart spam).</summary>
+	public bool PlayAnim(string animName, bool force = false)
+	{
+		if (_animSprite == null)
+			return false;
+
+		string dirSuffix = GetDirectionSuffix();
+		bool isIdleFallback = false;
+
+		// Fallback for idle up/down which are missing from the spritesheet
+		if (animName == "idle" && (dirSuffix == "up" || dirSuffix == "down"))
+		{
+			animName = "walk";
+			isIdleFallback = true;
+		}
+
+		string resolvedAnim = animName + "_" + dirSuffix;
+
+		// Additional fallback for missing animations like dodge or hurt
+		if (!_animSprite.SpriteFrames.HasAnimation(resolvedAnim))
+		{
+			if (animName.StartsWith("hurt") || animName.StartsWith("dodge") || animName.StartsWith("death"))
+				resolvedAnim = "idle_" + dirSuffix;
+			else
+				return false;
+		}
+
+		if (!force && _currentAnim == resolvedAnim && _animSprite.Animation == resolvedAnim)
+		{
+			if (!isIdleFallback && _animSprite.IsPlaying())
+				return true;
+			if (isIdleFallback && !_animSprite.IsPlaying())
+				return true;
+		}
+
+		_currentAnim = resolvedAnim;
+		_animSprite.Play(resolvedAnim);
+		
+		if (isIdleFallback)
+		{
+			_animSprite.Stop();
+			_animSprite.Frame = 0;
+		}
+
+		return true;
+	}
+
 	private bool IsAttackAnimationLocked()
 	{
 		return (_attack != null && _attack.IsAttacking)
 			|| _attackAnimTimer > 0f
-			|| (_currentAnim.StartsWith("attack") && _sprite?.IsPlaying() == true);
+			|| (_currentAnim.StartsWith("attack") && _animSprite?.IsPlaying() == true);
 	}
 
 	private void ClampToPlayableBounds()
@@ -427,17 +404,17 @@ public partial class PlayerController : CharacterBody2D
 
 	private float GetCurrentAnimationDuration(float fallback)
 	{
-		if (_sprite?.SpriteFrames == null || string.IsNullOrEmpty(_currentAnim))
+		if (_animSprite == null || string.IsNullOrEmpty(_currentAnim))
 			return fallback;
-		if (!_sprite.SpriteFrames.HasAnimation(_currentAnim))
-			return fallback;
-
-		int frameCount = _sprite.SpriteFrames.GetFrameCount(_currentAnim);
-		double speed = _sprite.SpriteFrames.GetAnimationSpeed(_currentAnim);
-		if (frameCount <= 0 || speed <= 0)
+		if (!_animSprite.SpriteFrames.HasAnimation(_currentAnim))
 			return fallback;
 
-		return Mathf.Max((float)(frameCount / speed), fallback);
+		var fps = _animSprite.SpriteFrames.GetAnimationSpeed(_currentAnim);
+		var frameCount = _animSprite.SpriteFrames.GetFrameCount(_currentAnim);
+		if (fps > 0f && frameCount > 0)
+			return (float)(frameCount / fps);
+			
+		return fallback;
 	}
 
 	// ─── Public Accessors ─────────────────────────────────────────────────────

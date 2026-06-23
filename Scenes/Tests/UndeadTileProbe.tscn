@@ -1,31 +1,7 @@
-[gd_scene load_steps=19 format=3]
+[gd_scene format=3 uid="uid://ccgcxfdnpihx7"]
 
 [ext_resource type="Texture2D" uid="uid://cowi1uic2todb" path="res://Assets/Tiles/Undead/Ground_rocks.png" id="1_ground_rocks"]
 [ext_resource type="Texture2D" uid="uid://bjree0l7veu22" path="res://Assets/Tiles/Undead/Details.png" id="2_details"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_details_1_0"]
-atlas = ExtResource("2_details")
-region = Rect2(64, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_details_2_0"]
-atlas = ExtResource("2_details")
-region = Rect2(128, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_details_4_0"]
-atlas = ExtResource("2_details")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_details_5_0"]
-atlas = ExtResource("2_details")
-region = Rect2(320, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_details_6_1"]
-atlas = ExtResource("2_details")
-region = Rect2(384, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_details_8_1"]
-atlas = ExtResource("2_details")
-region = Rect2(512, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ground_6_3"]
 atlas = ExtResource("1_ground_rocks")
@@ -67,102 +43,124 @@ region = Rect2(128, 320, 64, 64)
 atlas = ExtResource("1_ground_rocks")
 region = Rect2(192, 320, 64, 64)
 
-[node name="UndeadTileProbe" type="Node2D"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_details_1_0"]
+atlas = ExtResource("2_details")
+region = Rect2(64, 0, 64, 64)
 
-[node name="Background" type="ColorRect" parent="."]
-offset_left = 0.0
-offset_top = 0.0
+[sub_resource type="AtlasTexture" id="AtlasTexture_details_2_0"]
+atlas = ExtResource("2_details")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_details_4_0"]
+atlas = ExtResource("2_details")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_details_5_0"]
+atlas = ExtResource("2_details")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_details_6_1"]
+atlas = ExtResource("2_details")
+region = Rect2(384, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_details_8_1"]
+atlas = ExtResource("2_details")
+region = Rect2(512, 64, 64, 64)
+
+[node name="UndeadTileProbe" type="Node2D" unique_id=1024905347]
+
+[node name="Background" type="ColorRect" parent="." unique_id=1731813364]
 offset_right = 1120.0
 offset_bottom = 1168.0
 color = Color(0.08, 0.08, 0.075, 1)
 
-[node name="GroundPreview" type="Node2D" parent="."]
+[node name="GroundPreview" type="Node2D" parent="." unique_id=81587898]
 
-[node name="MaybeGround_6_3" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeGround_6_3" type="Sprite2D" parent="GroundPreview" unique_id=1856564085]
 position = Vector2(360, 956)
 texture = SubResource("AtlasTexture_ground_6_3")
 centered = false
 
-[node name="MaybeGround_5_5" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeGround_5_5" type="Sprite2D" parent="GroundPreview" unique_id=632252683]
 position = Vector2(440, 956)
 texture = SubResource("AtlasTexture_ground_5_5")
 centered = false
 
-[node name="MaybeGround_6_5" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeGround_6_5" type="Sprite2D" parent="GroundPreview" unique_id=2071871585]
 position = Vector2(520, 956)
 texture = SubResource("AtlasTexture_ground_6_5")
 centered = false
 
-[node name="MaybeBorder_2_1" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_2_1" type="Sprite2D" parent="GroundPreview" unique_id=879108219]
 position = Vector2(360, 1052)
 texture = SubResource("AtlasTexture_ground_2_1")
 centered = false
 
-[node name="MaybeBorder_3_1" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_3_1" type="Sprite2D" parent="GroundPreview" unique_id=150555230]
 position = Vector2(440, 1052)
 texture = SubResource("AtlasTexture_ground_3_1")
 centered = false
 
-[node name="MaybeBorder_4_1" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_4_1" type="Sprite2D" parent="GroundPreview" unique_id=1370549789]
 position = Vector2(520, 1052)
 texture = SubResource("AtlasTexture_ground_4_1")
 centered = false
 
-[node name="MaybeBorder_6_1" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_6_1" type="Sprite2D" parent="GroundPreview" unique_id=1172559888]
 position = Vector2(600, 1052)
 texture = SubResource("AtlasTexture_ground_6_1")
 centered = false
 
-[node name="MaybeBorder_1_5" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_1_5" type="Sprite2D" parent="GroundPreview" unique_id=655715064]
 position = Vector2(680, 1052)
 texture = SubResource("AtlasTexture_ground_1_5")
 centered = false
 
-[node name="MaybeBorder_2_5" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_2_5" type="Sprite2D" parent="GroundPreview" unique_id=1017168107]
 position = Vector2(760, 1052)
 texture = SubResource("AtlasTexture_ground_2_5")
 centered = false
 
-[node name="MaybeBorder_3_5" type="Sprite2D" parent="GroundPreview"]
+[node name="MaybeBorder_3_5" type="Sprite2D" parent="GroundPreview" unique_id=835326951]
 position = Vector2(840, 1052)
 texture = SubResource("AtlasTexture_ground_3_5")
 centered = false
 
-[node name="DetailPreview" type="Node2D" parent="."]
+[node name="DetailPreview" type="Node2D" parent="." unique_id=1207757727]
 
-[node name="FloorDetail_1_0" type="Sprite2D" parent="DetailPreview"]
+[node name="FloorDetail_1_0" type="Sprite2D" parent="DetailPreview" unique_id=46576741]
 position = Vector2(360, 860)
 texture = SubResource("AtlasTexture_details_1_0")
 centered = false
 
-[node name="FloorDetail_2_0" type="Sprite2D" parent="DetailPreview"]
+[node name="FloorDetail_2_0" type="Sprite2D" parent="DetailPreview" unique_id=2064981562]
 position = Vector2(440, 860)
 texture = SubResource("AtlasTexture_details_2_0")
 centered = false
 
-[node name="FloorDetail_4_0" type="Sprite2D" parent="DetailPreview"]
+[node name="FloorDetail_4_0" type="Sprite2D" parent="DetailPreview" unique_id=1164900073]
 position = Vector2(520, 860)
 texture = SubResource("AtlasTexture_details_4_0")
 centered = false
 
-[node name="FloorDetail_5_0" type="Sprite2D" parent="DetailPreview"]
+[node name="FloorDetail_5_0" type="Sprite2D" parent="DetailPreview" unique_id=76575016]
 position = Vector2(600, 860)
 texture = SubResource("AtlasTexture_details_5_0")
 centered = false
 
-[node name="FloorDetail_6_1" type="Sprite2D" parent="DetailPreview"]
+[node name="FloorDetail_6_1" type="Sprite2D" parent="DetailPreview" unique_id=474772182]
 position = Vector2(680, 860)
 texture = SubResource("AtlasTexture_details_6_1")
 centered = false
 
-[node name="FloorDetail_8_1" type="Sprite2D" parent="DetailPreview"]
+[node name="FloorDetail_8_1" type="Sprite2D" parent="DetailPreview" unique_id=1157818145]
 position = Vector2(760, 860)
 texture = SubResource("AtlasTexture_details_8_1")
 centered = false
 
-[node name="Labels" type="Node2D" parent="."]
+[node name="Labels" type="Node2D" parent="." unique_id=1671388342]
 
-[node name="Title" type="Label" parent="Labels"]
+[node name="Title" type="Label" parent="Labels" unique_id=1212586426]
 offset_left = 24.0
 offset_top = 18.0
 offset_right = 1020.0
@@ -171,7 +169,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 22
 text = "Undead Safe Tile Probe - visual verification only"
 
-[node name="RowGroundPlain" type="Label" parent="Labels"]
+[node name="RowGroundPlain" type="Label" parent="Labels" unique_id=12117567]
 offset_left = 24.0
 offset_top = 102.0
 offset_right = 320.0
@@ -180,7 +178,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "ground_plain"
 
-[node name="EmptyGroundPlain" type="Label" parent="Labels"]
+[node name="EmptyGroundPlain" type="Label" parent="Labels" unique_id=1899550699]
 offset_left = 360.0
 offset_top = 102.0
 offset_right = 900.0
@@ -189,7 +187,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - no safe 64x64 Ground_rocks candidate selected"
 
-[node name="RowGroundRough" type="Label" parent="Labels"]
+[node name="RowGroundRough" type="Label" parent="Labels" unique_id=994608694]
 offset_left = 24.0
 offset_top = 198.0
 offset_right = 320.0
@@ -198,7 +196,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "ground_rough"
 
-[node name="EmptyGroundRough" type="Label" parent="Labels"]
+[node name="EmptyGroundRough" type="Label" parent="Labels" unique_id=1428179093]
 offset_left = 360.0
 offset_top = 198.0
 offset_right = 900.0
@@ -207,7 +205,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - rough candidates are still under maybe_ground"
 
-[node name="RowCliffTop" type="Label" parent="Labels"]
+[node name="RowCliffTop" type="Label" parent="Labels" unique_id=1776473311]
 offset_left = 24.0
 offset_top = 294.0
 offset_right = 320.0
@@ -216,7 +214,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "cliff_border_top"
 
-[node name="EmptyCliffTop" type="Label" parent="Labels"]
+[node name="EmptyCliffTop" type="Label" parent="Labels" unique_id=1923755886]
 offset_left = 360.0
 offset_top = 294.0
 offset_right = 900.0
@@ -225,7 +223,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - border candidates are still under maybe_border"
 
-[node name="RowCliffBottom" type="Label" parent="Labels"]
+[node name="RowCliffBottom" type="Label" parent="Labels" unique_id=488253823]
 offset_left = 24.0
 offset_top = 390.0
 offset_right = 320.0
@@ -234,7 +232,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "cliff_border_bottom"
 
-[node name="EmptyCliffBottom" type="Label" parent="Labels"]
+[node name="EmptyCliffBottom" type="Label" parent="Labels" unique_id=1252976055]
 offset_left = 360.0
 offset_top = 390.0
 offset_right = 900.0
@@ -243,7 +241,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - no safe cell selected"
 
-[node name="RowCliffLeft" type="Label" parent="Labels"]
+[node name="RowCliffLeft" type="Label" parent="Labels" unique_id=817122232]
 offset_left = 24.0
 offset_top = 486.0
 offset_right = 320.0
@@ -252,7 +250,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "cliff_border_left"
 
-[node name="EmptyCliffLeft" type="Label" parent="Labels"]
+[node name="EmptyCliffLeft" type="Label" parent="Labels" unique_id=538128652]
 offset_left = 360.0
 offset_top = 486.0
 offset_right = 900.0
@@ -261,7 +259,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - no safe cell selected"
 
-[node name="RowCliffRight" type="Label" parent="Labels"]
+[node name="RowCliffRight" type="Label" parent="Labels" unique_id=481719756]
 offset_left = 24.0
 offset_top = 582.0
 offset_right = 320.0
@@ -270,7 +268,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "cliff_border_right"
 
-[node name="EmptyCliffRight" type="Label" parent="Labels"]
+[node name="EmptyCliffRight" type="Label" parent="Labels" unique_id=1013684168]
 offset_left = 360.0
 offset_top = 582.0
 offset_right = 900.0
@@ -279,7 +277,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - no safe cell selected"
 
-[node name="RowCornerOuter" type="Label" parent="Labels"]
+[node name="RowCornerOuter" type="Label" parent="Labels" unique_id=566175429]
 offset_left = 24.0
 offset_top = 678.0
 offset_right = 320.0
@@ -288,7 +286,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "corner_outer"
 
-[node name="EmptyCornerOuter" type="Label" parent="Labels"]
+[node name="EmptyCornerOuter" type="Label" parent="Labels" unique_id=1849518949]
 offset_left = 360.0
 offset_top = 678.0
 offset_right = 900.0
@@ -297,7 +295,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - corner-only shapes excluded"
 
-[node name="RowCornerInner" type="Label" parent="Labels"]
+[node name="RowCornerInner" type="Label" parent="Labels" unique_id=1134528180]
 offset_left = 24.0
 offset_top = 774.0
 offset_right = 320.0
@@ -306,7 +304,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "corner_inner"
 
-[node name="EmptyCornerInner" type="Label" parent="Labels"]
+[node name="EmptyCornerInner" type="Label" parent="Labels" unique_id=482118704]
 offset_left = 360.0
 offset_top = 774.0
 offset_right = 900.0
@@ -315,7 +313,7 @@ theme_override_colors/font_color = Color(0.6, 0.6, 0.56, 1)
 theme_override_font_sizes/font_size = 15
 text = "empty - corner-only shapes excluded"
 
-[node name="RowFloorDetail" type="Label" parent="Labels"]
+[node name="RowFloorDetail" type="Label" parent="Labels" unique_id=1068078727]
 offset_left = 24.0
 offset_top = 870.0
 offset_right = 320.0
@@ -324,7 +322,7 @@ theme_override_colors/font_color = Color(0.84, 0.84, 0.78, 1)
 theme_override_font_sizes/font_size = 16
 text = "floor_detail_small"
 
-[node name="DetailLabel_1_0" type="Label" parent="Labels"]
+[node name="DetailLabel_1_0" type="Label" parent="Labels" unique_id=1805698984]
 offset_left = 360.0
 offset_top = 928.0
 offset_right = 424.0
@@ -333,7 +331,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 13
 text = "details (1,0)"
 
-[node name="DetailLabel_2_0" type="Label" parent="Labels"]
+[node name="DetailLabel_2_0" type="Label" parent="Labels" unique_id=197277655]
 offset_left = 440.0
 offset_top = 928.0
 offset_right = 504.0
@@ -342,7 +340,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 13
 text = "details (2,0)"
 
-[node name="DetailLabel_4_0" type="Label" parent="Labels"]
+[node name="DetailLabel_4_0" type="Label" parent="Labels" unique_id=95481984]
 offset_left = 520.0
 offset_top = 928.0
 offset_right = 584.0
@@ -351,7 +349,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 13
 text = "details (4,0)"
 
-[node name="DetailLabel_5_0" type="Label" parent="Labels"]
+[node name="DetailLabel_5_0" type="Label" parent="Labels" unique_id=129931940]
 offset_left = 600.0
 offset_top = 928.0
 offset_right = 664.0
@@ -360,7 +358,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 13
 text = "details (5,0)"
 
-[node name="DetailLabel_6_1" type="Label" parent="Labels"]
+[node name="DetailLabel_6_1" type="Label" parent="Labels" unique_id=1001570964]
 offset_left = 680.0
 offset_top = 928.0
 offset_right = 744.0
@@ -369,7 +367,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 13
 text = "details (6,1)"
 
-[node name="DetailLabel_8_1" type="Label" parent="Labels"]
+[node name="DetailLabel_8_1" type="Label" parent="Labels" unique_id=1911528088]
 offset_left = 760.0
 offset_top = 928.0
 offset_right = 824.0
@@ -378,7 +376,7 @@ theme_override_colors/font_color = Color(0.95, 0.82, 0.45, 1)
 theme_override_font_sizes/font_size = 13
 text = "details (8,1)"
 
-[node name="RowMaybeGround" type="Label" parent="Labels"]
+[node name="RowMaybeGround" type="Label" parent="Labels" unique_id=1996184077]
 offset_left = 24.0
 offset_top = 966.0
 offset_right = 320.0
@@ -387,7 +385,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 16
 text = "maybe_ground"
 
-[node name="MaybeGroundLabel_6_3" type="Label" parent="Labels"]
+[node name="MaybeGroundLabel_6_3" type="Label" parent="Labels" unique_id=760450319]
 offset_left = 360.0
 offset_top = 1024.0
 offset_right = 424.0
@@ -396,7 +394,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (6,3)"
 
-[node name="MaybeGroundLabel_5_5" type="Label" parent="Labels"]
+[node name="MaybeGroundLabel_5_5" type="Label" parent="Labels" unique_id=890681231]
 offset_left = 440.0
 offset_top = 1024.0
 offset_right = 504.0
@@ -405,7 +403,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (5,5)"
 
-[node name="MaybeGroundLabel_6_5" type="Label" parent="Labels"]
+[node name="MaybeGroundLabel_6_5" type="Label" parent="Labels" unique_id=674121731]
 offset_left = 520.0
 offset_top = 1024.0
 offset_right = 584.0
@@ -414,7 +412,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (6,5)"
 
-[node name="RowMaybeBorder" type="Label" parent="Labels"]
+[node name="RowMaybeBorder" type="Label" parent="Labels" unique_id=276081279]
 offset_left = 24.0
 offset_top = 1062.0
 offset_right = 320.0
@@ -423,7 +421,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 16
 text = "maybe_border"
 
-[node name="MaybeBorderLabel_2_1" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_2_1" type="Label" parent="Labels" unique_id=1203694042]
 offset_left = 360.0
 offset_top = 1120.0
 offset_right = 424.0
@@ -432,7 +430,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (2,1)"
 
-[node name="MaybeBorderLabel_3_1" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_3_1" type="Label" parent="Labels" unique_id=1384535440]
 offset_left = 440.0
 offset_top = 1120.0
 offset_right = 504.0
@@ -441,7 +439,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (3,1)"
 
-[node name="MaybeBorderLabel_4_1" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_4_1" type="Label" parent="Labels" unique_id=906499673]
 offset_left = 520.0
 offset_top = 1120.0
 offset_right = 584.0
@@ -450,7 +448,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (4,1)"
 
-[node name="MaybeBorderLabel_6_1" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_6_1" type="Label" parent="Labels" unique_id=1134263429]
 offset_left = 600.0
 offset_top = 1120.0
 offset_right = 664.0
@@ -459,7 +457,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (6,1)"
 
-[node name="MaybeBorderLabel_1_5" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_1_5" type="Label" parent="Labels" unique_id=548910215]
 offset_left = 680.0
 offset_top = 1120.0
 offset_right = 744.0
@@ -468,7 +466,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (1,5)"
 
-[node name="MaybeBorderLabel_2_5" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_2_5" type="Label" parent="Labels" unique_id=196553072]
 offset_left = 760.0
 offset_top = 1120.0
 offset_right = 824.0
@@ -477,7 +475,7 @@ theme_override_colors/font_color = Color(0.95, 0.68, 0.36, 1)
 theme_override_font_sizes/font_size = 13
 text = "ground (2,5)"
 
-[node name="MaybeBorderLabel_3_5" type="Label" parent="Labels"]
+[node name="MaybeBorderLabel_3_5" type="Label" parent="Labels" unique_id=754713621]
 offset_left = 840.0
 offset_top = 1120.0
 offset_right = 904.0

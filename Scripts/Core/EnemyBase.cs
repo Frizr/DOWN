@@ -19,7 +19,7 @@ public partial class EnemyBase : CharacterBody2D
 	[ExportGroup("Stats")]
 	[Export] public float MoveSpeed     = 80f;
 	[Export] public int   ContactDamage = 8;     // Damage on body collision with player
-	[Export] public float KnockbackForce = 220f;
+	[Export] public float KnockbackForce = 1200f;
 
 	[ExportGroup("Score")]
 	[Export] public int   KillScore     = 150;   // Base score awarded to GameManager on death
@@ -36,7 +36,7 @@ public partial class EnemyBase : CharacterBody2D
 	// ─── References ───────────────────────────────────────────────────────────
 
 	public Health          HP        { get; private set; }
-	public AnimatedSprite2D Sprite   { get; private set; }
+	public Node2D Visuals { get; private set; }
 	public EnemyAI         AI        { get; private set; }
 
 	// ─── State ────────────────────────────────────────────────────────────────
@@ -44,15 +44,13 @@ public partial class EnemyBase : CharacterBody2D
 	private Vector2 _knockbackVelocity = Vector2.Zero;
 	private bool    _isDead = false;
 	private Vector2 _facing = Vector2.Down;
-	private float   _animationLockTimer = 0f;
-	private bool    _currentAnimStopped = false;
 
 	// ─── Lifecycle ────────────────────────────────────────────────────────────
 
 	public override void _Ready()
 	{
 		HP   = GetNode<Health>("Health");
-		Sprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+		Visuals = GetNodeOrNull<Node2D>("Visuals");
 		AI   = GetNode<EnemyAI>("EnemyAI");
 
 		HP.DamageTaken += OnDamageTaken;
@@ -67,13 +65,11 @@ public partial class EnemyBase : CharacterBody2D
 			return;
 
 		float dt = (float)delta;
-		if (_animationLockTimer > 0f)
-			_animationLockTimer -= dt;
 
 		// Apply knockback decay (exponential friction)
 		if (_knockbackVelocity != Vector2.Zero)
 		{
-			_knockbackVelocity = _knockbackVelocity.Lerp(Vector2.Zero, 12f * dt);
+			_knockbackVelocity = _knockbackVelocity.Lerp(Vector2.Zero, 6f * dt);
 			if (_knockbackVelocity.Length() < 2f)
 				_knockbackVelocity = Vector2.Zero;
 		}
@@ -82,8 +78,11 @@ public partial class EnemyBase : CharacterBody2D
 		Velocity += _knockbackVelocity;
 		MoveAndSlide();
 
-		// Isometric Y-sort depth
-		ZIndex = (int)(Position.X + Position.Y);
+		// Face movement direction
+		if (Velocity.LengthSquared() > 0.001f)
+		{
+			FaceDirection(Velocity);
+		}
 	}
 
 	// ─── Public API ───────────────────────────────────────────────────────────
@@ -95,10 +94,21 @@ public partial class EnemyBase : CharacterBody2D
 		_knockbackVelocity += dir * KnockbackForce;
 	}
 
+	private AnimatedSprite2D _animSprite;
+	private string _currentAnim = "";
+
 	public void FaceDirection(Vector2 direction)
 	{
 		if (direction.LengthSquared() > 0.001f)
+		{
 			_facing = direction.Normalized();
+			if (!string.IsNullOrEmpty(_currentAnim))
+			{
+				// Keep playing current animation but update direction
+				string baseAnim = _currentAnim.Split('_')[0];
+				PlayAnim(baseAnim, true);
+			}
+		}
 	}
 
 	/// <summary>Is this enemy alive?</summary>
@@ -107,7 +117,21 @@ public partial class EnemyBase : CharacterBody2D
 	// ─── Virtual Hooks ───────────────────────────────────────────────────────
 
 	/// <summary>Called at end of _Ready — override in subclasses for extra setup.</summary>
-	protected virtual void OnReady() { }
+	protected virtual void OnReady() 
+	{ 
+		_animSprite = GetNodeOrNull<AnimatedSprite2D>("AnimatedSprite2D");
+		if (_animSprite != null)
+			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
+	}
+
+	private void OnSpriteAnimationFinished()
+	{
+		if (_isDead) return;
+		if (_currentAnim.StartsWith("attack") || _currentAnim.StartsWith("hurt"))
+		{
+			PlayAnim("idle", true);
+		}
+	}
 
 	/// <summary>Override to customise on-hit reaction (e.g. Brute staggers less).</summary>
 	protected virtual void OnDamageTaken(int amount, int currentHp)
@@ -136,135 +160,71 @@ public partial class EnemyBase : CharacterBody2D
 
 	// ─── Animation Helpers ────────────────────────────────────────────────────
 
-	private string _currentAnim = "";
-
-	public void PlayAnim(string name, bool force = false)
-	{
-		if (Sprite == null || Sprite.SpriteFrames == null)
-			return;
-
-		string resolvedName = ResolveAnimName(name);
-		if (string.IsNullOrEmpty(resolvedName))
-			return;
-
-		bool stopOnFirstFrame = ShouldStopFallbackIdle(name, resolvedName);
-		if (_animationLockTimer > 0f && !force && !IsCurrentAction(name))
-			return;
-		if (_currentAnim == resolvedName && _currentAnimStopped == stopOnFirstFrame && !force)
-			return;
-
-		_currentAnim = resolvedName;
-		_currentAnimStopped = stopOnFirstFrame;
-
-		Sprite.Play(resolvedName);
-		if (force || stopOnFirstFrame)
-			Sprite.Frame = 0;
-		if (stopOnFirstFrame)
-		{
-			Sprite.Stop();
-		}
-
-		if (IsCurrentAction(name))
-			_animationLockTimer = GetCurrentAnimationDuration(0.35f);
-	}
-
-	private string ResolveAnimName(string name)
-	{
-		var frames = Sprite.SpriteFrames;
-		if (frames.HasAnimation(name))
-			return name;
-
-		string action = name;
-		string direction = GetFacingDirection();
-		int separator = name.IndexOf('_');
-		if (separator >= 0)
-		{
-			action = name[..separator];
-			direction = name[(separator + 1)..];
-		}
-
-		string directionalName = $"{action}_{direction}";
-		if (frames.HasAnimation(directionalName))
-			return directionalName;
-
-		string downName = $"{action}_down";
-		if (frames.HasAnimation(downName))
-			return downName;
-
-		if (action != "walk")
-		{
-			string walkDirectionalName = $"walk_{direction}";
-			if (frames.HasAnimation(walkDirectionalName))
-				return walkDirectionalName;
-			if (frames.HasAnimation("walk_down"))
-				return "walk_down";
-		}
-
-		if (action != "idle")
-		{
-			string idleDirectionalName = $"idle_{direction}";
-			if (frames.HasAnimation(idleDirectionalName))
-				return idleDirectionalName;
-			if (frames.HasAnimation("idle_down"))
-				return "idle_down";
-		}
-
-		foreach (StringName animationName in frames.GetAnimationNames())
-			return animationName.ToString();
-
-		return string.Empty;
-	}
-
-	private string GetFacingDirection()
+	private string GetDirectionSuffix()
 	{
 		float ax = Mathf.Abs(_facing.X);
 		float ay = Mathf.Abs(_facing.Y);
-
 		if (ay >= ax)
 			return _facing.Y >= 0f ? "down" : "up";
-
-		return _facing.X >= 0f ? "right" : "left";
+		else
+			return _facing.X >= 0f ? "right" : "left";
 	}
 
-	private static bool IsCurrentAction(string name)
+	public void PlayAnim(string name, bool force = false)
 	{
-		return name.StartsWith("attack") || name.StartsWith("hurt") || name.StartsWith("death");
-	}
+		if (_animSprite == null) return;
 
-	private static bool ShouldStopFallbackIdle(string requestedName, string resolvedName)
-	{
-		return requestedName.StartsWith("idle") && !resolvedName.StartsWith("idle");
+		bool isIdle = name == "idle";
+		string baseName = isIdle ? "walk" : name; // Fallback idle to walk
+		string resolvedAnim = baseName + "_" + GetDirectionSuffix();
+
+		if (!_animSprite.SpriteFrames.HasAnimation(resolvedAnim))
+		{
+			if (baseName == "hurt" || baseName == "death")
+				resolvedAnim = "walk_" + GetDirectionSuffix(); // Fallback
+			else
+				return;
+		}
+
+		if (!force && _currentAnim == resolvedAnim && _animSprite.IsPlaying())
+		{
+			if (isIdle) _animSprite.Stop(); // Just stop if we should be idling
+			return;
+		}
+
+		_currentAnim = resolvedAnim;
+		_animSprite.Play(resolvedAnim);
+		if (isIdle)
+			_animSprite.Stop();
 	}
 
 	private float GetCurrentAnimationDuration(float fallback)
 	{
-		if (Sprite?.SpriteFrames == null || string.IsNullOrEmpty(_currentAnim))
+		if (_animSprite == null || string.IsNullOrEmpty(_currentAnim))
 			return fallback;
-		if (!Sprite.SpriteFrames.HasAnimation(_currentAnim))
-			return fallback;
-
-		int frameCount = Sprite.SpriteFrames.GetFrameCount(_currentAnim);
-		double speed = Sprite.SpriteFrames.GetAnimationSpeed(_currentAnim);
-		if (frameCount <= 0 || speed <= 0)
+		if (!_animSprite.SpriteFrames.HasAnimation(_currentAnim))
 			return fallback;
 
-		return Mathf.Max((float)(frameCount / speed), fallback);
+		var fps = _animSprite.SpriteFrames.GetAnimationSpeed(_currentAnim);
+		var frameCount = _animSprite.SpriteFrames.GetFrameCount(_currentAnim);
+		if (fps > 0f && frameCount > 0)
+			return (float)(frameCount / fps);
+			
+		return fallback;
 	}
 
 	/// <summary>Briefly modulate sprite to white on hit (classic damage flash).</summary>
 	private async void FlashWhite()
 	{
-		CanvasItem sprite = Sprite;
-		if (sprite == null)
-			sprite = GetNodeOrNull<Sprite2D>("Sprite2D");
-		if (sprite == null) return;
+		CanvasItem visuals = Visuals;
+		if (visuals == null) return;
 
-		Color original = sprite.Modulate;
-		sprite.Modulate = Colors.White * 4f;  // Over-bright = white flash
+		Color original = visuals.Modulate;
+		visuals.Modulate = Colors.White * 4f;  // Over-bright = white flash
 		await ToSignal(
 			GetTree().CreateTimer(FlashDuration, false),
 			SceneTreeTimer.SignalName.Timeout
 		);
-		sprite.Modulate = original;
+		visuals.Modulate = original;
 	}
 }

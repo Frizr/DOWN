@@ -1,0 +1,162 @@
+[gd_scene load_steps=9 format=3 uid="uid://down_mainmenu"]
+
+[ext_resource type="Script" path="res://Scripts/Menu/MainMenu.cs" id="1_menu_script"]
+[ext_resource type="FontFile" path="res://Assets/Fonts/Ubuntu-Regular.ttf" id="2_font"]
+[ext_resource type="PackedScene" path="res://Scenes/Menu/OptionsMenu.tscn" id="3_options"]
+
+[sub_resource type="Gradient" id="Gradient_bg"]
+colors = PackedColorArray(0.045, 0.038, 0.025, 1, 0.11, 0.09, 0.06, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bg"]
+gradient = SubResource("Gradient_bg")
+fill_to = Vector2(1, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_normal"]
+bg_color = Color(0.11, 0.09, 0.07, 0.7)
+border_width_left = 3
+border_color = Color(0.66, 0.6, 0.44, 0.3)
+content_margin_left = 24.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_hover"]
+bg_color = Color(0.18, 0.15, 0.12, 0.9)
+border_width_left = 3
+border_color = Color(0.94, 0.86, 0.65, 1)
+content_margin_left = 32.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_btn_pressed"]
+bg_color = Color(0.08, 0.06, 0.05, 0.9)
+border_width_left = 3
+border_color = Color(0.86, 0.78, 0.58, 1)
+content_margin_left = 24.0
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_menu_script")
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_bg")
+
+[node name="PanelLeft" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 450.0
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_btn_normal")
+
+[node name="VBox" type="VBoxContainer" parent="PanelLeft"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 80.0
+offset_right = -40.0
+offset_bottom = -80.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+
+[node name="Titles" type="VBoxContainer" parent="PanelLeft/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="TitleLabel" type="Label" parent="PanelLeft/VBox/Titles"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.94, 0.86, 0.65, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 0.8)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 4
+theme_override_constants/shadow_offset_y = 4
+theme_override_constants/outline_size = 2
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 72
+text = "D O W N"
+
+[node name="SubtitleLabel" type="Label" parent="PanelLeft/VBox/Titles"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.66, 0.6, 0.44, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 18
+text = "A Tactical Action RPG"
+
+[node name="Spacer" type="Control" parent="PanelLeft/VBox"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+
+[node name="ButtonContainer" type="VBoxContainer" parent="PanelLeft/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="StartButton" type="Button" parent="PanelLeft/VBox/ButtonContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.78, 0.58, 1)
+theme_override_colors/font_hover_color = Color(1, 0.98, 0.94, 1)
+theme_override_colors/font_pressed_color = Color(0.94, 0.86, 0.65, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "START GAME"
+alignment = 0
+
+[node name="OptionsButton" type="Button" parent="PanelLeft/VBox/ButtonContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.78, 0.58, 1)
+theme_override_colors/font_hover_color = Color(1, 0.98, 0.94, 1)
+theme_override_colors/font_pressed_color = Color(0.94, 0.86, 0.65, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "OPTIONS"
+alignment = 0
+
+[node name="QuitButton" type="Button" parent="PanelLeft/VBox/ButtonContainer"]
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_colors/font_color = Color(0.86, 0.78, 0.58, 1)
+theme_override_colors/font_hover_color = Color(1, 0.98, 0.94, 1)
+theme_override_colors/font_pressed_color = Color(0.94, 0.86, 0.65, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_btn_normal")
+theme_override_styles/hover = SubResource("StyleBoxFlat_btn_hover")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_btn_pressed")
+theme_override_styles/focus = SubResource("StyleBoxFlat_btn_hover")
+text = "QUIT"
+alignment = 0
+
+[node name="VersionLabel" type="Label" parent="PanelLeft"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = -40.0
+offset_right = 140.0
+offset_bottom = -16.0
+grow_vertical = 0
+theme_override_colors/font_color = Color(0.4, 0.36, 0.28, 1)
+theme_override_fonts/font = ExtResource("2_font")
+theme_override_font_sizes/font_size = 14
+text = "v0.1.0"
+
+[node name="OptionsMenu" parent="." instance=ExtResource("3_options")]
