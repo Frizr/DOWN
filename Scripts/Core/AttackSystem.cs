@@ -26,6 +26,8 @@ public partial class AttackSystem : Node
     [Export] public float ComboWindow    = 0.55f;  // time after hit to chain next attack
     [Export] public float HitBoxDuration = 0.18f;  // how long hitbox stays active
     [Export] public float AttackAnimLockDuration = 0.86f;
+    [Export] public float Skill1Cooldown = 4.0f;
+    [Export] public float Skill2Cooldown = 8.0f;
 
     [ExportGroup("References")]
     [Export] public NodePath HitBoxPath = "HitBox";  // Area2D child node
@@ -37,6 +39,7 @@ public partial class AttackSystem : Node
     [Signal] public delegate void AttackStartedEventHandler(int comboStep);
     [Signal] public delegate void HitConnectedEventHandler(Node target, int damage);
     [Signal] public delegate void ComboFinishedEventHandler();
+    [Signal] public delegate void BuffTriggeredEventHandler(float speedMultiplier, float duration);
 
     // ─── State ────────────────────────────────────────────────────────────────
 
@@ -45,6 +48,8 @@ public partial class AttackSystem : Node
     private float _cooldownTimer = 0f;
     private float _comboTimer    = 0f;
     private float _attackTimer   = 0f;
+    private float _skill1Timer   = 0f;
+    private float _skill2Timer   = 0f;
     private int   _activeDamage  = 0;
     private Area2D _hitBox;
     private CollisionShape2D _hitBoxShape;
@@ -98,6 +103,12 @@ public partial class AttackSystem : Node
         if (_cooldownTimer > 0f)
             _cooldownTimer -= dt;
 
+        if (_skill1Timer > 0f)
+            _skill1Timer -= dt;
+
+        if (_skill2Timer > 0f)
+            _skill2Timer -= dt;
+
         if (IsAttacking)
         {
             _attackTimer -= dt;
@@ -144,6 +155,49 @@ public partial class AttackSystem : Node
         // Activate hitbox for a brief window then deactivate
         ActivateHitBox(isHeavy ? HeavyDamage : LightDamage);
 
+        return true;
+    }
+
+    public bool TrySkill1()
+    {
+        if (_disabled || IsOwnerDead() || _skill1Timer > 0f || IsAttacking)
+            return false;
+
+        IsAttacking = true;
+        _skill1Timer = Skill1Cooldown;
+        _attackTimer = AttackAnimLockDuration * 1.5f; // Longer lock for heavy skill
+
+        EmitSignal(SignalName.AttackStarted, 2); // Pass 2 to simulate heavy hit
+        
+        // Temporarily widen hitbox
+        if (_hitBoxShape?.Shape is RectangleShape2D rect)
+        {
+            Vector2 originalSize = rect.Size;
+            rect.Size = new Vector2(120f, 120f); // Massive AoE
+            ActivateHitBox(HeavyDamage * 2);
+            
+            // Reset size after delay
+            GetTree().CreateTimer(HitBoxDuration).Timeout += () => {
+                rect.Size = originalSize;
+            };
+        }
+        else
+        {
+            ActivateHitBox(HeavyDamage * 2);
+        }
+
+        return true;
+    }
+
+    public bool TrySkill2()
+    {
+        if (_disabled || IsOwnerDead() || _skill2Timer > 0f || IsAttacking)
+            return false;
+
+        _skill2Timer = Skill2Cooldown;
+        
+        // Emit buff to PlayerController
+        EmitSignal(SignalName.BuffTriggered, 1.8f, 3.0f);
         return true;
     }
 

@@ -44,6 +44,8 @@ public partial class PlayerController : CharacterBody2D
 	private float _dodgeTimer     = 0f;
 	private float _dodgeCoolTimer = 0f;
 	private float _attackAnimTimer = 0f;
+	private float _buffTimer      = 0f;
+	private float _buffSpeedMult  = 1f;
 	private bool  _isDead         = false;
 	private bool  _hasPlayableBounds = false;
 	private Rect2 _playableBounds;
@@ -95,6 +97,7 @@ public partial class PlayerController : CharacterBody2D
 		// Wire attack signals → GameManager combo
 		_attack.AttackStarted += OnAttackStarted;
 		_attack.HitConnected += OnHitConnected;
+		_attack.Connect(AttackSystem.SignalName.BuffTriggered, Callable.From<float, float>(OnBuffTriggered));
 
 		if (_animSprite != null)
 			_animSprite.AnimationFinished += OnSpriteAnimationFinished;
@@ -112,6 +115,16 @@ public partial class PlayerController : CharacterBody2D
 		}
 
 		float dt = (float)delta;
+
+		if (_buffTimer > 0f)
+		{
+			_buffTimer -= dt;
+			if (_buffTimer <= 0f)
+			{
+				_buffSpeedMult = 1f;
+				Modulate = Colors.White;
+			}
+		}
 
 		ReadMovement();
 		ReadAttack();
@@ -164,12 +177,22 @@ public partial class PlayerController : CharacterBody2D
 
 	private void ReadAttack()
 	{
-		if (_isDead)
+		if (_isDead || _isDodging)
 			return;
 
-		if (Input.IsActionJustPressed("attack"))
+		Vector2 attackFacing = GetAttackFacing();
+
+		if (Input.IsActionJustPressed("skill_1"))
 		{
-			Vector2 attackFacing = GetAttackFacing();
+			_attack.SetFacing(attackFacing);
+			if (_attack.TrySkill1()) _facing = attackFacing;
+		}
+		else if (Input.IsActionJustPressed("skill_2"))
+		{
+			_attack.TrySkill2();
+		}
+		else if (Input.IsActionJustPressed("attack"))
+		{
 			_attack.SetFacing(attackFacing);
 			if (_attack.TryAttack())
 				_facing = attackFacing;
@@ -211,7 +234,7 @@ public partial class PlayerController : CharacterBody2D
 	private void ApplyMovement(float dt)
 	{
 		bool sprinting = Input.IsActionPressed("sprint");
-		float speed    = MoveSpeed * (sprinting ? SprintMult : 1f);
+		float speed    = MoveSpeed * (sprinting ? SprintMult : 1f) * _buffSpeedMult;
 
 		if (_moveDir != Vector2.Zero)
 		{
@@ -312,6 +335,14 @@ public partial class PlayerController : CharacterBody2D
 		// and a larger "Kill Score" from EnemyBase.OnDied() when the enemy dies.
 		int hitScore = damage * 5;
 		GameManager.Instance?.AddScore(hitScore);
+	}
+
+	private void OnBuffTriggered(float speedMult, float duration)
+	{
+		_buffSpeedMult = speedMult;
+		_buffTimer = duration;
+		// Visual feedback
+		Modulate = new Color(1.5f, 1.5f, 2.0f);
 	}
 
 	private void OnSpriteAnimationFinished()
