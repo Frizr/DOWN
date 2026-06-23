@@ -194,6 +194,7 @@ public partial class PlayerController : CharacterBody2D
 		// Animation Canceling
 		if (_attack != null && _attack.IsAttacking)
 		{
+			_attack.DisableAttack();
 			_attack.OnAnimationFinished();
 			_attackAnimTimer = 0f;
 		}
