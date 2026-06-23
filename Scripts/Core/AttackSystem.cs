@@ -28,6 +28,10 @@ public partial class AttackSystem : Node
     [Export] public float AttackAnimLockDuration = 0.86f;
     [Export] public float Skill1Cooldown = 4.0f;
     [Export] public float Skill2Cooldown = 8.0f;
+    [Export] public float Skill1HitBoxSize = 120f;
+    [Export] public float Skill1AnimLockMult = 1.5f;
+    [Export] public float Skill2SpeedMult = 1.8f;
+    [Export] public float Skill2Duration = 3.0f;
 
     [ExportGroup("References")]
     [Export] public NodePath HitBoxPath = "HitBox";  // Area2D child node
@@ -165,21 +169,22 @@ public partial class AttackSystem : Node
 
         IsAttacking = true;
         _skill1Timer = Skill1Cooldown;
-        _attackTimer = AttackAnimLockDuration * 1.5f; // Longer lock for heavy skill
+        _attackTimer = AttackAnimLockDuration * Skill1AnimLockMult; // Longer lock for heavy skill
 
         EmitSignal(SignalName.AttackStarted, 2); // Pass 2 to simulate heavy hit
         
         // Temporarily widen hitbox
         if (_hitBoxShape?.Shape is RectangleShape2D rect)
         {
-            Vector2 originalSize = rect.Size;
-            rect.Size = new Vector2(120f, 120f); // Massive AoE
+            var originalShape = _hitBoxShape.Shape;
+            var newRect = (RectangleShape2D)rect.Duplicate();
+            newRect.Size = new Vector2(Skill1HitBoxSize, Skill1HitBoxSize); // Massive AoE
+            _hitBoxShape.Shape = newRect;
+            
             ActivateHitBox(HeavyDamage * 2);
             
-            // Reset size after delay
-            GetTree().CreateTimer(HitBoxDuration).Timeout += () => {
-                rect.Size = originalSize;
-            };
+            // Reset shape after delay safely
+            RestoreShapeAfterDelay(originalShape, HitBoxDuration);
         }
         else
         {
@@ -187,6 +192,15 @@ public partial class AttackSystem : Node
         }
 
         return true;
+    }
+
+    private async void RestoreShapeAfterDelay(Shape2D originalShape, float delay)
+    {
+        await ToSignal(GetTree().CreateTimer(delay, false), SceneTreeTimer.SignalName.Timeout);
+        if (GodotObject.IsInstanceValid(this) && GodotObject.IsInstanceValid(_hitBoxShape))
+        {
+            _hitBoxShape.Shape = originalShape;
+        }
     }
 
     public bool TrySkill2()
@@ -197,7 +211,7 @@ public partial class AttackSystem : Node
         _skill2Timer = Skill2Cooldown;
         
         // Emit buff to PlayerController
-        EmitSignal(SignalName.BuffTriggered, 1.8f, 3.0f);
+        EmitSignal(SignalName.BuffTriggered, Skill2SpeedMult, Skill2Duration);
         return true;
     }
 

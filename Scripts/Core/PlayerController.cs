@@ -46,6 +46,8 @@ public partial class PlayerController : CharacterBody2D
 	private float _attackAnimTimer = 0f;
 	private float _buffTimer      = 0f;
 	private float _buffSpeedMult  = 1f;
+	private Color _originalModulate = Colors.White;
+	private bool  _wasBuffed      = false;
 	private bool  _isDead         = false;
 	private bool  _hasPlayableBounds = false;
 	private Rect2 _playableBounds;
@@ -122,7 +124,11 @@ public partial class PlayerController : CharacterBody2D
 			if (_buffTimer <= 0f)
 			{
 				_buffSpeedMult = 1f;
-				Modulate = Colors.White;
+				if (_wasBuffed)
+				{
+					Modulate = _originalModulate;
+					_wasBuffed = false;
+				}
 			}
 		}
 
@@ -342,6 +348,11 @@ public partial class PlayerController : CharacterBody2D
 		_buffSpeedMult = speedMult;
 		_buffTimer = duration;
 		// Visual feedback
+		if (!_wasBuffed)
+		{
+			_originalModulate = Modulate;
+			_wasBuffed = true;
+		}
 		Modulate = new Color(1.5f, 1.5f, 2.0f);
 	}
 
